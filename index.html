@@ -1,0 +1,945 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Horários das Turmas — IFPA Campus Altamira</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    html, body { font-family: Arial, Helvetica, sans-serif; }
+    body { background:#fff; }
+    body::before{
+      content: "⚙️ ⚛️ 💻 📡 CIÊNCIA & TECNOLOGIA";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      font-size: 3rem;
+      font-weight: 800;
+      color: #000;
+      opacity: 0.04;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container { position: relative; z-index: 1; }
+
+    .site-header{
+      background: linear-gradient(135deg, #145a32, #1e8449);
+      color:#fff;
+      border-radius: 12px;
+    }
+    .site-header h1{ font-size:1.2rem; margin:0; }
+    .site-header p{ margin:0; opacity:.9; font-size:.9rem; }
+
+    .panel{
+      background:#fff;
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgba(0,0,0,.12);
+      overflow: hidden;
+    }
+
+    .turma-title{
+      background:#1e8449;
+      color:#fff;
+      padding: 12px;
+      font-weight: 900;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    .turno-card{
+      border: 1px solid #e6e6e6;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      background: #fff;
+      margin-top: 14px;
+    }
+    .turno-header{
+      background: #f7fbf8;
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid #e6e6e6;
+    }
+    .turno-header .badge{
+      background:#145a32;
+      color:#fff;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    table th{
+      background:#145a32 !important;
+      color:#fff !important;
+      text-align:center;
+      vertical-align: middle;
+      font-size:.9rem;
+      white-space: nowrap;
+    }
+    table td{
+      text-align:center;
+      vertical-align: middle;
+      font-size:.86rem;
+      min-width: 160px;
+    }
+    .col-horario{ background:#e9f7ef; font-weight: 900; min-width: 130px; }
+    .disciplina{ font-weight: 900; }
+    .professor{ font-size:.75rem; opacity:.8; }
+    .intervalo{ background:#f0f0f0; font-weight: 900; text-align: center; }
+
+    .badge-sabados{ background:#1e8449 !important; }
+
+    .editable[contenteditable="true"]{
+      outline: 2px dashed rgba(20,90,50,.35);
+      outline-offset: 2px;
+      background: rgba(213,245,227,.35);
+      border-radius: 6px;
+      padding: 2px 4px;
+      min-height: 18px;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .edit-badge{ font-size:.8rem; font-weight: 800; }
+  </style>
+</head>
+
+<body>
+  <div class="container py-4">
+
+    <header class="site-header p-3 mb-3">
+      <div class="d-flex align-items-start justify-content-between gap-2 flex-wrap">
+        <div>
+          <h1>Horários das Turmas — IFPA Campus Altamira</h1>
+          <p>Educação, Ciência e Tecnologia</p>
+          <span id="editStatus" class="badge text-bg-light edit-badge mt-2">Modo Visualização</span>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap justify-content-end">
+          <button id="btnAddTurma" class="btn btn-outline-light btn-sm fw-bold d-none" type="button">
+            + Nova Turma
+          </button>
+
+          <button id="btnEdit" class="btn btn-light btn-sm fw-bold" type="button">Editar</button>
+          <button id="btnSave" class="btn btn-success btn-sm fw-bold d-none" type="button">Salvar</button>
+          <button id="btnExit" class="btn btn-outline-light btn-sm fw-bold d-none" type="button">Sair da edição</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="panel p-3">
+      <div class="row g-2 align-items-end">
+        <div class="col-12 col-lg-6">
+          <label class="form-label fw-bold" style="color:#145a32;">Selecionar Curso</label>
+          <select id="cursoSelect" class="form-select"></select>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <label class="form-label fw-bold" style="color:#145a32;">Selecionar Turma</label>
+          <select id="turmaSelect" class="form-select"></select>
+        </div>
+      </div>
+
+      <div id="turmaView" class="mt-3"></div>
+    </div>
+
+    <footer class="text-center mt-3" style="color:#666;font-size:.85rem;">
+      IFPA • Campus Altamira 2026
+    </footer>
+  </div>
+
+  <!-- MODAL SENHA -->
+  <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Entrar no modo edição</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <label for="passwordInput" class="form-label">Senha</label>
+          <input id="passwordInput" type="password" class="form-control" placeholder="Digite a senha">
+          <div id="passwordError" class="text-danger small mt-2 d-none">Senha incorreta.</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
+          <button id="btnConfirmPassword" class="btn btn-success" type="button">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL NOVA TURMA -->
+  <div class="modal fade" id="addTurmaModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Criar Turma</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2">
+            <label class="form-label" for="cursoInput">Curso</label>
+            <input id="cursoInput" class="form-control" placeholder="Ex.: EMI Administração">
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label" for="turmaInput">Turma</label>
+            <input id="turmaInput" class="form-control" placeholder="Ex.: 1º Ano (2026)">
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label fw-bold" style="color:#145a32;">Turno da turma</label>
+            <div class="d-flex gap-3 flex-wrap">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="turnoCreate" id="turnoCreateManha" value="manha" checked>
+                <label class="form-check-label" for="turnoCreateManha">Manhã</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="turnoCreate" id="turnoCreateTarde" value="tarde">
+                <label class="form-check-label" for="turnoCreateTarde">Tarde</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="turnoCreate" id="turnoCreateAmbos" value="ambos">
+                <label class="form-check-label" for="turnoCreateAmbos">Ambos</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-light border mb-0">
+            A turma também terá <b>Sábados letivos</b> (com colunas editáveis e botões +/Excluir).
+          </div>
+
+          <div id="createError" class="text-danger small mt-2 d-none">Preencha Curso e Turma.</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
+          <button id="btnCreateTurma" class="btn btn-success" type="button">Criar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const EDIT_PASSWORD = "ifpa@2026";
+    const STORAGE_KEY = "ifpa_turmas_sabados_v6";
+
+    const TIMES_MANHA = ["7:30 - 8:20","8:20 - 9:10","9:10 - 10:00","__INTERVALO__","10:20 - 11:10","11:10 - 12:00","12:00 - 12:50"];
+    const TIMES_TARDE = ["13:00 - 13:50","13:50 - 14:40","14:40 - 15:30","__INTERVALO__","15:50 - 16:40","16:40 - 17:30","17:30 - 18:20"];
+    const DAYS = ["Segunda","Terça","Quarta","Quinta","Sexta"];
+
+    const btnAddTurma = document.getElementById("btnAddTurma");
+    const btnEdit = document.getElementById("btnEdit");
+    const btnSave = document.getElementById("btnSave");
+    const btnExit = document.getElementById("btnExit");
+    const editStatus = document.getElementById("editStatus");
+
+    const cursoSelect = document.getElementById("cursoSelect");
+    const turmaSelect = document.getElementById("turmaSelect");
+    const turmaView = document.getElementById("turmaView");
+
+    const passwordModal = new bootstrap.Modal(document.getElementById("passwordModal"));
+    const passwordInput = document.getElementById("passwordInput");
+    const passwordError = document.getElementById("passwordError");
+    const btnConfirmPassword = document.getElementById("btnConfirmPassword");
+
+    const addTurmaModal = new bootstrap.Modal(document.getElementById("addTurmaModal"));
+    const cursoInput = document.getElementById("cursoInput");
+    const turmaInput = document.getElementById("turmaInput");
+    const createError = document.getElementById("createError");
+    const btnCreateTurma = document.getElementById("btnCreateTurma");
+
+    let isEditMode = false;
+
+    let state = {
+      turmas: [
+        {
+          id: "emi-adm-1-ano-2026",
+          curso: "EMI Administração",
+          turma: "1º Ano (2026)",
+          habilitarManha: true,
+          habilitarTarde: true,
+          sabadosTurno: "manha",
+          sabados: ["Sábado 1", "Sábado 2", "Sábado 3"]
+        }
+      ],
+      calendars: {}
+    };
+
+    function slugify(str) {
+      return str.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+        .slice(0, 60);
+    }
+
+    function uniqueId(base) {
+      let id = base || "turma";
+      let i = 2;
+      const ids = new Set(state.turmas.map(t => t.id));
+      while (ids.has(id)) id = `${base}-${i++}`;
+      return id;
+    }
+
+    function setEditMode(on) {
+      isEditMode = on;
+
+      document.querySelectorAll("[data-field='disciplina'], [data-field='professor'], [data-field='sabado']")
+        .forEach(el => el.setAttribute("contenteditable", on ? "true" : "false"));
+
+      document.querySelectorAll("[data-config-only]").forEach(el => el.classList.toggle("d-none", !on));
+
+      btnAddTurma.classList.toggle("d-none", !on);
+      btnEdit.classList.toggle("d-none", on);
+      btnSave.classList.toggle("d-none", !on);
+      btnExit.classList.toggle("d-none", !on);
+
+      editStatus.textContent = on ? "Modo Edição" : "Modo Visualização";
+      editStatus.className = on ? "badge text-bg-success edit-badge mt-2" : "badge text-bg-light edit-badge mt-2";
+    }
+
+    function buildBlankRowsSemana(times) {
+      return times.map(t => {
+        if (t === "__INTERVALO__") return `<tr><td class="intervalo" colspan="6">INTERVALO</td></tr>`;
+        const cells = DAYS.map(() => `
+          <td>
+            <div class="disciplina editable" data-field="disciplina"></div>
+            <div class="professor editable" data-field="professor"></div>
+          </td>
+        `).join("");
+        return `<tr><td class="col-horario">${t}</td>${cells}</tr>`;
+      }).join("");
+    }
+
+    function getSabadosTimes(turmaObj) {
+      return turmaObj.sabadosTurno === "tarde" ? TIMES_TARDE : TIMES_MANHA;
+    }
+
+    function buildBlankRowsSabados(times, sabadosHeaders) {
+      return times.map(t => {
+        if (t === "__INTERVALO__") {
+          return `<tr><td class="intervalo" colspan="${1 + sabadosHeaders.length}">INTERVALO</td></tr>`;
+        }
+        const cells = sabadosHeaders.map(() => `
+          <td>
+            <div class="disciplina editable" data-field="disciplina"></div>
+            <div class="professor editable" data-field="professor"></div>
+          </td>
+        `).join("");
+        return `<tr><td class="col-horario">${t}</td>${cells}</tr>`;
+      }).join("");
+    }
+
+    function collectCalendarFromDOM(turmaId) {
+      const out = {};
+
+      ["manha","tarde"].forEach(turno => {
+        const calId = `${turmaId}-${turno}`;
+        const table = document.querySelector(`.calendar-table[data-calendar-id="${calId}"]`);
+        if (!table) return;
+
+        const rows = [];
+        table.querySelectorAll("tbody tr").forEach(tr => {
+          if (tr.querySelector(".intervalo")) { rows.push({ type:"intervalo" }); return; }
+          const tds = Array.from(tr.querySelectorAll("td"));
+          const horario = tds[0]?.textContent.trim() || "";
+          const cells = tds.slice(1).map(td => ({
+            disciplina: td.querySelector("[data-field='disciplina']")?.textContent.trim() || "",
+            professor: td.querySelector("[data-field='professor']")?.textContent.trim() || ""
+          }));
+          rows.push({ type:"linha", horario, cells });
+        });
+        out[calId] = rows;
+      });
+
+      const sabId = `${turmaId}-sabados`;
+      const sabTable = document.querySelector(`.sabados-table[data-calendar-id="${sabId}"]`);
+      if (sabTable) {
+        const headers = Array.from(sabTable.querySelectorAll("thead th"))
+          .slice(1)
+          .map(th => th.textContent.trim());
+        out[`${sabId}-headers`] = headers;
+
+        const rows = [];
+        sabTable.querySelectorAll("tbody tr").forEach(tr => {
+          if (tr.querySelector(".intervalo")) { rows.push({ type:"intervalo" }); return; }
+          const tds = Array.from(tr.querySelectorAll("td"));
+          const horario = tds[0]?.textContent.trim() || "";
+          const cells = tds.slice(1).map(td => ({
+            disciplina: td.querySelector("[data-field='disciplina']")?.textContent.trim() || "",
+            professor: td.querySelector("[data-field='professor']")?.textContent.trim() || ""
+          }));
+          rows.push({ type:"linha", horario, cells });
+        });
+        out[sabId] = rows;
+      }
+
+      return out;
+    }
+
+    function applyCalendarData(calId, rows, selector = ".calendar-table") {
+      const table = document.querySelector(`${selector}[data-calendar-id="${calId}"]`);
+      if (!table || !rows || !Array.isArray(rows)) return;
+
+      const trs = Array.from(table.querySelectorAll("tbody tr"));
+      let ri = 0;
+
+      for (let i=0; i<trs.length && ri<rows.length; i++) {
+        const tr = trs[i];
+        const row = rows[ri++];
+        if (row.type === "intervalo") continue;
+
+        const tds = Array.from(tr.querySelectorAll("td"));
+        if (tds[0]) tds[0].textContent = row.horario || tds[0].textContent;
+
+        row.cells.forEach((cell, idx) => {
+          const td = tds[idx+1];
+          if (!td) return;
+          const discEl = td.querySelector("[data-field='disciplina']");
+          const profEl = td.querySelector("[data-field='professor']");
+          if (discEl) discEl.textContent = cell.disciplina || "";
+          if (profEl) profEl.textContent = cell.professor || "";
+        });
+      }
+    }
+
+    function remapSabadosRowsToNewTimes(turmaId, newTimes) {
+      const sabKey = `${turmaId}-sabados`;
+      const headersKey = `${turmaId}-sabados-headers`;
+
+      const oldRows = state.calendars?.[sabKey];
+      if (!Array.isArray(oldRows) || oldRows.length === 0) return;
+
+      const headers = state.calendars?.[headersKey] || [];
+      const oldLineRows = oldRows.filter(r => r.type === "linha");
+
+      const newRows = [];
+      let lineIndex = 0;
+
+      for (const t of newTimes) {
+        if (t === "__INTERVALO__") {
+          newRows.push({ type: "intervalo" });
+          continue;
+        }
+
+        const old = oldLineRows[lineIndex];
+        const cellsCount = headers.length || (old?.cells?.length || 0);
+
+        const cells = (old?.cells && Array.isArray(old.cells))
+          ? [...old.cells]
+          : Array.from({length: cellsCount}, () => ({ disciplina:"", professor:"" }));
+
+        while (cells.length < cellsCount) cells.push({ disciplina:"", professor:"" });
+        while (cells.length > cellsCount) cells.pop();
+
+        newRows.push({ type:"linha", horario: t, cells });
+        lineIndex++;
+      }
+
+      state.calendars[sabKey] = newRows;
+    }
+
+    function getSelectedTurmaObj() {
+      const id = turmaSelect.value;
+      return state.turmas.find(t => t.id === id) || null;
+    }
+
+    function deleteTurmaAndCalendars(turmaId) {
+      const turmaObj = state.turmas.find(t => t.id === turmaId);
+      const cursoName = turmaObj?.curso || "";
+
+      // remove turma
+      state.turmas = state.turmas.filter(t => t.id !== turmaId);
+
+      // remove calendários
+      const keysToDelete = Object.keys(state.calendars).filter(k =>
+        k.startsWith(`${turmaId}-manha`) ||
+        k.startsWith(`${turmaId}-tarde`) ||
+        k.startsWith(`${turmaId}-sabados`)
+      );
+      keysToDelete.forEach(k => delete state.calendars[k]);
+
+      // se o curso ficou sem turmas, ele some automaticamente ao recompor o select de cursos
+      return cursoName;
+    }
+
+    function renderTurma(t) {
+      if (!t) {
+        turmaView.innerHTML = `<div class="alert alert-warning mb-0">Selecione um curso e uma turma.</div>`;
+        return;
+      }
+
+      const id = t.id;
+      const titulo = `${t.curso} — ${t.turma}`;
+
+      const showManha = !!t.habilitarManha;
+      const showTarde = !!t.habilitarTarde;
+
+      const sabHeaders = t.sabados?.length ? t.sabados : ["Sábado 1","Sábado 2","Sábado 3"];
+      const sabTimes = getSabadosTimes(t);
+
+      turmaView.innerHTML = `
+        <div class="d-flex justify-content-end mb-2 d-none" data-config-only>
+          <button class="btn btn-danger btn-sm fw-bold" type="button" id="btnDeleteTurma">
+            Excluir calendário
+          </button>
+        </div>
+
+        <div class="turma-title">${titulo}</div>
+
+        <div class="mt-3 d-none" data-config-only>
+          <div class="row g-2 align-items-end">
+            <div class="col-12 col-lg-6">
+              <label class="form-label fw-bold" style="color:#145a32;">Habilitar turnos</label>
+              <div class="d-flex gap-3 flex-wrap">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="chkManha">
+                  <label class="form-check-label" for="chkManha">Manhã</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="chkTarde">
+                  <label class="form-check-label" for="chkTarde">Tarde</label>
+                </div>
+              </div>
+              <div class="form-text">Se desmarcar um turno, o calendário dele não aparece.</div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+              <label class="form-label fw-bold" style="color:#145a32;">Sábados letivos: turno/horário</label>
+              <div class="d-flex gap-3 flex-wrap">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sabTurno" id="sabTurnoManha" value="manha">
+                  <label class="form-check-label" for="sabTurnoManha">Usar horários da Manhã</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sabTurno" id="sabTurnoTarde" value="tarde">
+                  <label class="form-check-label" for="sabTurnoTarde">Usar horários da Tarde</label>
+                </div>
+              </div>
+              <div class="form-text">Essa opção altera a grade de horários dos sábados.</div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-end">
+              <button class="btn btn-outline-success btn-sm fw-bold" type="button" id="applyConfigBtn">Aplicar</button>
+            </div>
+          </div>
+        </div>
+
+        ${showManha ? `
+        <section class="turno-card mt-3">
+          <div class="turno-header">
+            <div class="d-flex align-items-center gap-2"><span class="badge">MANHÃ</span></div>
+            <button class="btn btn-outline-success btn-sm fw-bold" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapse-${id}-manha">Ocultar/Exibir</button>
+          </div>
+          <div class="collapse show" id="collapse-${id}-manha">
+            <div class="table-responsive">
+              <table class="table table-bordered mb-0 calendar-table" data-calendar-id="${id}-manha">
+                <thead><tr><th>Horário</th>${DAYS.map(d=>`<th>${d}</th>`).join("")}</tr></thead>
+                <tbody>${buildBlankRowsSemana(TIMES_MANHA)}</tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        ` : ""}
+
+        ${showTarde ? `
+        <section class="turno-card ${showManha ? "" : "mt-3"}">
+          <div class="turno-header">
+            <div class="d-flex align-items-center gap-2"><span class="badge">TARDE</span></div>
+            <button class="btn btn-outline-success btn-sm fw-bold" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapse-${id}-tarde">Ocultar/Exibir</button>
+          </div>
+          <div class="collapse show" id="collapse-${id}-tarde">
+            <div class="table-responsive">
+              <table class="table table-bordered mb-0 calendar-table" data-calendar-id="${id}-tarde">
+                <thead><tr><th>Horário</th>${DAYS.map(d=>`<th>${d}</th>`).join("")}</tr></thead>
+                <tbody>${buildBlankRowsSemana(TIMES_TARDE)}</tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        ` : ""}
+
+        <section class="turno-card">
+          <div class="turno-header">
+            <div class="d-flex align-items-center gap-2"><span class="badge badge-sabados">SÁBADOS LETIVOS</span></div>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-outline-success btn-sm fw-bold d-none" type="button" id="btnAddSabado" data-config-only>
+                + Sábado
+              </button>
+              <button class="btn btn-outline-danger btn-sm fw-bold d-none" type="button" id="btnRemoveSabado" data-config-only>
+                Excluir Sábado
+              </button>
+              <button class="btn btn-outline-success btn-sm fw-bold" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapse-${id}-sabados">Ocultar/Exibir</button>
+            </div>
+          </div>
+
+          <div class="collapse show" id="collapse-${id}-sabados">
+            <div class="table-responsive">
+              <table class="table table-bordered mb-0 sabados-table" data-calendar-id="${id}-sabados">
+                <thead>
+                  <tr>
+                    <th>Horário</th>
+                    ${sabHeaders.map((h, idx) => `<th><span class="editable" data-field="sabado" data-sab-idx="${idx}">${h}</span></th>`).join("")}
+                  </tr>
+                </thead>
+                <tbody>
+                  ${buildBlankRowsSabados(sabTimes, sabHeaders)}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      `;
+
+      const chkManha = document.getElementById("chkManha");
+      const chkTarde = document.getElementById("chkTarde");
+      const sabTurnoManha = document.getElementById("sabTurnoManha");
+      const sabTurnoTarde = document.getElementById("sabTurnoTarde");
+
+      chkManha.checked = !!t.habilitarManha;
+      chkTarde.checked = !!t.habilitarTarde;
+
+      const sabTurno = (t.sabadosTurno === "tarde") ? "tarde" : "manha";
+      sabTurnoManha.checked = (sabTurno === "manha");
+      sabTurnoTarde.checked = (sabTurno === "tarde");
+
+      // Excluir calendário (turma) + atualizar curso se ficar vazio
+      const btnDeleteTurma = document.getElementById("btnDeleteTurma");
+      if (btnDeleteTurma) {
+        btnDeleteTurma.addEventListener("click", () => {
+          const ok = confirm(`Excluir o calendário desta turma?\n\n${t.curso} — ${t.turma}\n\nIsso remove também Manhã/Tarde/Sábados desta turma.`);
+          if (!ok) return;
+
+          const cursoDeletedFrom = deleteTurmaAndCalendars(t.id);
+
+          // persiste
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+          // Recarrega selects: cursos e turmas
+          const cursosAntes = getCursos();
+          renderCursos();
+
+          // Se o curso antigo não existe mais (ficou sem turmas), seleciona o primeiro disponível
+          const cursosDepois = getCursos();
+          if (!cursosDepois.includes(cursoDeletedFrom)) {
+            if (cursoSelect.options.length > 0) cursoSelect.value = cursoSelect.options[0].value;
+          } else {
+            cursoSelect.value = cursoDeletedFrom;
+          }
+
+          // Turmas do curso selecionado
+          if (cursoSelect.value) renderTurmas(cursoSelect.value);
+
+          // Renderiza turma selecionada (ou mostra alerta se não tiver)
+          renderTurma(getSelectedTurmaObj());
+          setEditMode(isEditMode);
+        });
+      }
+
+      // Aplicar config
+      const applyBtn = document.getElementById("applyConfigBtn");
+      if (applyBtn) {
+        applyBtn.addEventListener("click", () => {
+          const collected = collectCalendarFromDOM(t.id);
+          Object.assign(state.calendars, collected);
+
+          const newManha = !!chkManha.checked;
+          const newTarde = !!chkTarde.checked;
+
+          if (!newManha && !newTarde) {
+            alert("Selecione pelo menos um turno (Manhã ou Tarde).");
+            chkManha.checked = true;
+            return;
+          }
+
+          const newSabTurno = document.querySelector("input[name='sabTurno']:checked")?.value || "manha";
+          const oldSabTurno = (t.sabadosTurno === "tarde") ? "tarde" : "manha";
+
+          t.habilitarManha = newManha;
+          t.habilitarTarde = newTarde;
+          t.sabadosTurno = (newSabTurno === "tarde") ? "tarde" : "manha";
+
+          if (oldSabTurno !== t.sabadosTurno) {
+            remapSabadosRowsToNewTimes(t.id, getSabadosTimes(t));
+          }
+
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          renderTurma(t);
+        });
+      }
+
+      // + sábado
+      const btnAddSabado = document.getElementById("btnAddSabado");
+      if (btnAddSabado) {
+        btnAddSabado.addEventListener("click", () => {
+          const collected = collectCalendarFromDOM(t.id);
+          Object.assign(state.calendars, collected);
+
+          const headersKey = `${t.id}-sabados-headers`;
+          const sabKey = `${t.id}-sabados`;
+
+          const currentHeaders = collected[headersKey] || t.sabados || ["Sábado 1","Sábado 2","Sábado 3"];
+          t.sabados = [...currentHeaders];
+          t.sabados.push(`Sábado ${t.sabados.length + 1}`);
+
+          const rows = collected[sabKey] || state.calendars[sabKey] || [];
+          const newRows = rows.map(r => {
+            if (r.type !== "linha") return r;
+            return { ...r, cells: [...(r.cells || []), { disciplina: "", professor: "" }] };
+          });
+
+          state.calendars[headersKey] = t.sabados;
+          state.calendars[sabKey] = newRows;
+
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          renderTurma(t);
+        });
+      }
+
+      // excluir sábado
+      const btnRemoveSabado = document.getElementById("btnRemoveSabado");
+      if (btnRemoveSabado) {
+        btnRemoveSabado.addEventListener("click", () => {
+          const MIN_SABADOS = 3;
+
+          const collected = collectCalendarFromDOM(t.id);
+          Object.assign(state.calendars, collected);
+
+          const headersKey = `${t.id}-sabados-headers`;
+          const sabKey = `${t.id}-sabados`;
+
+          const currentHeaders = collected[headersKey] || t.sabados || ["Sábado 1","Sábado 2","Sábado 3"];
+          t.sabados = [...currentHeaders];
+
+          if (t.sabados.length <= MIN_SABADOS) {
+            alert(`Não é possível excluir. Mínimo de ${MIN_SABADOS} sábados.`);
+            return;
+          }
+
+          t.sabados.pop();
+
+          const rows = collected[sabKey] || state.calendars[sabKey] || [];
+          const newRows = rows.map(r => {
+            if (r.type !== "linha") return r;
+            const cells = [...(r.cells || [])];
+            cells.pop();
+            return { ...r, cells };
+          });
+
+          state.calendars[headersKey] = t.sabados;
+          state.calendars[sabKey] = newRows;
+
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          renderTurma(t);
+        });
+      }
+
+      // re-aplica dados salvos
+      if (showManha) applyCalendarData(`${id}-manha`, state.calendars?.[`${id}-manha`], ".calendar-table");
+      if (showTarde) applyCalendarData(`${id}-tarde`, state.calendars?.[`${id}-tarde`], ".calendar-table");
+
+      const savedHeaders = state.calendars?.[`${id}-sabados-headers`];
+      if (Array.isArray(savedHeaders) && savedHeaders.length) t.sabados = savedHeaders;
+      applyCalendarData(`${id}-sabados`, state.calendars?.[`${id}-sabados`], ".sabados-table");
+
+      setEditMode(isEditMode);
+    }
+
+    function getCursos() {
+      const set = new Set(state.turmas.map(t => t.curso));
+      return Array.from(set).sort((a,b)=>a.localeCompare(b));
+    }
+
+    function renderCursos(selectedCurso = "") {
+      cursoSelect.innerHTML = "";
+      const cursos = getCursos();
+
+      if (cursos.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "Nenhum curso cadastrado";
+        cursoSelect.appendChild(opt);
+        return;
+      }
+
+      cursos.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        cursoSelect.appendChild(opt);
+      });
+
+      if (selectedCurso && cursos.includes(selectedCurso)) cursoSelect.value = selectedCurso;
+      else cursoSelect.value = cursos[0];
+    }
+
+    function getTurmasByCurso(curso) {
+      return state.turmas
+        .filter(t => t.curso === curso)
+        .sort((a,b)=>a.turma.localeCompare(b.turma));
+    }
+
+    function renderTurmas(curso) {
+      turmaSelect.innerHTML = "";
+      const turmas = getTurmasByCurso(curso);
+
+      if (turmas.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "Nenhuma turma para este curso";
+        turmaSelect.appendChild(opt);
+        return;
+      }
+
+      turmas.forEach(t => {
+        const opt = document.createElement("option");
+        opt.value = t.id;
+        opt.textContent = t.turma;
+        turmaSelect.appendChild(opt);
+      });
+
+      turmaSelect.value = turmas[0].id;
+    }
+
+    function saveLocalFromUI() {
+      const current = getSelectedTurmaObj();
+      if (current) {
+        const collected = collectCalendarFromDOM(current.id);
+        Object.assign(state.calendars, collected);
+
+        const sabHeaders = collected[`${current.id}-sabados-headers`];
+        if (Array.isArray(sabHeaders) && sabHeaders.length) {
+          if (!Array.isArray(current.sabados)) current.sabados = sabHeaders;
+          else if (sabHeaders.length === current.sabados.length) current.sabados = sabHeaders;
+        }
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loadLocal() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      try {
+        const data = JSON.parse(raw);
+        if (!data?.turmas?.length) return false;
+        state = data;
+
+        state.turmas.forEach(t => {
+          if (!t.sabadosTurno) t.sabadosTurno = "manha";
+          if (!Array.isArray(t.sabados) || t.sabados.length === 0) t.sabados = ["Sábado 1","Sábado 2","Sábado 3"];
+        });
+
+        return true;
+      } catch { return false; }
+    }
+
+    // EVENTS
+    btnEdit.addEventListener("click", () => {
+      passwordInput.value = "";
+      passwordError.classList.add("d-none");
+      passwordModal.show();
+      setTimeout(() => passwordInput.focus(), 250);
+    });
+
+    btnConfirmPassword.addEventListener("click", () => {
+      if (passwordInput.value === EDIT_PASSWORD) {
+        passwordModal.hide();
+        setEditMode(true);
+      } else {
+        passwordError.classList.remove("d-none");
+      }
+    });
+
+    passwordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") btnConfirmPassword.click();
+    });
+
+    btnExit.addEventListener("click", () => setEditMode(false));
+
+    btnSave.addEventListener("click", () => {
+      saveLocalFromUI();
+      const old = btnSave.textContent;
+      btnSave.textContent = "Salvo ✓";
+      setTimeout(() => (btnSave.textContent = old), 900);
+    });
+
+    btnAddTurma.addEventListener("click", () => {
+      cursoInput.value = "";
+      turmaInput.value = "";
+      createError.classList.add("d-none");
+      document.getElementById("turnoCreateManha").checked = true;
+      addTurmaModal.show();
+      setTimeout(() => cursoInput.focus(), 250);
+    });
+
+    btnCreateTurma.addEventListener("click", () => {
+      const curso = (cursoInput.value || "").trim();
+      const turma = (turmaInput.value || "").trim();
+      if (!curso || !turma) {
+        createError.classList.remove("d-none");
+        return;
+      }
+
+      const turnoCreate = document.querySelector("input[name='turnoCreate']:checked")?.value || "manha";
+
+      saveLocalFromUI();
+
+      const base = slugify(`${curso}-${turma}`);
+      const id = uniqueId(base);
+
+      const habilitarManha = (turnoCreate === "manha" || turnoCreate === "ambos");
+      const habilitarTarde = (turnoCreate === "tarde" || turnoCreate === "ambos");
+      const sabadosTurno = (turnoCreate === "tarde") ? "tarde" : "manha";
+
+      state.turmas.push({
+        id, curso, turma,
+        habilitarManha,
+        habilitarTarde,
+        sabadosTurno,
+        sabados: ["Sábado 1","Sábado 2","Sábado 3"]
+      });
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+      renderCursos(curso);
+      renderTurmas(curso);
+
+      turmaSelect.value = id;
+      renderTurma(getSelectedTurmaObj());
+
+      addTurmaModal.hide();
+    });
+
+    cursoSelect.addEventListener("change", () => {
+      saveLocalFromUI();
+      renderTurmas(cursoSelect.value);
+      renderTurma(getSelectedTurmaObj());
+    });
+
+    turmaSelect.addEventListener("change", () => {
+      saveLocalFromUI();
+      renderTurma(getSelectedTurmaObj());
+    });
+
+    (function init(){
+      loadLocal();
+      renderCursos();
+      if (cursoSelect.value) renderTurmas(cursoSelect.value);
+      renderTurma(getSelectedTurmaObj());
+      setEditMode(false);
+    })();
+  </script>
+</body>
+</html>
