@@ -1,4 +1,298 @@
 {
-  "turmas": [],
-  "calendars": {}
+  "turmas": [
+    {
+      "id": "reretrewt-eterte",
+      "curso": "reretrewt",
+      "turma": "eterte",
+      "habilitarManha": false,
+      "habilitarTarde": true,
+      "sabadosTurno": "tarde",
+      "sabados": [
+        "Sábado 1",
+        "Sábado 2",
+        "Sábado 3"
+      ]
+    }
+  ],
+  "calendars": {
+    "reretrewt-eterte-tarde": [
+      {
+        "type": "linha",
+        "horario": "13:00 - 13:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "13:50 - 14:40",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "14:40 - 15:30",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "15:50 - 16:40",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "16:40 - 17:30",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "17:30 - 18:20",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      }
+    ],
+    "reretrewt-eterte-sabados-headers": [
+      "Sábado 1",
+      "Sábado 2",
+      "Sábado 3"
+    ],
+    "reretrewt-eterte-sabados": [
+      {
+        "type": "linha",
+        "horario": "13:00 - 13:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "13:50 - 14:40",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "14:40 - 15:30",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "15:50 - 16:40",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "16:40 - 17:30",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "17:30 - 18:20",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      }
+    ]
+  }
 }
