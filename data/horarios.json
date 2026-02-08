@@ -18,7 +18,7 @@
       "curso": "info",
       "turma": "infodddd",
       "habilitarManha": true,
-      "habilitarTarde": false,
+      "habilitarTarde": true,
       "sabadosTurno": "manha",
       "sabados": [
         "Sábado 1",
@@ -571,6 +571,167 @@
         "type": "linha",
         "horario": "12:00 - 12:50",
         "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      }
+    ],
+    "info-infodddd-tarde": [
+      {
+        "type": "linha",
+        "horario": "13:00 - 13:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "13:50 - 14:40",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "14:40 - 15:30",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "15:50 - 16:40",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "16:40 - 17:30",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "17:30 - 18:20",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
           {
             "disciplina": "",
             "professor": ""
