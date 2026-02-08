@@ -18,7 +18,7 @@
       "curso": "info",
       "turma": "infodddd",
       "habilitarManha": true,
-      "habilitarTarde": true,
+      "habilitarTarde": false,
       "sabadosTurno": "manha",
       "sabados": [
         "Sábado 1",
