@@ -159,16 +159,12 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Entrar no modo edição</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
           <label for="passwordInput" class="form-label">Senha</label>
           <input id="passwordInput" type="password" class="form-control" placeholder="Digite a senha">
           <div id="passwordError" class="text-danger small mt-2 d-none">Senha incorreta.</div>
-          <div class="form-text mt-2">
-            Ao salvar, o sistema faz commit automático no GitHub (arquivo <code>data/horarios.json</code>).
-          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
@@ -1045,6 +1041,7 @@ const SAVE_TOKEN = "ifpa-save";
   </script>
 </body>
 </html>
+
 
 
 
