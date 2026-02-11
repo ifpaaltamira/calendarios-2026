@@ -1,4 +1,459 @@
 {
-  "turmas": [],
-  "calendars": {}
+  "turmas": [
+    {
+      "id": "emi-informatica-1-ano",
+      "curso": "EMI Informática",
+      "turma": "1º Ano",
+      "habilitarManha": true,
+      "habilitarTarde": true,
+      "sabadosTurno": "manha",
+      "sabados": [
+        "Sábado 1",
+        "Sábado 2",
+        "Sábado 3"
+      ]
+    }
+  ],
+  "calendars": {
+    "emi-informatica-1-ano-manha": [
+      {
+        "type": "linha",
+        "horario": "7:30 - 8:20",
+        "cells": [
+          {
+            "disciplina": "Gerencia de Software",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "8:20 - 9:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "9:10 - 10:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "10:20 - 11:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "11:10 - 12:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "12:00 - 12:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      }
+    ],
+    "emi-informatica-1-ano-tarde": [
+      {
+        "type": "linha",
+        "horario": "13:00 - 13:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "13:50 - 14:40",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "14:40 - 15:30",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "15:50 - 16:40",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "16:40 - 17:30",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "17:30 - 18:20",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      }
+    ],
+    "emi-informatica-1-ano-sabados-headers": [
+      "Sábado 1",
+      "Sábado 2",
+      "Sábado 3"
+    ],
+    "emi-informatica-1-ano-sabados": [
+      {
+        "type": "linha",
+        "horario": "7:30 - 8:20",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "8:20 - 9:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "9:10 - 10:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "10:20 - 11:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "11:10 - 12:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "12:00 - 12:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      }
+    ]
+  }
 }
