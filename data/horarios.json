@@ -1,4 +1,298 @@
 {
-  "turmas": [],
-  "calendars": {}
+  "turmas": [
+    {
+      "id": "gdrhgdh-ghgjhggjgj",
+      "curso": "gdrhgdh",
+      "turma": "ghgjhggjgj",
+      "habilitarManha": true,
+      "habilitarTarde": false,
+      "sabadosTurno": "manha",
+      "sabados": [
+        "Sábado 1",
+        "Sábado 2",
+        "Sábado 3"
+      ]
+    }
+  ],
+  "calendars": {
+    "gdrhgdh-ghgjhggjgj-manha": [
+      {
+        "type": "linha",
+        "horario": "7:30 - 8:20",
+        "cells": [
+          {
+            "disciplina": "yuytiuyt",
+            "professor": "yiyuiuyi"
+          },
+          {
+            "disciplina": "yiyiy",
+            "professor": "iyuiuyi"
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "8:20 - 9:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "9:10 - 10:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "10:20 - 11:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "11:10 - 12:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "12:00 - 12:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      }
+    ],
+    "gdrhgdh-ghgjhggjgj-sabados-headers": [
+      "Sábado 1",
+      "Sábado 2",
+      "Sábado 3"
+    ],
+    "gdrhgdh-ghgjhggjgj-sabados": [
+      {
+        "type": "linha",
+        "horario": "7:30 - 8:20",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "8:20 - 9:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "9:10 - 10:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "10:20 - 11:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "11:10 - 12:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "12:00 - 12:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      }
+    ]
+  }
 }
