@@ -558,11 +558,11 @@
         ]
       },
       "2026-01-05": {
-        "quantidade": 0,
+        "quantidade": 1,
         "aulas": [
           {
-            "disciplina": "",
-            "docente": ""
+            "disciplina": "Qualidade de Software",
+            "docente": "Damiel Ferras"
           },
           {
             "disciplina": "",
