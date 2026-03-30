@@ -80,10 +80,10 @@
             "tipo": ""
           },
           {
-            "disciplina": "",
-            "professor": "",
-            "local": "",
-            "tipo": ""
+            "disciplina": "Programação Web",
+            "professor": "Luan Farias",
+            "local": "Laboratório de Informática 02",
+            "tipo": "tecnico"
           },
           {
             "disciplina": "",
