@@ -25,26 +25,31 @@
           {
             "disciplina": "Matemática II",
             "professor": "Nelson Ribeiro",
+            "local": "Sala 01",
             "tipo": "basica"
           },
           {
             "disciplina": "Engenharia de Software",
             "professor": "Ailton Lopes",
+            "local": "Laboratório de Informática 03",
             "tipo": "tecnico"
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -56,26 +61,31 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -87,26 +97,31 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -121,26 +136,31 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -152,26 +172,31 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -183,26 +208,31 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -412,16 +442,19 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -433,16 +466,19 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -454,16 +490,19 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -478,16 +517,19 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -499,16 +541,19 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
@@ -520,16 +565,19 @@
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           },
           {
             "disciplina": "",
             "professor": "",
+            "local": "",
             "tipo": ""
           }
         ]
