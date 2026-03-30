@@ -14,6 +14,21 @@
         "Sábado 2",
         "Sábado 3"
       ]
+    },
+    {
+      "id": "tecnico-em-administracao-integrado-ao-ensino-medio-2-ano-202",
+      "modalidade": "Técnico - Integrado",
+      "curso": "Técnico em Administração - Integrado ao Ensino Médio",
+      "turma": "2º Ano (2025) - AMD34S",
+      "turno": "manha",
+      "habilitarManha": true,
+      "habilitarTarde": false,
+      "sabadosTurno": "manha",
+      "sabados": [
+        "Sábado 1",
+        "Sábado 2",
+        "Sábado 3"
+      ]
     }
   ],
   "calendars": {
@@ -435,6 +450,381 @@
       "Sábado 3"
     ],
     "emi-adm-1-ano-2026-sabados": [
+      {
+        "type": "linha",
+        "horario": "7:30 - 8:20",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "8:20 - 9:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "9:10 - 10:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "10:20 - 11:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "11:10 - 12:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "12:00 - 12:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      }
+    ],
+    "tecnico-em-administracao-integrado-ao-ensino-medio-2-ano-202-manha": [
+      {
+        "type": "linha",
+        "horario": "7:30 - 8:20",
+        "cells": [
+          {
+            "disciplina": "Geografia II",
+            "professor": "Genilson Santana",
+            "local": "Sala 02",
+            "tipo": "basica"
+          },
+          {
+            "disciplina": "Gestão de Processos",
+            "professor": "Josevana Lucena",
+            "local": "Sala de Inovação",
+            "tipo": "tecnico"
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "8:20 - 9:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "9:10 - 10:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "10:20 - 11:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "11:10 - 12:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "12:00 - 12:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          },
+          {
+            "disciplina": "",
+            "professor": "",
+            "local": "",
+            "tipo": ""
+          }
+        ]
+      }
+    ],
+    "tecnico-em-administracao-integrado-ao-ensino-medio-2-ano-202-sabados-headers": [
+      "Sábado 1",
+      "Sábado 2",
+      "Sábado 3"
+    ],
+    "tecnico-em-administracao-integrado-ao-ensino-medio-2-ano-202-sabados": [
       {
         "type": "linha",
         "horario": "7:30 - 8:20",
