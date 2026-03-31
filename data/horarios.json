@@ -25,7 +25,7 @@
       "habilitarTarde": false,
       "sabadosTurno": "manha",
       "sabados": [
-        "Sábado 1",
+        "31/03",
         "Sábado 2",
         "Sábado 3"
       ]
@@ -9065,6 +9065,124 @@
             "professor": "",
             "local": "",
             "tipo": ""
+          }
+        ]
+      }
+    ],
+    "graduacao-analise-e-desenvolvimento-de-sistemas-tads-sabados-headers": [
+      "31/03",
+      "Sábado 2",
+      "Sábado 3"
+    ],
+    "graduacao-analise-e-desenvolvimento-de-sistemas-tads-sabados": [
+      {
+        "type": "linha",
+        "horario": "7:30 - 8:20",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "8:20 - 9:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "9:10 - 10:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "intervalo"
+      },
+      {
+        "type": "linha",
+        "horario": "10:20 - 11:10",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "11:10 - 12:00",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          }
+        ]
+      },
+      {
+        "type": "linha",
+        "horario": "12:00 - 12:50",
+        "cells": [
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
+          },
+          {
+            "disciplina": "",
+            "professor": ""
           }
         ]
       }
