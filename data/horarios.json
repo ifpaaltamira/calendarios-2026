@@ -1311,6 +1311,14 @@
           "color": "#d6fff7",
           "isEditing": false,
           "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
+          "isEditing": false,
+          "draft": null
         }
       ],
       "dates": {
@@ -1936,6 +1944,14 @@
           "name": "Programação Web II",
           "teacher": "Leandro Machado da Silva",
           "color": "#d6fff7",
+          "isEditing": false,
+          "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
           "isEditing": false,
           "draft": null
         }
@@ -2610,9 +2626,37 @@
           "color": "#d6fff7",
           "isEditing": false,
           "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
+          "isEditing": false,
+          "draft": null
         }
       ],
-      "dates": {}
+      "dates": {
+        "2026-03-31": [
+          {
+            "componentId": "comp-1774990874418",
+            "start": "19:00",
+            "end": "22:40"
+          }
+        ],
+        "2026-03-30": [
+          {
+            "componentId": "comp-1774907529021",
+            "start": "19:00",
+            "end": "20:40"
+          },
+          {
+            "componentId": "comp-1774990874418",
+            "start": "21:50",
+            "end": "22:40"
+          }
+        ]
+      }
     },
     "graduacao-analise-e-desenvolvimento-de-sistemas-tads-noturno-2026-04": {
       "2026-04-01": {
@@ -3259,6 +3303,14 @@
           "name": "Programação Web II",
           "teacher": "Leandro Machado da Silva",
           "color": "#d6fff7",
+          "isEditing": false,
+          "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
           "isEditing": false,
           "draft": null
         }
@@ -3933,6 +3985,14 @@
           "color": "#d6fff7",
           "isEditing": false,
           "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
+          "isEditing": false,
+          "draft": null
         }
       ],
       "dates": {}
@@ -4582,6 +4642,14 @@
           "name": "Programação Web II",
           "teacher": "Leandro Machado da Silva",
           "color": "#d6fff7",
+          "isEditing": false,
+          "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
           "isEditing": false,
           "draft": null
         }
@@ -5256,6 +5324,14 @@
           "color": "#d6fff7",
           "isEditing": false,
           "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
+          "isEditing": false,
+          "draft": null
         }
       ],
       "dates": {}
@@ -5928,6 +6004,14 @@
           "color": "#d6fff7",
           "isEditing": false,
           "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
+          "isEditing": false,
+          "draft": null
         }
       ],
       "dates": {}
@@ -6577,6 +6661,14 @@
           "name": "Programação Web II",
           "teacher": "Leandro Machado da Silva",
           "color": "#d6fff7",
+          "isEditing": false,
+          "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
           "isEditing": false,
           "draft": null
         }
@@ -7251,6 +7343,14 @@
           "color": "#d6fff7",
           "isEditing": false,
           "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
+          "isEditing": false,
+          "draft": null
         }
       ],
       "dates": {}
@@ -7900,6 +8000,14 @@
           "name": "Programação Web II",
           "teacher": "Leandro Machado da Silva",
           "color": "#d6fff7",
+          "isEditing": false,
+          "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
           "isEditing": false,
           "draft": null
         }
@@ -8572,6 +8680,14 @@
           "name": "Programação Web II",
           "teacher": "Leandro Machado da Silva",
           "color": "#d6fff7",
+          "isEditing": false,
+          "draft": null
+        },
+        {
+          "id": "comp-1774990874418",
+          "name": "Inglês",
+          "teacher": "Livia Bezerra",
+          "color": "#c9ff94",
           "isEditing": false,
           "draft": null
         }
