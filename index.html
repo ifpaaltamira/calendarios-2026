@@ -1,1048 +1,1046 @@
-<!doctype html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Horários das Turmas — IFPA Campus Altamira</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Horários 2026.2</title>
+<style>
+:root {
+  --ifpa-green:#19733b;
+  --ifpa-green-dark:#0f4f29;
+  --ifpa-red:#b3262d;
+  --bg:#f4f7f5;
+  --text:#26312b;
+  --muted:#69756e;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+header{
+  background:linear-gradient(135deg,var(--ifpa-green-dark),var(--ifpa-green));
+  border-top:6px solid var(--ifpa-red);color:#fff;padding:18px 26px
+}
+header h1{margin:0 0 4px;font-size:25px}
+header p{margin:0;color:rgba(255,255,255,.85)}
+main{max-width:1900px;margin:auto;padding:18px}
+.toolbar,.panel,.class-sidebar{
+  background:#fff;border:0;border-radius:.75rem;
+  box-shadow:0 .125rem .45rem rgba(0,0,0,.07)
+}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 14px;margin-bottom:12px}
+button{
+  min-height:38px;border:1px solid #ced4da;border-radius:.375rem;
+  background:#fff;padding:0 14px;font-size:14px;color:#27312b;
+  cursor:pointer;font-weight:700
+}
+button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:#fff}
+.view-buttons{display:flex;gap:8px}
+.shift-indicator{
+  margin-left:auto;display:inline-flex;align-items:center;min-height:38px;padding:0 14px;
+  border-radius:.375rem;background:#e7f3ea;color:var(--ifpa-green-dark);
+  font-size:13px;font-weight:700;white-space:nowrap
+}
+.workspace{display:grid;grid-template-columns:275px minmax(0,1fr);gap:14px;align-items:start}
+.class-sidebar{
+  position:sticky;top:12px;display:flex;flex-direction:column;
+  max-height:calc(100vh - 24px);overflow:hidden
+}
+.sidebar-head{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:14px;color:#fff;background:linear-gradient(135deg,var(--ifpa-green-dark),var(--ifpa-green))
+}
+.sidebar-head strong{display:block;font-size:16px}
+.sidebar-head span{display:block;margin-top:2px;font-size:11px;color:rgba(255,255,255,.8)}
+.sidebar-close{display:none;min-height:32px;width:32px;padding:0;border:0;color:#fff;background:rgba(255,255,255,.14);font-size:24px}
+.sidebar-list{display:flex;flex-direction:column;gap:3px;padding:8px;overflow:auto}
+.course-group{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
+.course-group:last-child{margin-bottom:0}
+.course-group-title{
+  margin:3px 2px 1px;padding:6px 9px;border-radius:.45rem;
+  font-size:11px;font-weight:800;letter-spacing:.035em;text-transform:uppercase
+}
+.sidebar-item{
+  width:100%;min-height:0;padding:10px 11px;border:0;border-radius:.45rem;
+  background:transparent;color:#334039;text-align:left;font-weight:600;line-height:1.2
+}
+.sidebar-item small{display:block;font-size:11px;color:#6b766f;font-weight:500;margin-top:3px}
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+/* Informática — azul frio e suave */
+.course-info .course-group-title{background:#e7f0f6;color:#42677d}
+.sidebar-item.course-info{background:#f7fafc}
+.sidebar-item.course-info:hover{background:#edf4f8}
+.sidebar-item.course-info.active{color:#345c73;background:#e2eef5;box-shadow:inset 3px 0 0 #6f9db8}
 
-  <style>
-    html, body { font-family: Arial, Helvetica, sans-serif; }
-    body { background:#fff; }
-    body::before{
-      content: "⚙️ ⚛️ 💻 📡 CIÊNCIA & TECNOLOGIA";
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-15deg);
-      font-size: 3rem;
-      font-weight: 800;
-      color: #000;
-      opacity: 0.04;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .container { position: relative; z-index: 1; }
+/* Edificações — verde frio e suave */
+.course-edif .course-group-title{background:#e6f0eb;color:#476c59}
+.sidebar-item.course-edif{background:#f7faf8}
+.sidebar-item.course-edif:hover{background:#edf5f0}
+.sidebar-item.course-edif.active{color:#3f6752;background:#e1eee7;box-shadow:inset 3px 0 0 #78a28c}
 
-    .site-header{
-      background: linear-gradient(135deg, #145a32, #1e8449);
-      color:#fff;
-      border-radius: 12px;
-    }
-    .site-header h1{ font-size:1.2rem; margin:0; }
-    .site-header p{ margin:0; opacity:.9; font-size:.9rem; }
+/* Agropecuária — amarelo acinzentado e discreto */
+.course-agro .course-group-title{background:#f3f0df;color:#756d43}
+.sidebar-item.course-agro{background:#fcfbf6}
+.sidebar-item.course-agro:hover{background:#f6f3e7}
+.sidebar-item.course-agro.active{color:#6c633d;background:#efecd9;box-shadow:inset 3px 0 0 #b6aa6a}
 
-    .panel{
-      background:#fff;
-      border-radius: 14px;
-      box-shadow: 0 6px 16px rgba(0,0,0,.12);
-      overflow: hidden;
-    }
+/* Administração — vermelho frio e suave */
+.course-adm .course-group-title{background:#f3e8e9;color:#7b5459}
+.sidebar-item.course-adm{background:#fcf8f8}
+.sidebar-item.course-adm:hover{background:#f7eeee}
+.sidebar-item.course-adm.active{color:#744c52;background:#f1e3e5;box-shadow:inset 3px 0 0 #b68289}
 
-    .turma-title{
-      background:#1e8449;
-      color:#fff;
-      padding: 12px;
-      font-weight: 900;
-      text-align: center;
-      border-radius: 10px;
-    }
+/* Visualização por docente */
+.sidebar-item.teacher-item:hover{background:#eef5f0}
+.sidebar-item.teacher-item.active{
+  color:var(--ifpa-green-dark);background:#dfeee3;
+  box-shadow:inset 3px 0 0 var(--ifpa-green)
+}
+.calendar-content{min-width:0}
+.ead-block{
+  margin-top:14px;
+  padding:15px 16px;
+  background:#fff;
+  border:1px solid #e5ebe7;
+  border-radius:.75rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.05)
+}
+.ead-block h3{
+  margin:0;
+  font-size:14px;
+  color:var(--ifpa-green-dark)
+}
+.ead-block ul{
+  margin:9px 0 0;
+  padding-left:20px
+}
+.ead-block li{
+  margin:4px 0;
+  font-size:13px
+}
+.ead-block.hidden{display:none}
+.panel{overflow:hidden}
+.panel-head{padding:12px 15px;border-bottom:1px solid #edf0ee}
+.panel-head h2{font-size:17px;margin:0}
+.table-wrap{overflow:auto}
+table{width:100%;min-width:1100px;border-collapse:separate;border-spacing:0}
+th{background:#f7f9f8;padding:8px 6px;font-size:12px;text-align:center;border-bottom:1px solid #e9edeb;position:sticky;top:0;z-index:2}
+th:first-child{left:0;z-index:4}
+td{border-bottom:1px solid #eff2f0;vertical-align:top}
+td.time{
+  position:sticky;left:0;z-index:1;background:#fff;width:112px;min-width:112px;
+  text-align:center;padding:5px;font-size:11px;font-weight:700;border-right:1px solid #edf0ee
+}
+td.slot{height:79px;padding:4px}
+.lesson{
+  min-height:70px;height:100%;border:0;border-radius:.55rem;padding:7px 8px;
+  box-shadow:0 1px 3px rgba(0,0,0,.07);display:flex;flex-direction:column;justify-content:center
+}
+.subject{font-size:11.5px;font-weight:800;line-height:1.12}
+.teacher{font-size:10.5px;font-weight:650;margin-top:4px;color:#34453c}
+.meta{font-size:9.2px;margin-top:3px;color:#66736c}
+.empty{height:100%;display:flex;align-items:center;justify-content:center;color:#b5bdb8;font-size:10px}
+.shift-row td{
+  position:static!important;background:#e8f0ea!important;color:var(--ifpa-green-dark);
+  padding:6px 9px!important;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em
+}
+.interval td{
+  position:static!important;background:#f7f8f7!important;text-align:center!important;color:#7b837e;
+  padding:4px!important;font-size:10px;font-weight:700
+}
+.hidden{display:none!important}
+.conflict-alert{
+  margin:0 0 12px;padding:10px 13px;border-radius:.5rem;background:#fff3cd;
+  color:#664d03;box-shadow:0 .125rem .35rem rgba(0,0,0,.05);font-size:13px;line-height:1.35
+}
+.note{font-size:11px;color:var(--muted);margin-top:8px}
+.sidebar-toggle{display:none}
+.sidebar-overlay{display:none}
+.visually-hidden{
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important
+}
+@media(max-width:1000px){
+  .workspace{display:block}
+  .sidebar-toggle{display:inline-flex;align-items:center;justify-content:center}
+  .class-sidebar{
+    position:fixed;z-index:1200;top:0;left:0;width:min(320px,86vw);height:100vh;max-height:none;
+    border-radius:0 .75rem .75rem 0;transform:translateX(-105%);transition:transform .22s ease
+  }
+  .class-sidebar.open{transform:translateX(0)}
+  .sidebar-close{display:inline-flex;align-items:center;justify-content:center}
+  .sidebar-overlay{position:fixed;z-index:1190;inset:0;background:rgba(0,0,0,.28)}
+  .sidebar-overlay.open{display:block}
+  .shift-indicator{margin-left:0}
+}
 
-    .turno-card{
-      border: 1px solid #e6e6e6;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
-      background: #fff;
-      margin-top: 14px;
-    }
-    .turno-header{
-      background: #f7fbf8;
-      padding: 10px 12px;
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      border-bottom: 1px solid #e6e6e6;
-    }
-    .turno-header .badge{
-      background:#145a32;
-      color:#fff;
-      font-weight: 800;
-      letter-spacing: .3px;
-    }
+.teacher-locator-trigger{
+  border-color:var(--ifpa-green);
+  color:var(--ifpa-green-dark)
+}
+.teacher-locator-trigger:hover{
+  background:#edf6ef
+}
+.teacher-locator-modal{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(20,32,25,.58)
+}
+.teacher-locator-modal.hidden{display:none}
+.teacher-locator-card{
+  width:min(680px,100%);
+  max-height:calc(100vh - 36px);
+  overflow:auto;
+  background:#fff;
+  border-radius:1rem;
+  box-shadow:0 1.25rem 3rem rgba(0,0,0,.25)
+}
+.teacher-locator-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  padding:20px 22px 12px;
+  border-bottom:1px solid #e8ece9
+}
+.teacher-locator-head h2{
+  margin:0;
+  color:var(--ifpa-green-dark);
+  font-size:21px
+}
+.teacher-locator-head p{
+  margin:5px 0 0;
+  color:#637068;
+  font-size:13px;
+  line-height:1.45
+}
+.teacher-locator-close{
+  flex:0 0 auto;
+  min-height:34px;
+  width:34px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:#eef2ef;
+  color:#445149;
+  font-size:23px;
+  line-height:1
+}
+.teacher-locator-body{
+  padding:18px 22px 22px
+}
+.teacher-locator-label{
+  display:block;
+  margin-bottom:7px;
+  color:#354039;
+  font-size:13px;
+  font-weight:800
+}
+.teacher-locator-search{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:9px
+}
+.teacher-locator-search input{
+  min-width:0;
+  min-height:42px;
+  border:1px solid #bdc8c1;
+  border-radius:.5rem;
+  padding:0 12px;
+  font:inherit;
+  color:#26312b;
+  background:#fff
+}
+.teacher-locator-search input:focus{
+  outline:3px solid rgba(40,126,72,.16);
+  border-color:var(--ifpa-green)
+}
+.teacher-locator-clock{
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:.55rem;
+  background:#f4f7f5;
+  color:#526058;
+  font-size:13px
+}
+.teacher-locator-result{
+  margin-top:14px
+}
+.teacher-location-state{
+  padding:14px 15px;
+  border:1px solid #dce5df;
+  border-radius:.7rem;
+  background:#fbfcfb
+}
+.teacher-location-state.current{
+  border-color:#a9cfb5;
+  background:#edf7f0
+}
+.teacher-location-state.next{
+  border-color:#b7cbd7;
+  background:#f0f6f9
+}
+.teacher-location-state.warning{
+  border-color:#dfca8d;
+  background:#fff9e8
+}
+.teacher-location-state h3{
+  margin:0 0 8px;
+  font-size:16px;
+  color:#284232
+}
+.teacher-location-state p{
+  margin:4px 0;
+  line-height:1.5;
+  color:#3f4b44
+}
+.teacher-location-state strong{
+  color:#26342c
+}
+.teacher-location-status{
+  display:inline-block;
+  margin-bottom:9px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#dceee1;
+  color:#1f6235;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.04em
+}
+.teacher-location-state.next .teacher-location-status{
+  background:#dceaf1;
+  color:#2a6178
+}
+.teacher-location-state.warning .teacher-location-status{
+  background:#f3e5b8;
+  color:#765b0d
+}
+.teacher-location-muted{
+  color:#6b7770;
+  font-size:12px
+}
+@media(max-width:620px){
+  .teacher-locator-search{grid-template-columns:1fr}
+  .teacher-locator-search button{width:100%}
+  .teacher-locator-head,.teacher-locator-body{padding-left:16px;padding-right:16px}
+}
 
-    table th{
-      background:#145a32 !important;
-      color:#fff !important;
-      text-align:center;
-      vertical-align: middle;
-      font-size:.9rem;
-      white-space: nowrap;
-    }
-    table td{
-      text-align:center;
-      vertical-align: middle;
-      font-size:.86rem;
-      min-width: 160px;
-    }
-    .col-horario{ background:#e9f7ef; font-weight: 900; min-width: 130px; }
-    .disciplina{ font-weight: 900; }
-    .professor{ font-size:.75rem; opacity:.8; }
-    .intervalo{ background:#f0f0f0; font-weight: 900; text-align: center; }
-
-    .badge-sabados{ background:#1e8449 !important; }
-
-    .editable[contenteditable="true"]{
-      outline: 2px dashed rgba(20,90,50,.35);
-      outline-offset: 2px;
-      background: rgba(213,245,227,.35);
-      border-radius: 6px;
-      padding: 2px 4px;
-      min-height: 18px;
-      display: inline-block;
-      width: 100%;
-    }
-
-    .edit-badge{ font-size:.8rem; font-weight: 800; }
-  </style>
+@media print{
+  header{background:#fff;color:#000;border-top:0;border-bottom:1px solid #bbb;padding:10px 0}
+  header p{color:#555}
+  .toolbar,.class-sidebar,.sidebar-overlay,.note,.conflict-alert,.teacher-locator-modal{display:none!important}
+  main{padding:0}
+  .workspace{display:block}
+  .panel{box-shadow:none;border-radius:0}
+}
+</style>
 </head>
-
 <body>
-  <div class="container py-4">
+<header>
+  <h1>Painel de Horários 2026.2</h1>
+  <p>IFPA Campus Altamira</p>
+</header>
 
-    <header class="site-header p-3 mb-3">
-      <div class="d-flex align-items-start justify-content-between gap-2 flex-wrap">
+<main>
+  <section class="toolbar">
+    <button id="sidebarToggle" class="sidebar-toggle">☰ Menu</button>
+    <div class="view-buttons">
+      <button id="classViewBtn" class="active">Por Turma</button>
+      <button id="teacherViewBtn">Por Docente</button>
+      <button id="roomViewBtn">Agenda de Salas</button>
+    </div>
+    <button id="teacherLocatorBtn" class="teacher-locator-trigger">Onde está o Docente?</button>
+    <button type="button" disabled aria-disabled="true" title="Impressão desativada">Imprimir Calendário</button>
+    <span class="shift-indicator" id="topShiftBadge">Turno Principal: Manhã</span>
+  </section>
+
+  <div id="conflictAlert" class="conflict-alert hidden"></div>
+
+  <div class="workspace">
+    <aside id="sidebar" class="class-sidebar">
+      <div class="sidebar-head">
         <div>
-          <h1>Horários das Turmas — IFPA Campus Altamira</h1>
-          <p>Educação, Ciência e Tecnologia</p>
-          <span id="editStatus" class="badge text-bg-light edit-badge mt-2">Modo Visualização</span>
+          <strong id="sidebarTitle">Turmas</strong>
+          <span id="sidebarSubtitle">Selecione uma grade</span>
         </div>
-
-        <div class="d-flex gap-2 flex-wrap justify-content-end">
-          <button id="btnAddTurma" class="btn btn-outline-light btn-sm fw-bold d-none" type="button">
-            + Nova Turma
-          </button>
-
-          <button id="btnEdit" class="btn btn-light btn-sm fw-bold" type="button">Editar</button>
-          <button id="btnSave" class="btn btn-success btn-sm fw-bold d-none" type="button">Salvar</button>
-          <button id="btnExit" class="btn btn-outline-light btn-sm fw-bold d-none" type="button">Sair da edição</button>
-        </div>
+        <button id="sidebarClose" class="sidebar-close">×</button>
       </div>
-    </header>
+      <nav id="sidebarList" class="sidebar-list"></nav>
+    </aside>
 
-    <div class="panel p-3">
-      <div class="row g-2 align-items-end">
-        <div class="col-12 col-lg-6">
-          <label class="form-label fw-bold" style="color:#145a32;">Selecionar Curso</label>
-          <select id="cursoSelect" class="form-select"></select>
-        </div>
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
-        <div class="col-12 col-lg-6">
-          <label class="form-label fw-bold" style="color:#145a32;">Selecionar Turma</label>
-          <select id="turmaSelect" class="form-select"></select>
+    <div class="calendar-content">
+      <section class="panel">
+        <div class="panel-head"><h2 id="panelTitle"></h2></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Horário</th>
+                <th>Segunda</th>
+                <th>Terça</th>
+                <th>Quarta</th>
+                <th>Quinta</th>
+                <th>Sexta</th>
+              </tr>
+            </thead>
+            <tbody id="scheduleBody"></tbody>
+          </table>
         </div>
-      </div>
-
-      <div id="turmaView" class="mt-3"></div>
-    </div>
-
-    <footer class="text-center mt-3" style="color:#666;font-size:.85rem;">
-      IFPA • Campus Altamira 2026
-    </footer>
-  </div>
-
-  <!-- MODAL SENHA -->
-  <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-        </div>
-        <div class="modal-body">
-          <input id="passwordInput" type="password" class="form-control" placeholder="Digite a senha">
-          <div id="passwordError" class="text-danger small mt-2 d-none">Senha incorreta.</div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
-          <button id="btnConfirmPassword" class="btn btn-success" type="button">Confirmar</button>
-        </div>
-      </div>
+      </section>
+      <section id="eadBlock" class="ead-block hidden">
+        <h3>Disciplinas Ministradas em EAD:</h3>
+        <ul id="eadList"></ul>
+      </section>
+      <p class="note"></p>
     </div>
   </div>
+</main>
 
-  <!-- MODAL NOVA TURMA -->
-  <div class="modal fade" id="addTurmaModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Criar Turma</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-2">
-            <label class="form-label" for="cursoInput">Curso</label>
-            <input id="cursoInput" class="form-control" placeholder="Ex.: EMI Administração">
-          </div>
 
-          <div class="mb-2">
-            <label class="form-label" for="turmaInput">Turma</label>
-            <input id="turmaInput" class="form-control" placeholder="Ex.: 1º Ano (2026)">
-          </div>
-
-          <div class="mb-2">
-            <label class="form-label fw-bold" style="color:#145a32;">Turno da turma</label>
-            <div class="d-flex gap-3 flex-wrap">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="turnoCreate" id="turnoCreateManha" value="manha" checked>
-                <label class="form-check-label" for="turnoCreateManha">Manhã</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="turnoCreate" id="turnoCreateTarde" value="tarde">
-                <label class="form-check-label" for="turnoCreateTarde">Tarde</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="turnoCreate" id="turnoCreateAmbos" value="ambos">
-                <label class="form-check-label" for="turnoCreateAmbos">Ambos</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="alert alert-light border mb-0">
-            A turma também terá <b>Sábados letivos</b> (com colunas editáveis e botões +/Excluir).
-          </div>
-
-          <div id="createError" class="text-danger small mt-2 d-none">Preencha Curso e Turma.</div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
-          <button id="btnCreateTurma" class="btn btn-success" type="button">Criar</button>
-        </div>
+<div id="teacherLocatorModal" class="teacher-locator-modal hidden"
+     role="dialog" aria-modal="true" aria-labelledby="teacherLocatorTitle">
+  <section class="teacher-locator-card">
+    <div class="teacher-locator-head">
+      <div>
+        <h2 id="teacherLocatorTitle">Onde está o Docente?</h2>
+        <p>Localiza a aula atual ou a próxima aula prevista usando a data e o horário do dispositivo.</p>
       </div>
+      <button id="teacherLocatorClose" class="teacher-locator-close"
+              type="button" aria-label="Fechar">×</button>
     </div>
-  </div>
+    <div class="teacher-locator-body">
+      <label class="teacher-locator-label" for="teacherLocatorInput">Nome do docente</label>
+      <div class="teacher-locator-search">
+        <input id="teacherLocatorInput" type="text"
+               list="teacherLocatorList"
+               autocomplete="off"
+               placeholder="Digite ou selecione o nome do docente">
+        <datalist id="teacherLocatorList"></datalist>
+        <button id="teacherLocatorSearchBtn" type="button">Consultar</button>
+      </div>
+      <div id="teacherLocatorClock" class="teacher-locator-clock"></div>
+      <div id="teacherLocatorResult" class="teacher-locator-result"
+           aria-live="polite"></div>
+    </div>
+  </section>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const classes = {"agro-1a-2026": {"name": "EMI Agropecuária — 1º Ano A — Turma 2026", "short": "1º Ano A", "course": "EMI Agropecuária", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M2", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M3", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "M4", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "M5", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Terça", "M1", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Terça", "M2", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Terça", "M3", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Terça", "M4", "Bases Matemática para Adubação e Calagem", "Antonio Eduardo Lucena"], ["Terça", "M5", "Bases Matemática para Adubação e Calagem", "Antonio Eduardo Lucena"], ["Quarta", "M1", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M2", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M3", "História I", "Jayza Monteiro"], ["Quarta", "M4", "História I", "Jayza Monteiro"], ["Quarta", "M5", "Biologia I", "Laísa Castro"], ["Quarta", "M6", "Biologia I", "Laísa Castro"], ["Quinta", "M1", "História I", "Jayza Monteiro"], ["Quinta", "M2", "História I", "Jayza Monteiro"], ["Quinta", "M3", "Geografia I", "Luiz Viegas"], ["Quinta", "M4", "Geografia I", "Luiz Viegas"], ["Quinta", "M5", "Nutrição Animal e Forragicultura", "Karlyene Rocha"], ["Quinta", "M6", "Nutrição Animal e Forragicultura", "Karlyene Rocha"], ["Sexta", "M1", "Física I", "Luiz Carlos Leite"], ["Sexta", "M2", "Física I", "Luiz Carlos Leite"], ["Sexta", "M3", "Química I", "Waldemar Malcher"], ["Sexta", "M4", "Química I", "Waldemar Malcher"], ["Sexta", "M5", "Matemática I", "Nelson Ribeiro Filho"], ["Sexta", "M6", "Matemática I", "Nelson Ribeiro Filho"]], "regular_room": "Sala 02"}, "agro-1b-2026": {"name": "EMI Agropecuária — 1º Ano B — Turma 2026", "short": "1º Ano B", "course": "EMI Agropecuária", "main_shift": "Tarde", "schedule": [["Segunda", "T1", "Nutrição Animal e Forragicultura", "Karlyene Rocha"], ["Segunda", "T2", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "T3", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "T4", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "T5", "Matemática I", "Nelson Ribeiro Filho"], ["Segunda", "T6", "Matemática I", "Nelson Ribeiro Filho"], ["Terça", "T1", "Bases Matemática para Adubação e Calagem", "Antonio Eduardo Lucena"], ["Terça", "T2", "Bases Matemática para Adubação e Calagem", "Antonio Eduardo Lucena"], ["Terça", "T3", "Nutrição Animal e Forragicultura", "Karlyene Rocha"], ["Terça", "T5", "História I", "Jayza Monteiro"], ["Terça", "T6", "História I", "Jayza Monteiro"], ["Quarta", "T1", "História I", "Jayza Monteiro"], ["Quarta", "T2", "História I", "Jayza Monteiro"], ["Quarta", "T3", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Quarta", "T4", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Quarta", "T5", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Quinta", "T1", "Filosofia e Sociologia I", "Ieda Fernandes da Silva"], ["Quinta", "T2", "Filosofia e Sociologia I", "Ieda Fernandes da Silva"], ["Quinta", "T3", "Geografia I", "Luiz Viegas"], ["Quinta", "T4", "Geografia I", "Luiz Viegas"], ["Quinta", "T5", "Biologia I", "Laísa Castro"], ["Quinta", "T6", "Biologia I", "Laísa Castro"], ["Sexta", "T1", "Física I", "Luiz Carlos Leite"], ["Sexta", "T2", "Física I", "Luiz Carlos Leite"], ["Sexta", "T3", "Química I", "Waldemar Malcher"], ["Sexta", "T4", "Química I", "Waldemar Malcher"], ["Sexta", "T5", "Língua Portuguesa I", "Lívia Oliveira"], ["Sexta", "T6", "Língua Portuguesa I", "Lívia Oliveira"]], "regular_room": "Sala 01"}, "agro-2a-2025": {"name": "EMI Agropecuária — 2º Ano A — Turma 2025", "short": "2º Ano A", "course": "EMI Agropecuária", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Inglês", "Valéria Almeida"], ["Segunda", "M2", "Inglês", "Valéria Almeida"], ["Segunda", "M3", "Educação Física", "Sirleide Milhomem Araujo"], ["Segunda", "M4", "Educação Física", "Sirleide Milhomem Araujo"], ["Segunda", "M5", "Educação Física", "Sirleide Milhomem Araujo"], ["Segunda", "M6", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "M1", "Mecanização Agrícola, Irrigação e Drenagem", "Peterson Acacio de Araujo"], ["Terça", "M2", "Mecanização Agrícola, Irrigação e Drenagem", "Peterson Acacio de Araujo"], ["Terça", "M3", "Biologia II", "Anangela Ravena Leal"], ["Terça", "M4", "Biologia II", "Anangela Ravena Leal"], ["Terça", "M5", "História II", "Juliana Quintela"], ["Terça", "M6", "História II", "Juliana Quintela"], ["Quarta", "M1", "Física II", "Luiz Carlos Leite"], ["Quarta", "M2", "Física II", "Luiz Carlos Leite"], ["Quarta", "M3", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M4", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M5", "Geografia II", "Genilson Santana"], ["Quarta", "M6", "Geografia II", "Genilson Santana"], ["Quinta", "M1", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Quinta", "M2", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Quinta", "M3", "Produção de Monogástricos", "Karlyene Rocha"], ["Quinta", "M4", "Produção de Monogástricos", "Karlyene Rocha"], ["Sexta", "M1", "Matemática II", "Nelson Ribeiro Filho"], ["Sexta", "M2", "Matemática II", "Nelson Ribeiro Filho"], ["Sexta", "M3", "Matemática II", "Nelson Ribeiro Filho"], ["Sexta", "M4", "Língua Portuguesa II", "Igara Dantas"], ["Sexta", "M5", "Língua Portuguesa II", "Igara Dantas"], ["Sexta", "M6", "Língua Portuguesa II", "Igara Dantas"]], "regular_room": "Sala 06"}, "agro-2b-2025": {"name": "EMI Agropecuária — 2º Ano B — Turma 2025", "short": "2º Ano B", "course": "EMI Agropecuária", "main_shift": "Tarde", "schedule": [["Segunda", "T1", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "T2", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "T3", "Filosofia e Sociologia II", "Ieda Fernandes da Silva"], ["Segunda", "T4", "Filosofia e Sociologia II", "Ieda Fernandes da Silva"], ["Segunda", "T5", "Mecanização Agrícola, Irrigação e Drenagem", "Peterson Acacio de Araujo"], ["Segunda", "T6", "Mecanização Agrícola, Irrigação e Drenagem", "Peterson Acacio de Araujo"], ["Terça", "T1", "Produção de Monogástricos", "Karlyene Rocha"], ["Terça", "T2", "Produção de Monogástricos", "Karlyene Rocha"], ["Terça", "T3", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "T4", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "T5", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "T6", "Educação Física", "Sirleide Milhomem Araujo"], ["Quarta", "T1", "Inglês", "Valéria Almeida"], ["Quarta", "T2", "Inglês", "Valéria Almeida"], ["Quarta", "T3", "Matemática II", "Nelson Ribeiro Filho"], ["Quarta", "T4", "Matemática II", "Nelson Ribeiro Filho"], ["Quarta", "T5", "Matemática II", "Nelson Ribeiro Filho"], ["Quinta", "M1", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M2", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M3", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "T1", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Quinta", "T2", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Quinta", "T3", "História II", "Juliana Quintela"], ["Quinta", "T4", "História II", "Juliana Quintela"], ["Quinta", "T5", "Geografia II", "Genilson Santana"], ["Quinta", "T6", "Geografia II", "Genilson Santana"], ["Sexta", "T3", "Física II", "Luiz Carlos Leite"], ["Sexta", "T4", "Física II", "Luiz Carlos Leite"]], "regular_room": "Sala 03", "counterturn_room": "Sala 10"}, "agro-3-2024": {"name": "EMI Agropecuária — 3º Ano A — Turma 2024", "short": "3º Ano A", "course": "EMI Agropecuária", "main_shift": "Tarde", "schedule": [["Segunda", "M1", "Matemática III", "Nelson Ribeiro Filho"], ["Segunda", "M2", "Matemática III", "Nelson Ribeiro Filho"], ["Segunda", "M3", "Matemática III", "Nelson Ribeiro Filho"], ["Segunda", "M4", "Projeto Integrador", "Peterson Acacio de Araujo"], ["Segunda", "T1", "Química III", "Waldemar Malcher"], ["Segunda", "T2", "Química III", "Waldemar Malcher"], ["Segunda", "T3", "Biologia III", "Anangela Ravena Leal"], ["Segunda", "T4", "Biologia III", "Anangela Ravena Leal"], ["Segunda", "T5", "Produção Animal IV", "Karlyene Rocha"], ["Segunda", "T6", "Produção Animal IV", "Karlyene Rocha"], ["Terça", "T1", "Fruticultura Regional", "Maurício Amorim"], ["Terça", "T2", "Fruticultura Regional", "Maurício Amorim"], ["Terça", "T3", "Fruticultura Regional", "Maurício Amorim"], ["Terça", "T4", "Produção Animal II", "Karlyene Rocha"], ["Terça", "T5", "Produção Animal II", "Karlyene Rocha"], ["Terça", "T6", "Produção Animal II", "Karlyene Rocha"], ["Quarta", "T1", "Agroecologia e Sistemas Agroflorestais", "Maurício Amorim"], ["Quarta", "T2", "Agroecologia e Sistemas Agroflorestais", "Maurício Amorim"], ["Quarta", "T3", "Física III", "Adson Felipe Rodrigues"], ["Quarta", "T4", "Física III", "Adson Felipe Rodrigues"], ["Quarta", "T5", "Inglês II", "Valéria Almeida"], ["Quarta", "T6", "Inglês II", "Valéria Almeida"], ["Quinta", "T1", "Geografia III", "Genilson Santana"], ["Quinta", "T2", "Geografia III", "Genilson Santana"], ["Quinta", "T3", "História III", "Flávia Veras"], ["Quinta", "T4", "História III", "Flávia Veras"], ["Quinta", "T5", "Filosofia e Sociologia III", "Ieda Fernandes da Silva"], ["Quinta", "T6", "Filosofia e Sociologia III", "Ieda Fernandes da Silva"], ["Sexta", "M1", "Língua Portuguesa III", "Igara Dantas"], ["Sexta", "M2", "Língua Portuguesa III", "Igara Dantas"], ["Sexta", "M3", "Língua Portuguesa III", "Igara Dantas"], ["Sexta", "T1", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Sexta", "T2", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Sexta", "T3", "Artes III", "Leandro Machado"], ["Sexta", "T4", "Artes III", "Leandro Machado"], ["Sexta", "T5", "Química III", "Waldemar Malcher"], ["Sexta", "T6", "Química III", "Waldemar Malcher"]], "regular_room": "Sala 05", "counterturn_room": "Sala 10"}, "adm-1a-2026": {"name": "EMI Administração — 1º Ano A — Turma 2026", "short": "1º Ano A", "course": "EMI Administração", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Introdução à Contabilidade", "Josevana Lucena"], ["Segunda", "M2", "Introdução à Contabilidade", "Josevana Lucena"], ["Segunda", "M3", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M4", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M5", "Logística e Gestão da Cadeia de Suprimentos", "Hugo Callado"], ["Segunda", "M6", "Logística e Gestão da Cadeia de Suprimentos", "Hugo Callado"], ["Terça", "M1", "Informática Aplicada", "João Ewerton Duarte"], ["Terça", "M2", "Informática Aplicada", "João Ewerton Duarte"], ["Terça", "M3", "Logística e Gestão da Cadeia de Suprimentos", "Hugo Callado"], ["Terça", "M4", "Logística e Gestão da Cadeia de Suprimentos", "Hugo Callado"], ["Terça", "M5", "Informática Aplicada", "João Ewerton Duarte"], ["Terça", "M6", "Informática Aplicada", "João Ewerton Duarte"], ["Quarta", "M1", "História I", "Jayza Monteiro"], ["Quarta", "M2", "História I", "Jayza Monteiro"], ["Quarta", "M3", "Biologia I", "Laísa Castro"], ["Quarta", "M4", "Biologia I", "Laísa Castro"], ["Quarta", "M5", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M6", "Língua Portuguesa I", "Lívia Oliveira"], ["Quinta", "M1", "Geografia I", "Luiz Viegas"], ["Quinta", "M2", "Geografia I", "Luiz Viegas"], ["Quinta", "M3", "História I", "Jayza Monteiro"], ["Quinta", "M4", "História I", "Jayza Monteiro"], ["Quinta", "M5", "Matemática I", "Márcio André Lima"], ["Quinta", "M6", "Matemática I", "Márcio André Lima"], ["Sexta", "M1", "Química I", "Waldemar Malcher"], ["Sexta", "M2", "Química I", "Waldemar Malcher"], ["Sexta", "M3", "Matemática Aplicada à Administração", "Josevana Lucena"], ["Sexta", "M4", "Matemática Aplicada à Administração", "Josevana Lucena"], ["Sexta", "M5", "Física I", "Adson Felipe Rodrigues"], ["Sexta", "M6", "Física I", "Adson Felipe Rodrigues"]], "regular_room": "Sala 01"}, "info-1a-2026": {"name": "EMI Informática — 1º Ano A — Turma 2026", "short": "1º Ano A", "course": "EMI Informática", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M2", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M3", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "M4", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "M5", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Terça", "M1", "Química I", "Gustavo Henrique Silva"], ["Terça", "M2", "Química I", "Gustavo Henrique Silva"], ["Terça", "M3", "Filosofia e Sociologia I", "Valber Pires"], ["Terça", "M4", "Filosofia e Sociologia I", "Valber Pires"], ["Terça", "M5", "História I", "Jayza Monteiro"], ["Terça", "M6", "História I", "Jayza Monteiro"], ["Quarta", "M1", "Geografia I", "Luiz Viegas"], ["Quarta", "M2", "Geografia I", "Luiz Viegas"], ["Quarta", "M3", "Redes de Computadores", "João Victor Pinheiro"], ["Quarta", "M4", "Redes de Computadores", "João Victor Pinheiro"], ["Quarta", "M5", "Redes de Computadores", "João Victor Pinheiro"], ["Quinta", "M1", "Biologia I", "Laísa Castro"], ["Quinta", "M2", "Biologia I", "Laísa Castro"], ["Quinta", "M3", "Matemática e Lógica de Programação", "Antonio Eduardo Lucena"], ["Quinta", "M4", "Matemática e Lógica de Programação", "Antonio Eduardo Lucena"], ["Quinta", "M5", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "M6", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "T3", "História I", "Jayza Monteiro"], ["Quinta", "T4", "História I", "Jayza Monteiro"], ["Quinta", "T5", "Matemática I", "Márcio André Lima"], ["Quinta", "T6", "Matemática I", "Márcio André Lima"], ["Sexta", "M2", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Sexta", "M3", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Sexta", "M4", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Sexta", "M5", "Língua Portuguesa I", "Lívia Oliveira"], ["Sexta", "M6", "Língua Portuguesa I", "Lívia Oliveira"]], "regular_room": "Sala 03", "counterturn_room": "Sala 10"}, "info-1b-2026": {"name": "EMI Informática — 1º Ano B — Turma 2026", "short": "1º Ano B", "course": "EMI Informática", "main_shift": "Tarde", "schedule": [["Segunda", "T1", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "T2", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "T3", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "T5", "Filosofia e Sociologia I", "Ieda Fernandes da Silva"], ["Segunda", "T6", "Filosofia e Sociologia I", "Ieda Fernandes da Silva"], ["Terça", "T1", "Química I", "Gustavo Henrique Silva"], ["Terça", "T2", "Química I", "Gustavo Henrique Silva"], ["Terça", "T3", "História I", "Jayza Monteiro"], ["Terça", "T4", "História I", "Jayza Monteiro"], ["Terça", "T5", "Química I", "Gustavo Henrique Silva"], ["Terça", "T6", "Química I", "Gustavo Henrique Silva"], ["Quarta", "T2", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Quarta", "T3", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Quarta", "T4", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Quarta", "T5", "História I", "Jayza Monteiro"], ["Quarta", "T6", "História I", "Jayza Monteiro"], ["Quinta", "M1", "Matemática e Lógica de Programação", "Antonio Eduardo Lucena"], ["Quinta", "M2", "Matemática e Lógica de Programação", "Antonio Eduardo Lucena"], ["Quinta", "M3", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "M4", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "T1", "Biologia I", "Laísa Castro"], ["Quinta", "T2", "Biologia I", "Laísa Castro"], ["Quinta", "T3", "Matemática I", "Márcio André Lima"], ["Quinta", "T4", "Matemática I", "Márcio André Lima"], ["Quinta", "T5", "Geografia I", "Luiz Viegas"], ["Quinta", "T6", "Geografia I", "Luiz Viegas"], ["Sexta", "T1", "Língua Portuguesa I", "Lívia Oliveira"], ["Sexta", "T2", "Língua Portuguesa I", "Lívia Oliveira"], ["Sexta", "T3", "Redes de Computadores", "João Victor Pinheiro"], ["Sexta", "T4", "Redes de Computadores", "João Victor Pinheiro"], ["Sexta", "T5", "Redes de Computadores", "João Victor Pinheiro"]], "regular_room": "Sala 02", "counterturn_room": "Sala 11"}, "info-2a-2025": {"name": "EMI Informática — 2º Ano A — Turma 2025", "short": "2º Ano A", "course": "EMI Informática", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Banco de Dados", "Daniel Faraco Maciel"], ["Segunda", "M2", "Banco de Dados", "Daniel Faraco Maciel"], ["Segunda", "M3", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "M4", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "M5", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M6", "Química I", "Gustavo Henrique Silva"], ["Terça", "M1", "História II", "Juliana Quintela"], ["Terça", "M2", "História II", "Juliana Quintela"], ["Terça", "M3", "Programação Web I", "João Ewerton Duarte"], ["Terça", "M4", "Programação Web I", "João Ewerton Duarte"], ["Terça", "M5", "Filosofia e Sociologia II", "Valber Pires"], ["Terça", "M6", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M1", "Matemática II", "Márcio André Lima"], ["Quarta", "M2", "Matemática II", "Márcio André Lima"], ["Quarta", "M3", "Matemática II", "Márcio André Lima"], ["Quarta", "M4", "Língua Portuguesa II", "Igara Dantas"], ["Quarta", "M5", "Língua Portuguesa II", "Igara Dantas"], ["Quarta", "M6", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M1", "Geografia II", "Genilson Santana"], ["Quinta", "M2", "Geografia II", "Genilson Santana"], ["Quinta", "M3", "Artes I", "Leandro Machado"], ["Quinta", "M4", "Artes I", "Leandro Machado"], ["Quinta", "M5", "Inglês II", "Valéria Almeida"], ["Quinta", "M6", "Inglês II", "Valéria Almeida"], ["Sexta", "M1", "Química I", "Gustavo Henrique Silva"], ["Sexta", "M2", "Química I", "Gustavo Henrique Silva"], ["Sexta", "M3", "Física II", "Luiz Carlos Leite"], ["Sexta", "M4", "Física II", "Luiz Carlos Leite"], ["Sexta", "M5", "Programação Orientada a Objetos", "Luan Farias"], ["Sexta", "M6", "Programação Orientada a Objetos", "Luan Farias"], ["Sexta", "T3", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "T4", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "T5", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "T6", "Educação Física", "Sirleide Milhomem Araujo"]], "regular_room": "Sala 07", "counterturn_room": "Sala 07"}, "info-2b-2025": {"name": "EMI Informática — 2º Ano B — Turma 2025", "short": "2º Ano B", "course": "EMI Informática", "main_shift": "Tarde", "schedule": [["Segunda", "T1", "Filosofia e Sociologia II", "Ieda Fernandes da Silva"], ["Segunda", "T2", "Filosofia e Sociologia II", "Ieda Fernandes da Silva"], ["Segunda", "T3", "Inglês II", "Valéria Almeida"], ["Segunda", "T4", "Inglês II", "Valéria Almeida"], ["Segunda", "T5", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "T6", "Biologia II", "Anangela Ravena Leal"], ["Terça", "M1", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "M2", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "M3", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "M4", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "T1", "Banco de Dados", "Daniel Faraco Maciel"], ["Terça", "T2", "Banco de Dados", "Daniel Faraco Maciel"], ["Terça", "T3", "Química I", "Gustavo Henrique Silva"], ["Terça", "T4", "Química I", "Gustavo Henrique Silva"], ["Terça", "T5", "Programação Web I", "João Ewerton Duarte"], ["Terça", "T6", "Programação Web I", "João Ewerton Duarte"], ["Quarta", "T1", "Matemática II", "Márcio André Lima"], ["Quarta", "T2", "Matemática II", "Márcio André Lima"], ["Quarta", "T3", "Língua Portuguesa II", "Igara Dantas"], ["Quarta", "T4", "Língua Portuguesa II", "Igara Dantas"], ["Quarta", "T5", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "T1", "Artes I", "Leandro Machado"], ["Quinta", "T2", "Artes I", "Leandro Machado"], ["Quinta", "T3", "Geografia II", "Genilson Santana"], ["Quinta", "T4", "Geografia II", "Genilson Santana"], ["Quinta", "T5", "História II", "Juliana Quintela"], ["Quinta", "T6", "História II", "Juliana Quintela"], ["Sexta", "M1", "Matemática II", "Márcio André Lima"], ["Sexta", "M2", "Matemática II", "Márcio André Lima"], ["Sexta", "M3", "Matemática II", "Márcio André Lima"], ["Sexta", "M4", "Matemática II", "Márcio André Lima"], ["Sexta", "T1", "Química I", "Gustavo Henrique Silva"], ["Sexta", "T2", "Química I", "Gustavo Henrique Silva"], ["Sexta", "T3", "Programação Orientada a Objetos", "Luan Farias"], ["Sexta", "T4", "Programação Orientada a Objetos", "Luan Farias"], ["Sexta", "T5", "Física II", "Luiz Carlos Leite"], ["Sexta", "T6", "Física II", "Luiz Carlos Leite"]], "regular_room": "Sala 04", "counterturn_room": "Sala 11"}, "info-3-2024": {"name": "EMI Informática — 3º Ano A — Turma 2024", "short": "3º Ano A", "course": "EMI Informática", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Química II", "Waldemar Malcher"], ["Segunda", "M2", "Química II", "Waldemar Malcher"], ["Segunda", "M3", "Química II", "Waldemar Malcher"], ["Segunda", "M4", "Química II", "Waldemar Malcher"], ["Segunda", "M5", "Programação para Dispositivos Móveis", "Luan Farias"], ["Segunda", "M6", "Programação para Dispositivos Móveis", "Luan Farias"], ["Terça", "M1", "Biologia III", "Anangela Ravena Leal"], ["Terça", "M2", "Biologia III", "Anangela Ravena Leal"], ["Terça", "M3", "Química III", "Waldemar Malcher"], ["Terça", "M4", "Química III", "Waldemar Malcher"], ["Terça", "M5", "Química III", "Waldemar Malcher"], ["Terça", "M6", "Química III", "Waldemar Malcher"], ["Terça", "T3", "Matemática III", "Antonio Eduardo Lucena"], ["Terça", "T4", "Matemática III", "Antonio Eduardo Lucena"], ["Terça", "T5", "Matemática III", "Antonio Eduardo Lucena"], ["Quarta", "M1", "Geografia III", "Genilson Santana"], ["Quarta", "M2", "Geografia III", "Genilson Santana"], ["Quarta", "M3", "Inglês II", "Valéria Almeida"], ["Quarta", "M4", "Inglês II", "Valéria Almeida"], ["Quarta", "M5", "Filosofia e Sociologia III", "Valber Pires"], ["Quarta", "M6", "Filosofia e Sociologia III", "Valber Pires"], ["Quinta", "M1", "Artes III", "Leandro Machado"], ["Quinta", "M2", "Artes III", "Leandro Machado"], ["Quinta", "M3", "História III", "Flávia Veras"], ["Quinta", "M4", "História III", "Flávia Veras"], ["Quinta", "M5", "Projeto Integrador", "Ailton Lopes de Sousa"], ["Quinta", "M6", "Projeto Integrador", "Ailton Lopes de Sousa"], ["Quinta", "T3", "Língua Portuguesa III", "Igara Dantas"], ["Quinta", "T4", "Língua Portuguesa III", "Igara Dantas"], ["Quinta", "T5", "Língua Portuguesa III", "Igara Dantas"], ["Sexta", "M1", "Física III", "Adson Felipe Rodrigues"], ["Sexta", "M2", "Física III", "Adson Felipe Rodrigues"], ["Sexta", "M3", "Desenvolvimento Web", "Luan Farias"], ["Sexta", "M4", "Desenvolvimento Web", "Luan Farias"], ["Sexta", "M5", "Segurança e Administração da Informação", "João Victor Pinheiro"], ["Sexta", "M6", "Segurança e Administração da Informação", "João Victor Pinheiro"]], "regular_room": "Sala 09", "counterturn_room": "Sala 09"}, "edif-1a-2026": {"name": "EMI Edificações — 1º Ano A — Turma 2026", "short": "1º Ano A", "course": "EMI Edificações", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Materiais de Construção e Tecnologia do Concreto e Argamassa", "Harry Kinsey"], ["Segunda", "M2", "Materiais de Construção e Tecnologia do Concreto e Argamassa", "Harry Kinsey"], ["Segunda", "M3", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M4", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M5", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M6", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "T3", "Projeto Arquitetônico", "Francisco Willame"], ["Segunda", "T4", "Projeto Arquitetônico", "Francisco Willame"], ["Segunda", "T5", "Projeto Arquitetônico", "Francisco Willame"], ["Segunda", "T6", "Projeto Arquitetônico", "Francisco Willame"], ["Terça", "M1", "História I", "Jayza Monteiro"], ["Terça", "M2", "História I", "Jayza Monteiro"], ["Terça", "M3", "História I", "Jayza Monteiro"], ["Terça", "M4", "História I", "Jayza Monteiro"], ["Terça", "M5", "Projeto Arquitetônico", "Francisco Willame"], ["Terça", "M6", "Projeto Arquitetônico", "Francisco Willame"], ["Quarta", "M1", "Biologia I", "Laísa Castro"], ["Quarta", "M2", "Biologia I", "Laísa Castro"], ["Quarta", "M3", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M4", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M5", "Física I", "Adson Felipe Rodrigues"], ["Quarta", "M6", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "M3", "Tecnologia da Construção", "Jaqueline Pinheiro"], ["Quinta", "M4", "Tecnologia da Construção", "Jaqueline Pinheiro"], ["Quinta", "M5", "Geografia I", "Luiz Viegas"], ["Quinta", "M6", "Geografia I", "Luiz Viegas"], ["Sexta", "M1", "Matemática Básica para Estruturas", "Davi Goveia"], ["Sexta", "M2", "Matemática Básica para Estruturas", "Davi Goveia"], ["Sexta", "M3", "Química I", "Gustavo Henrique Silva"], ["Sexta", "M4", "Química I", "Gustavo Henrique Silva"], ["Sexta", "M5", "Matemática I", "Márcio André Lima"], ["Sexta", "M6", "Matemática I", "Márcio André Lima"]], "regular_room": "Sala 04", "counterturn_room": "Sala 10"}, "adm-2a-2025": {"name": "EMI Administração — 2º Ano A — Turma 2025", "short": "2º Ano A", "course": "EMI Administração", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Administração da Produção e Operações", "Hugo Callado"], ["Segunda", "M2", "Administração da Produção e Operações", "Hugo Callado"], ["Segunda", "M3", "Administração da Produção e Operações", "Hugo Callado"], ["Segunda", "M4", "Administração da Produção e Operações", "Hugo Callado"], ["Segunda", "M5", "Inglês", "Valéria Almeida"], ["Segunda", "M6", "Inglês", "Valéria Almeida"], ["Terça", "M1", "Gestão Financeira", "Hugo Callado"], ["Terça", "M2", "Gestão Financeira", "Hugo Callado"], ["Terça", "M3", "História II", "Juliana Quintela"], ["Terça", "M4", "História II", "Juliana Quintela"], ["Terça", "M5", "Gestão Financeira", "Hugo Callado"], ["Terça", "M6", "Gestão Financeira", "Hugo Callado"], ["Quarta", "M1", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M2", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M3", "Geografia II", "Luiz Viegas"], ["Quarta", "M4", "Geografia II", "Luiz Viegas"], ["Quarta", "M5", "Física II", "Luiz Carlos Leite"], ["Quarta", "M6", "Física II", "Luiz Carlos Leite"], ["Quinta", "M1", "Matemática II", "Márcio André Lima"], ["Quinta", "M2", "Matemática II", "Márcio André Lima"], ["Quinta", "M3", "Matemática II", "Márcio André Lima"], ["Quinta", "M4", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M5", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M6", "Língua Portuguesa II", "Igara Dantas"], ["Sexta", "M1", "Biologia II", "Laísa Castro"], ["Sexta", "M2", "Biologia II", "Laísa Castro"], ["Sexta", "M3", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "M4", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "M5", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "M6", "Educação Física", "Sirleide Milhomem Araujo"]], "regular_room": "Sala 05"}, "edif-3a-2024": {"name": "EMI Edificações — 3º Ano A — Turma 2024", "short": "3º Ano A", "course": "EMI Edificações", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Projeto Integrador", "Francisco Willame"], ["Segunda", "M2", "Projeto Integrador", "Francisco Willame"], ["Segunda", "M3", "Inglês II", "Valéria Almeida"], ["Segunda", "M4", "Inglês II", "Valéria Almeida"], ["Segunda", "M5", "Instalações Prediais Hidráulicas e Sanitárias", "Harry Kinsey"], ["Segunda", "M6", "Instalações Prediais Hidráulicas e Sanitárias", "Harry Kinsey"], ["Segunda", "T3", "Química III", "Waldemar Malcher"], ["Segunda", "T4", "Química III", "Waldemar Malcher"], ["Segunda", "T5", "Química III", "Waldemar Malcher"], ["Segunda", "T6", "Química III", "Waldemar Malcher"], ["Terça", "M1", "Filosofia e Sociologia III", "Valber Pires"], ["Terça", "M2", "Filosofia e Sociologia III", "Valber Pires"], ["Terça", "M3", "Química II", "Gustavo Henrique Silva"], ["Terça", "M4", "Química II", "Gustavo Henrique Silva"], ["Terça", "M5", "Biologia II", "Anangela Ravena Leal"], ["Terça", "M6", "Biologia II", "Anangela Ravena Leal"], ["Terça", "T3", "Instalações Elétricas e Prediais", "Francisco Willame"], ["Terça", "T4", "Instalações Elétricas e Prediais", "Francisco Willame"], ["Terça", "T5", "Instalações Elétricas e Prediais", "Francisco Willame"], ["Terça", "T6", "Instalações Elétricas e Prediais", "Francisco Willame"], ["Quarta", "M1", "Língua Portuguesa III", "Igara Dantas"], ["Quarta", "M2", "Língua Portuguesa III", "Igara Dantas"], ["Quarta", "M3", "Língua Portuguesa III", "Igara Dantas"], ["Quarta", "M4", "Matemática III", "Antonio Eduardo Lucena"], ["Quarta", "M5", "Matemática III", "Antonio Eduardo Lucena"], ["Quarta", "M6", "Matemática III", "Antonio Eduardo Lucena"], ["Quinta", "M1", "Física III", "Adson Felipe Rodrigues"], ["Quinta", "M2", "Física III", "Adson Felipe Rodrigues"], ["Quinta", "M3", "Geografia III", "Genilson Santana"], ["Quinta", "M4", "Geografia III", "Genilson Santana"], ["Quinta", "M5", "História III", "Flávia Veras"], ["Quinta", "M6", "História III", "Flávia Veras"], ["Sexta", "M1", "Introdução ao Cálculo Estrutural", "Jaqueline Pinheiro"], ["Sexta", "M2", "Introdução ao Cálculo Estrutural", "Jaqueline Pinheiro"], ["Sexta", "M3", "Patologia das Construções", "Davi Goveia"], ["Sexta", "M4", "Patologia das Construções", "Davi Goveia"], ["Sexta", "M5", "Planejamento e Custo de Obras", "Davi Goveia"], ["Sexta", "M6", "Planejamento e Custo de Obras", "Davi Goveia"], ["Sexta", "T3", "Química II", "Gustavo Henrique Silva"], ["Sexta", "T4", "Química II", "Gustavo Henrique Silva"], ["Sexta", "T5", "Artes III", "Leandro Machado"], ["Sexta", "T6", "Artes III", "Leandro Machado"]], "regular_room": "Sala 08", "counterturn_room": "Sala 08"}};
 
-  <script>
-    // ==========================
-    // CONFIG (Worker + Token)
-    // ==========================
-const WORKER_SAVE_URL = "https://ifpa-calendarios-save.de-altamira.workers.dev/save";
-const SAVE_TOKEN = "ifpa-save";
+const eadSubjectsByClass = {
+  "agro-1a-2026": [
+    "Metodologia Científica",
+    "Higiene e Segurança do Trabalho"
+  ],
+  "agro-1b-2026": [
+    "Metodologia Científica",
+    "Higiene e Segurança do Trabalho"
+  ],
+  "edif-1a-2026": [
+    "Metodologia Científica",
+    "Higiene e Segurança do Trabalho"
+  ],
+  "info-1a-2026": [
+    "Metodologia Científica",
+    "Higiene e Segurança do Trabalho"
+  ],
+  "info-1b-2026": [
+    "Metodologia Científica",
+    "Higiene e Segurança do Trabalho"
+  ],
+  "agro-2a-2025": [
+    "Introdução a Informática",
+    "Higiene e Segurança do Trabalho"
+  ],
+  "agro-2b-2025": [
+    "Introdução a Informática",
+    "Higiene e Segurança do Trabalho"
+  ],
+  "info-2a-2025": [
+    "Introdução a Informática",
+    "Higiene e Segurança do Trabalho"
+  ],
+  "info-2b-2025": [
+    "Introdução a Informática",
+    "Higiene e Segurança do Trabalho"
+  ]
+}
 
-    // ==========================
-    // APP CONFIG
-    // ==========================
-    const EDIT_PASSWORD = "ifpa@2026";
-    const STORAGE_KEY = "ifpa_calendarios_git_v1";
+const periods = [{"code": "M1", "time": "07:30–08:20", "shift": "Manhã"}, {"code": "M2", "time": "08:20–09:10", "shift": "Manhã"}, {"code": "M3", "time": "09:10–10:00", "shift": "Manhã"}, {"code": "M4", "time": "10:20–11:10", "shift": "Manhã"}, {"code": "M5", "time": "11:10–12:00", "shift": "Manhã"}, {"code": "M6", "time": "12:00–12:50", "shift": "Manhã"}, {"code": "T1", "time": "13:00–13:50", "shift": "Tarde"}, {"code": "T2", "time": "13:50–14:40", "shift": "Tarde"}, {"code": "T3", "time": "14:40–15:30", "shift": "Tarde"}, {"code": "T4", "time": "15:50–16:40", "shift": "Tarde"}, {"code": "T5", "time": "16:40–17:30", "shift": "Tarde"}, {"code": "T6", "time": "17:30–18:20", "shift": "Tarde"}];
+const subjectColors = {"Agroecologia e Sistemas Agroflorestais": "#d7e8f5", "Artes III": "#d9ecf0", "Bases Matemática para Adubação e Calagem": "#dbe6f7", "Biologia I": "#d7ece7", "Biologia II": "#dfe5f3", "Biologia III": "#d9e7ef", "Culturas Anuais e Olericultura": "#dceaf5", "Filosofia e Sociologia I": "#d8e4ee", "Filosofia e Sociologia II": "#e0e4f5", "Filosofia e Sociologia III": "#d9eef0", "Fruticultura Regional": "#dce7f1", "Fundamentos da Agricultura e Pecuária": "#d8e9e4", "Física I": "#dde9f4", "Física II": "#dce2f1", "Física III": "#d7e6f0", "Geografia I": "#d7e8f5", "Geografia II": "#d9ecf0", "Geografia III": "#dbe6f7", "História II": "#d7ece7", "História III": "#dfe5f3", "Inglês": "#d9e7ef", "Inglês II": "#dceaf5", "Língua Portuguesa I": "#d8e4ee", "Língua Portuguesa II": "#e0e4f5", "Língua Portuguesa III": "#d9eef0", "Matemática I": "#dce7f1", "Matemática II": "#d8e9e4", "Matemática III": "#dde9f4", "Mecanização Agrícola, Irrigação e Drenagem": "#dce2f1", "Nutrição Animal e Forragicultura": "#d7e6f0", "Produção Animal II": "#d7e8f5", "Produção Animal IV": "#d9ecf0", "Produção de Monogástricos": "#dbe6f7", "Projeto Integrador": "#d7ece7", "Química I": "#dfe5f3", "Química II": "#d9e7ef", "Topografia, Construções e Instalações Rurais": "#dceaf5", "Introdução à Contabilidade": "#d7e8f5", "Matemática Aplicada à Administração": "#dde3f4", "Logística e Gestão da Cadeia de Suprimentos": "#d7ece8", "Gestão Financeira": "#dce9f2", "Algoritmos e Técnicas de Programação": "#d7e8f5", "Arquitetura e Manutenção de Computadores": "#d9ecf0", "Artes I": "#dbe6f7", "Banco de Dados": "#dfe5f3", "Desenvolvimento Web": "#e0e4f5", "Desenvolvimento de Software e Design de Interfaces": "#d9eef0", "Matemática e Lógica de Programação": "#dce2f1", "Programação Orientada a Objetos": "#d7e6f0", "Programação Web I": "#d7e8f5", "Programação para Dispositivos Móveis": "#d9ecf0", "Redes de Computadores": "#dbe6f7", "Segurança e Administração da Informação": "#d7ece7", "Materiais de Construção e Tecnologia do Concreto e Argamassa": "#d9e8f2", "Tecnologia da Construção": "#d7ebe7", "Matemática Básica para Estruturas": "#dfe4f4", "Instalações Prediais Hidráulicas e Sanitárias": "#d7e9ee", "Introdução ao Cálculo Estrutural": "#dce3f3", "Patologia das Construções": "#d9e7ef", "Planejamento e Custo de Obras": "#d8e9e3", "Química III": "#dce6f4", "Educação Física": "#d8e8f0", "História I": "#e2e8f0", "Projeto Arquitetônico": "#dbe7ef", "Instalações Elétricas e Prediais": "#e3e8f1", "Informática Aplicada": "#dceaf1", "Administração da Produção e Operações": "#e3eaee"};
+const days = ["Segunda","Terça","Quarta","Quinta","Sexta"];
 
-    const TIMES_MANHA = ["7:30 - 8:20","8:20 - 9:10","9:10 - 10:00","__INTERVALO__","10:20 - 11:10","11:10 - 12:00","12:00 - 12:50"];
-    const TIMES_TARDE = ["13:00 - 13:50","13:50 - 14:40","14:40 - 15:30","__INTERVALO__","15:50 - 16:40","16:40 - 17:30","17:30 - 18:20"];
-    const DAYS = ["Segunda","Terça","Quarta","Quinta","Sexta"];
-
-    const btnAddTurma = document.getElementById("btnAddTurma");
-    const btnEdit = document.getElementById("btnEdit");
-    const btnSave = document.getElementById("btnSave");
-    const btnExit = document.getElementById("btnExit");
-    const editStatus = document.getElementById("editStatus");
-
-    const cursoSelect = document.getElementById("cursoSelect");
-    const turmaSelect = document.getElementById("turmaSelect");
-    const turmaView = document.getElementById("turmaView");
-
-    const passwordModal = new bootstrap.Modal(document.getElementById("passwordModal"));
-    const passwordInput = document.getElementById("passwordInput");
-    const passwordError = document.getElementById("passwordError");
-    const btnConfirmPassword = document.getElementById("btnConfirmPassword");
-
-    const addTurmaModal = new bootstrap.Modal(document.getElementById("addTurmaModal"));
-    const cursoInput = document.getElementById("cursoInput");
-    const turmaInput = document.getElementById("turmaInput");
-    const createError = document.getElementById("createError");
-    const btnCreateTurma = document.getElementById("btnCreateTurma");
-
-    let isEditMode = false;
-
-    // STATE
-    let state = {
-      turmas: [
-        {
-          id: "emi-adm-1-ano-2026",
-          curso: "EMI Administração",
-          turma: "1º Ano (2026)",
-          habilitarManha: true,
-          habilitarTarde: true,
-          sabadosTurno: "manha", // "manha" | "tarde"
-          sabados: ["Sábado 1", "Sábado 2", "Sábado 3"]
-        }
-      ],
-      calendars: {}
+for (const data of Object.values(classes)) {
+  data.schedule = data.schedule.map(([day, period, subject, teacher]) => {
+    const p = periods.find(x => x.code === period);
+    const room = p.shift === data.main_shift ? data.regular_room : (data.counterturn_room || "A definir");
+    return {
+      day,
+      period,
+      subject,
+      teacher,
+      time: p.time,
+      shift: p.shift,
+      className: data.name,
+      room
     };
+  });
+}
 
-    // ==========================
-    // Git integration
-    // ==========================
-    async function loadFromRepo() {
-      try {
-        const resp = await fetch("./data/horarios.json", { cache: "no-store" });
-        if (!resp.ok) return false;
-        const data = await resp.json();
-        if (data?.turmas && data?.calendars) {
-          state = data;
+const allLessons = Object.values(classes).flatMap(c => c.schedule);
+const sidebar = document.getElementById("sidebar");
+const sidebarList = document.getElementById("sidebarList");
+const sidebarTitle = document.getElementById("sidebarTitle");
+const sidebarSubtitle = document.getElementById("sidebarSubtitle");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+const sidebarToggle = document.getElementById("sidebarToggle");
+const sidebarClose = document.getElementById("sidebarClose");
+const roomViewBtn = document.getElementById("roomViewBtn");
+const teacherLocatorBtn = document.getElementById("teacherLocatorBtn");
+const teacherLocatorModal = document.getElementById("teacherLocatorModal");
+const teacherLocatorClose = document.getElementById("teacherLocatorClose");
+const teacherLocatorInput = document.getElementById("teacherLocatorInput");
+const teacherLocatorList = document.getElementById("teacherLocatorList");
+const teacherLocatorSearchBtn = document.getElementById("teacherLocatorSearchBtn");
+const teacherLocatorClock = document.getElementById("teacherLocatorClock");
+const teacherLocatorResult = document.getElementById("teacherLocatorResult");
+const allRooms = Array.from(
+  {length: 12},
+  (_, index) => `Sala ${String(index + 1).padStart(2, "0")}`
+);
+const teacherNames = [...new Set(allLessons.map(x => x.teacher))]
+  .sort((a,b) => a.localeCompare(b, "pt-BR"));
+let currentView = "class";
+let selectedClass = Object.keys(classes)[0];
+let selectedTeacher = teacherNames[0];
+let selectedRoom = allRooms[0] || "Sala 01";
 
-          // pequenos defaults/normalização
-          state.turmas.forEach(t => {
-            if (!t.sabadosTurno) t.sabadosTurno = "manha";
-            if (!Array.isArray(t.sabados) || t.sabados.length === 0) t.sabados = ["Sábado 1","Sábado 2","Sábado 3"];
-            if (typeof t.habilitarManha !== "boolean") t.habilitarManha = true;
-            if (typeof t.habilitarTarde !== "boolean") t.habilitarTarde = true;
-          });
+function openSidebar() {
+  sidebar.classList.add("open");
+  sidebarOverlay.classList.add("open");
+}
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  sidebarOverlay.classList.remove("open");
+}
+sidebarToggle.onclick = openSidebar;
+sidebarClose.onclick = closeSidebar;
+sidebarOverlay.onclick = closeSidebar;
 
-          return true;
-        }
-        return false;
-      } catch {
-        return false;
-      }
-    }
+const jsDayByName = {
+  "Segunda": 1,
+  "Terça": 2,
+  "Quarta": 3,
+  "Quinta": 4,
+  "Sexta": 5
+};
 
-    async function commitToGit(contentJson) {
-      const resp = await fetch(WORKER_SAVE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + SAVE_TOKEN
-        },
-        body: JSON.stringify({
-          contentJson,
-          commitMessage: "Atualiza horários via interface"
-        }),
-      });
+teacherLocatorList.innerHTML = teacherNames
+  .map(name => `<option value="${name.replace(/"/g, "&quot;")}"></option>`)
+  .join("");
 
-      const data = await resp.json().catch(() => ({}));
-      if (!resp.ok || !data.ok) {
-        throw new Error(data?.error || "Falha ao salvar no Git");
-      }
-      return data;
-    }
+function normalizeTeacherName(value) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("pt-BR")
+    .trim();
+}
 
-    async function saveToGitFromUI() {
-      // garante state atualizado com DOM atual
-      saveLocalFromUI();
-      // comita o state (que também é o JSON do repo)
-      const result = await commitToGit(state);
+function resolveTeacherName(value) {
+  const normalized = normalizeTeacherName(value);
+  if (!normalized) return null;
 
-      // atualiza fallback local também
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      return result;
-    }
+  const exact = teacherNames.find(
+    name => normalizeTeacherName(name) === normalized
+  );
+  if (exact) return exact;
 
-    // ==========================
-    // Utils / core
-    // ==========================
-    function slugify(str) {
-      return str.toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "")
-        .slice(0, 60);
-    }
+  const startsWith = teacherNames.filter(
+    name => normalizeTeacherName(name).startsWith(normalized)
+  );
+  if (startsWith.length === 1) return startsWith[0];
 
-    function uniqueId(base) {
-      let id = base || "turma";
-      let i = 2;
-      const ids = new Set(state.turmas.map(t => t.id));
-      while (ids.has(id)) id = `${base}-${i++}`;
-      return id;
-    }
+  const contains = teacherNames.filter(
+    name => normalizeTeacherName(name).includes(normalized)
+  );
+  return contains.length === 1 ? contains[0] : null;
+}
 
-    function setEditMode(on) {
-      isEditMode = on;
+function parseClockMinutes(clock) {
+  const [hour, minute] = clock.split(":").map(Number);
+  return hour * 60 + minute;
+}
 
-      document.querySelectorAll("[data-field='disciplina'], [data-field='professor'], [data-field='sabado']")
-        .forEach(el => el.setAttribute("contenteditable", on ? "true" : "false"));
+function periodBounds(periodCode) {
+  const period = periods.find(item => item.code === periodCode);
+  const [start, end] = period.time.split("–");
+  return {
+    start: parseClockMinutes(start),
+    end: parseClockMinutes(end)
+  };
+}
 
-      document.querySelectorAll("[data-config-only]").forEach(el => el.classList.toggle("d-none", !on));
+function formatSystemDateTime(date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
 
-      btnAddTurma.classList.toggle("d-none", !on);
-      btnEdit.classList.toggle("d-none", on);
-      btnSave.classList.toggle("d-none", !on);
-      btnExit.classList.toggle("d-none", !on);
+function formatNextLessonDate(date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
 
-      editStatus.textContent = on ? "Modo Edição" : "Modo Visualização";
-      editStatus.className = on ? "badge text-bg-success edit-badge mt-2" : "badge text-bg-light edit-badge mt-2";
-    }
+function formatWaitTime(milliseconds) {
+  const totalMinutes = Math.max(0, Math.round(milliseconds / 60000));
+  const days = Math.floor(totalMinutes / 1440);
+  const hours = Math.floor((totalMinutes % 1440) / 60);
+  const minutes = totalMinutes % 60;
+  const parts = [];
 
-    function buildBlankRowsSemana(times) {
-      return times.map(t => {
-        if (t === "__INTERVALO__") return `<tr><td class="intervalo" colspan="6">INTERVALO</td></tr>`;
-        const cells = DAYS.map(() => `
-          <td>
-            <div class="disciplina editable" data-field="disciplina"></div>
-            <div class="professor editable" data-field="professor"></div>
-          </td>
-        `).join("");
-        return `<tr><td class="col-horario">${t}</td>${cells}</tr>`;
-      }).join("");
-    }
+  if (days) parts.push(`${days} dia${days === 1 ? "" : "s"}`);
+  if (hours) parts.push(`${hours} hora${hours === 1 ? "" : "s"}`);
+  if (minutes || !parts.length) {
+    parts.push(`${minutes} minuto${minutes === 1 ? "" : "s"}`);
+  }
 
-    function getSabadosTimes(turmaObj) {
-      return turmaObj.sabadosTurno === "tarde" ? TIMES_TARDE : TIMES_MANHA;
-    }
+  return parts.join(" e ");
+}
 
-    function buildBlankRowsSabados(times, sabadosHeaders) {
-      return times.map(t => {
-        if (t === "__INTERVALO__") {
-          return `<tr><td class="intervalo" colspan="${1 + sabadosHeaders.length}">INTERVALO</td></tr>`;
-        }
-        const cells = sabadosHeaders.map(() => `
-          <td>
-            <div class="disciplina editable" data-field="disciplina"></div>
-            <div class="professor editable" data-field="professor"></div>
-          </td>
-        `).join("");
-        return `<tr><td class="col-horario">${t}</td>${cells}</tr>`;
-      }).join("");
-    }
+function lessonStartDate(reference, lesson) {
+  const targetDay = jsDayByName[lesson.day];
+  const bounds = periodBounds(lesson.period);
+  let dayOffset = (targetDay - reference.getDay() + 7) % 7;
 
-    function collectCalendarFromDOM(turmaId) {
-      const out = {};
+  const result = new Date(reference);
+  result.setHours(Math.floor(bounds.start / 60), bounds.start % 60, 0, 0);
+  result.setDate(reference.getDate() + dayOffset);
 
-      ["manha","tarde"].forEach(turno => {
-        const calId = `${turmaId}-${turno}`;
-        const table = document.querySelector(`.calendar-table[data-calendar-id="${calId}"]`);
-        if (!table) return;
+  if (dayOffset === 0 && result <= reference) {
+    result.setDate(result.getDate() + 7);
+  }
 
-        const rows = [];
-        table.querySelectorAll("tbody tr").forEach(tr => {
-          if (tr.querySelector(".intervalo")) { rows.push({ type:"intervalo" }); return; }
-          const tds = Array.from(tr.querySelectorAll("td"));
-          const horario = tds[0]?.textContent.trim() || "";
-          const cells = tds.slice(1).map(td => ({
-            disciplina: td.querySelector("[data-field='disciplina']")?.textContent.trim() || "",
-            professor: td.querySelector("[data-field='professor']")?.textContent.trim() || ""
-          }));
-          rows.push({ type:"linha", horario, cells });
-        });
-        out[calId] = rows;
-      });
+  return result;
+}
 
-      const sabId = `${turmaId}-sabados`;
-      const sabTable = document.querySelector(`.sabados-table[data-calendar-id="${sabId}"]`);
-      if (sabTable) {
-        const headers = Array.from(sabTable.querySelectorAll("thead th"))
-          .slice(1)
-          .map(th => th.textContent.trim());
-        out[`${sabId}-headers`] = headers;
+function currentLessonForTeacher(teacher, now) {
+  const dayName = Object.entries(jsDayByName)
+    .find(([,dayNumber]) => dayNumber === now.getDay())?.[0];
 
-        const rows = [];
-        sabTable.querySelectorAll("tbody tr").forEach(tr => {
-          if (tr.querySelector(".intervalo")) { rows.push({ type:"intervalo" }); return; }
-          const tds = Array.from(tr.querySelectorAll("td"));
-          const horario = tds[0]?.textContent.trim() || "";
-          const cells = tds.slice(1).map(td => ({
-            disciplina: td.querySelector("[data-field='disciplina']")?.textContent.trim() || "",
-            professor: td.querySelector("[data-field='professor']")?.textContent.trim() || ""
-          }));
-          rows.push({ type:"linha", horario, cells });
-        });
-        out[sabId] = rows;
-      }
+  if (!dayName) return null;
 
-      return out;
-    }
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-    function applyCalendarData(calId, rows, selector = ".calendar-table") {
-      const table = document.querySelector(`${selector}[data-calendar-id="${calId}"]`);
-      if (!table || !rows || !Array.isArray(rows)) return;
+  return allLessons.find(lesson => {
+    if (lesson.teacher !== teacher || lesson.day !== dayName) return false;
+    const bounds = periodBounds(lesson.period);
+    return currentMinutes >= bounds.start && currentMinutes < bounds.end;
+  }) || null;
+}
 
-      const trs = Array.from(table.querySelectorAll("tbody tr"));
-      let ri = 0;
+function nextLessonForTeacher(teacher, now) {
+  return allLessons
+    .filter(lesson => lesson.teacher === teacher)
+    .map(lesson => ({
+      lesson,
+      startsAt: lessonStartDate(now, lesson)
+    }))
+    .sort((a,b) => a.startsAt - b.startsAt)[0] || null;
+}
 
-      for (let i=0; i<trs.length && ri<rows.length; i++) {
-        const tr = trs[i];
-        const row = rows[ri++];
-        if (row.type === "intervalo") continue;
+function updateTeacherLocatorClock() {
+  teacherLocatorClock.textContent =
+    `Horário do sistema: ${formatSystemDateTime(new Date())}`;
+}
 
-        const tds = Array.from(tr.querySelectorAll("td"));
-        if (tds[0]) tds[0].textContent = row.horario || tds[0].textContent;
+function showTeacherLocatorMessage(html, stateClass="warning") {
+  teacherLocatorResult.innerHTML =
+    `<div class="teacher-location-state ${stateClass}">${html}</div>`;
+}
 
-        row.cells.forEach((cell, idx) => {
-          const td = tds[idx+1];
-          if (!td) return;
-          const discEl = td.querySelector("[data-field='disciplina']");
-          const profEl = td.querySelector("[data-field='professor']");
-          if (discEl) discEl.textContent = cell.disciplina || "";
-          if (profEl) profEl.textContent = cell.professor || "";
-        });
-      }
-    }
+function locateTeacher() {
+  updateTeacherLocatorClock();
 
-    // Remapeia sábados para novo conjunto de horários, mantendo o conteúdo por índice de linha
-    function remapSabadosRowsToNewTimes(turmaId, newTimes) {
-      const sabKey = `${turmaId}-sabados`;
-      const headersKey = `${turmaId}-sabados-headers`;
+  const teacher = resolveTeacherName(teacherLocatorInput.value);
 
-      const oldRows = state.calendars?.[sabKey];
-      if (!Array.isArray(oldRows) || oldRows.length === 0) return;
+  if (!teacher) {
+    showTeacherLocatorMessage(
+      `<span class="teacher-location-status">Atenção</span>
+       <h3>Docente não identificado</h3>
+       <p>Digite ou selecione um nome completo na lista de docentes.</p>`
+    );
+    return;
+  }
 
-      const headers = state.calendars?.[headersKey] || [];
-      const oldLineRows = oldRows.filter(r => r.type === "linha");
+  teacherLocatorInput.value = teacher;
+  const now = new Date();
+  const currentLesson = currentLessonForTeacher(teacher, now);
 
-      const newRows = [];
-      let lineIndex = 0;
+  if (currentLesson) {
+    showTeacherLocatorMessage(
+      `<span class="teacher-location-status">Em aula agora</span>
+       <h3>${teacher}</h3>
+       <p><strong>Turma:</strong> ${currentLesson.className}</p>
+       <p><strong>Componente:</strong> ${currentLesson.subject}</p>
+       <p><strong>Local:</strong> ${currentLesson.room}</p>
+       <p><strong>Horário:</strong> ${currentLesson.day}, ${currentLesson.period}
+       (${currentLesson.time})</p>`,
+      "current"
+    );
+    return;
+  }
 
-      for (const t of newTimes) {
-        if (t === "__INTERVALO__") {
-          newRows.push({ type: "intervalo" });
-          continue;
-        }
+  const next = nextLessonForTeacher(teacher, now);
 
-        const old = oldLineRows[lineIndex];
-        const cellsCount = headers.length || (old?.cells?.length || 0);
+  if (!next) {
+    showTeacherLocatorMessage(
+      `<span class="teacher-location-status">Sem aulas</span>
+       <h3>${teacher}</h3>
+       <p>Não há aulas cadastradas para este docente no calendário.</p>`
+    );
+    return;
+  }
 
-        const cells = (old?.cells && Array.isArray(old.cells))
-          ? [...old.cells]
-          : Array.from({length: cellsCount}, () => ({ disciplina:"", professor:"" }));
+  showTeacherLocatorMessage(
+    `<span class="teacher-location-status">Próxima aula</span>
+     <h3>${teacher} não está em aula neste momento</h3>
+     <p><strong>Próxima Turma:</strong> ${next.lesson.className}</p>
+     <p><strong>Componente:</strong> ${next.lesson.subject}</p>
+     <p><strong>Local:</strong> ${next.lesson.room}</p>
+     <p><strong>Quando:</strong> ${formatNextLessonDate(next.startsAt)},
+     ${next.lesson.period} (${next.lesson.time})</p>
+     <p class="teacher-location-muted">Início previsto em
+     ${formatWaitTime(next.startsAt - now)}.</p>`,
+    "next"
+  );
+}
 
-        while (cells.length < cellsCount) cells.push({ disciplina:"", professor:"" });
-        while (cells.length > cellsCount) cells.pop();
+function openTeacherLocator() {
+  teacherLocatorModal.classList.remove("hidden");
+  updateTeacherLocatorClock();
 
-        newRows.push({ type:"linha", horario: t, cells });
-        lineIndex++;
-      }
+  if (currentView === "teacher" && selectedTeacher) {
+    teacherLocatorInput.value = selectedTeacher;
+    locateTeacher();
+  } else {
+    teacherLocatorInput.value = "";
+    teacherLocatorResult.innerHTML = "";
+  }
 
-      state.calendars[sabKey] = newRows;
-    }
+  setTimeout(() => teacherLocatorInput.focus(), 0);
+}
 
-    function getSelectedTurmaObj() {
-      const id = turmaSelect.value;
-      return state.turmas.find(t => t.id === id) || null;
-    }
+function closeTeacherLocator() {
+  teacherLocatorModal.classList.add("hidden");
+}
 
-    function deleteTurmaAndCalendars(turmaId) {
-      const turmaObj = state.turmas.find(t => t.id === turmaId);
-      const cursoName = turmaObj?.curso || "";
+teacherLocatorBtn.onclick = openTeacherLocator;
+teacherLocatorClose.onclick = closeTeacherLocator;
+teacherLocatorSearchBtn.onclick = locateTeacher;
 
-      state.turmas = state.turmas.filter(t => t.id !== turmaId);
+teacherLocatorInput.addEventListener("keydown", event => {
+  if (event.key === "Enter") locateTeacher();
+});
 
-      const keysToDelete = Object.keys(state.calendars).filter(k =>
-        k.startsWith(`${turmaId}-manha`) ||
-        k.startsWith(`${turmaId}-tarde`) ||
-        k.startsWith(`${turmaId}-sabados`)
+teacherLocatorInput.addEventListener("input", () => {
+  const teacher = resolveTeacherName(teacherLocatorInput.value);
+  if (teacher && normalizeTeacherName(teacher) === normalizeTeacherName(teacherLocatorInput.value)) {
+    locateTeacher();
+  }
+});
+
+teacherLocatorModal.addEventListener("click", event => {
+  if (event.target === teacherLocatorModal) closeTeacherLocator();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !teacherLocatorModal.classList.contains("hidden")) {
+    closeTeacherLocator();
+  }
+});
+
+setInterval(() => {
+  if (!teacherLocatorModal.classList.contains("hidden")) {
+    updateTeacherLocatorClock();
+    if (resolveTeacherName(teacherLocatorInput.value)) locateTeacher();
+  }
+}, 30000);
+
+function lessonBox(item) {
+  if (!item) return '<div class="empty">Livre</div>';
+  const bg = subjectColors[item.subject] || "#dce7ef";
+
+  if (currentView === "room") {
+    return `<div class="lesson" style="background:${bg}">
+      <div class="subject">${item.subject}</div>
+      <div class="teacher">${item.className}</div>
+      <div class="meta">${item.teacher}</div>
+    </div>`;
+  }
+
+  const secondaryLine = currentView === "teacher" ? item.className : item.teacher;
+  return `<div class="lesson" style="background:${bg}">
+    <div class="subject">${item.subject}</div>
+    <div class="teacher">${secondaryLine}</div>
+    <div class="meta">Local: ${item.room}</div>
+  </div>`;
+}
+
+function renderSidebar() {
+  sidebarList.innerHTML = "";
+
+  if (currentView === "class") {
+    sidebarTitle.textContent = "Turmas";
+    sidebarSubtitle.textContent = "Selecione uma grade";
+
+    const courseGroups = [
+      {name: "Informática", match: "Informática", className: "course-info"},
+      {name: "Edificações", match: "Edificações", className: "course-edif"},
+      {name: "Agropecuária", match: "Agropecuária", className: "course-agro"},
+      {name: "Administração", match: "Administração", className: "course-adm"}
+    ];
+
+    courseGroups.forEach(group => {
+      const entries = Object.entries(classes).filter(([,data]) =>
+        data.course.includes(group.match)
       );
-      keysToDelete.forEach(k => delete state.calendars[k]);
 
-      return cursoName;
-    }
+      if (!entries.length) return;
 
-    function renderTurma(t) {
-      if (!t) {
-        turmaView.innerHTML = `<div class="alert alert-warning mb-0">Selecione um curso e uma turma.</div>`;
-        return;
-      }
+      const section = document.createElement("div");
+      section.className = `course-group ${group.className}`;
 
-      const id = t.id;
-      const titulo = `${t.curso} — ${t.turma}`;
+      const title = document.createElement("div");
+      title.className = "course-group-title";
+      title.textContent = group.name;
+      section.appendChild(title);
 
-      const showManha = !!t.habilitarManha;
-      const showTarde = !!t.habilitarTarde;
-
-      const sabHeaders = t.sabados?.length ? t.sabados : ["Sábado 1","Sábado 2","Sábado 3"];
-      const sabTimes = getSabadosTimes(t);
-
-      turmaView.innerHTML = `
-        <div class="d-flex justify-content-end mb-2 d-none" data-config-only>
-          <button class="btn btn-danger btn-sm fw-bold" type="button" id="btnDeleteTurma">
-            Excluir calendário
-          </button>
-        </div>
-
-        <div class="turma-title">${titulo}</div>
-
-        <!-- CONFIG (somente no modo edição) -->
-        <div class="mt-3 d-none" data-config-only>
-          <div class="row g-2 align-items-end">
-            <div class="col-12 col-lg-6">
-              <label class="form-label fw-bold" style="color:#145a32;">Habilitar turnos</label>
-              <div class="d-flex gap-3 flex-wrap">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="chkManha">
-                  <label class="form-check-label" for="chkManha">Manhã</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="chkTarde">
-                  <label class="form-check-label" for="chkTarde">Tarde</label>
-                </div>
-              </div>
-              <div class="form-text">Se desmarcar um turno, o calendário dele não aparece.</div>
-            </div>
-
-            <div class="col-12 col-lg-6">
-              <label class="form-label fw-bold" style="color:#145a32;">Sábados letivos: turno/horário</label>
-              <div class="d-flex gap-3 flex-wrap">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="sabTurno" id="sabTurnoManha" value="manha">
-                  <label class="form-check-label" for="sabTurnoManha">Usar horários da Manhã</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="sabTurno" id="sabTurnoTarde" value="tarde">
-                  <label class="form-check-label" for="sabTurnoTarde">Usar horários da Tarde</label>
-                </div>
-              </div>
-              <div class="form-text">Essa opção altera a grade de horários dos sábados.</div>
-            </div>
-
-            <div class="col-12 d-flex justify-content-end">
-              <button class="btn btn-outline-success btn-sm fw-bold" type="button" id="applyConfigBtn">Aplicar</button>
-            </div>
-          </div>
-        </div>
-
-        ${showManha ? `
-        <section class="turno-card mt-3">
-          <div class="turno-header">
-            <div class="d-flex align-items-center gap-2"><span class="badge">MANHÃ</span></div>
-            <button class="btn btn-outline-success btn-sm fw-bold" type="button"
-              data-bs-toggle="collapse" data-bs-target="#collapse-${id}-manha">Ocultar/Exibir</button>
-          </div>
-          <div class="collapse show" id="collapse-${id}-manha">
-            <div class="table-responsive">
-              <table class="table table-bordered mb-0 calendar-table" data-calendar-id="${id}-manha">
-                <thead><tr><th>Horário</th>${DAYS.map(d=>`<th>${d}</th>`).join("")}</tr></thead>
-                <tbody>${buildBlankRowsSemana(TIMES_MANHA)}</tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-        ` : ""}
-
-        ${showTarde ? `
-        <section class="turno-card ${showManha ? "" : "mt-3"}">
-          <div class="turno-header">
-            <div class="d-flex align-items-center gap-2"><span class="badge">TARDE</span></div>
-            <button class="btn btn-outline-success btn-sm fw-bold" type="button"
-              data-bs-toggle="collapse" data-bs-target="#collapse-${id}-tarde">Ocultar/Exibir</button>
-          </div>
-          <div class="collapse show" id="collapse-${id}-tarde">
-            <div class="table-responsive">
-              <table class="table table-bordered mb-0 calendar-table" data-calendar-id="${id}-tarde">
-                <thead><tr><th>Horário</th>${DAYS.map(d=>`<th>${d}</th>`).join("")}</tr></thead>
-                <tbody>${buildBlankRowsSemana(TIMES_TARDE)}</tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-        ` : ""}
-
-        <!-- SÁBADOS LETIVOS -->
-        <section class="turno-card">
-          <div class="turno-header">
-            <div class="d-flex align-items-center gap-2"><span class="badge badge-sabados">SÁBADOS LETIVOS</span></div>
-            <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-outline-success btn-sm fw-bold d-none" type="button" id="btnAddSabado" data-config-only>
-                + Sábado
-              </button>
-              <button class="btn btn-outline-danger btn-sm fw-bold d-none" type="button" id="btnRemoveSabado" data-config-only>
-                Excluir Sábado
-              </button>
-              <button class="btn btn-outline-success btn-sm fw-bold" type="button"
-                data-bs-toggle="collapse" data-bs-target="#collapse-${id}-sabados">Ocultar/Exibir</button>
-            </div>
-          </div>
-
-          <div class="collapse show" id="collapse-${id}-sabados">
-            <div class="table-responsive">
-              <table class="table table-bordered mb-0 sabados-table" data-calendar-id="${id}-sabados">
-                <thead>
-                  <tr>
-                    <th>Horário</th>
-                    ${sabHeaders.map((h, idx) => `<th><span class="editable" data-field="sabado" data-sab-idx="${idx}">${h}</span></th>`).join("")}
-                  </tr>
-                </thead>
-                <tbody>
-                  ${buildBlankRowsSabados(sabTimes, sabHeaders)}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-      `;
-
-      // Preencher config
-      const chkManha = document.getElementById("chkManha");
-      const chkTarde = document.getElementById("chkTarde");
-      const sabTurnoManha = document.getElementById("sabTurnoManha");
-      const sabTurnoTarde = document.getElementById("sabTurnoTarde");
-
-      chkManha.checked = !!t.habilitarManha;
-      chkTarde.checked = !!t.habilitarTarde;
-
-      const sabTurno = (t.sabadosTurno === "tarde") ? "tarde" : "manha";
-      sabTurnoManha.checked = (sabTurno === "manha");
-      sabTurnoTarde.checked = (sabTurno === "tarde");
-
-      // Excluir calendário (turma)
-      const btnDeleteTurma = document.getElementById("btnDeleteTurma");
-      if (btnDeleteTurma) {
-        btnDeleteTurma.addEventListener("click", async () => {
-          const ok = confirm(`Excluir o calendário desta turma?\n\n${t.curso} — ${t.turma}\n\nIsso remove também Manhã/Tarde/Sábados desta turma.`);
-          if (!ok) return;
-
-          // salva o que está na tela antes (se quiser preservar outros)
-          saveLocalFromUI();
-
-          const cursoDeletedFrom = deleteTurmaAndCalendars(t.id);
-
-          // tenta comitar a remoção no Git (se falhar, mantém só local)
-          try {
-            await commitToGit(state);
-          } catch (e) {
-            alert("A turma foi removida localmente, mas falhou ao comitar no Git.\n\nMotivo: " + e.message);
-          }
-
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-
-          // Recarrega selects
-          renderCursos();
-
-          const cursosDepois = getCursos();
-          if (!cursosDepois.includes(cursoDeletedFrom)) {
-            if (cursoSelect.options.length > 0) cursoSelect.value = cursoSelect.options[0].value;
-          } else {
-            cursoSelect.value = cursoDeletedFrom;
-          }
-
-          if (cursoSelect.value) renderTurmas(cursoSelect.value);
-          renderTurma(getSelectedTurmaObj());
-          setEditMode(isEditMode);
-        });
-      }
-
-      // Aplicar config (não comita automaticamente — só altera a tela; o commit é no botão "Salvar")
-      const applyBtn = document.getElementById("applyConfigBtn");
-      if (applyBtn) {
-        applyBtn.addEventListener("click", () => {
-          const collected = collectCalendarFromDOM(t.id);
-          Object.assign(state.calendars, collected);
-
-          const newManha = !!chkManha.checked;
-          const newTarde = !!chkTarde.checked;
-
-          if (!newManha && !newTarde) {
-            alert("Selecione pelo menos um turno (Manhã ou Tarde).");
-            chkManha.checked = true;
-            return;
-          }
-
-          const newSabTurno = document.querySelector("input[name='sabTurno']:checked")?.value || "manha";
-          const oldSabTurno = (t.sabadosTurno === "tarde") ? "tarde" : "manha";
-
-          t.habilitarManha = newManha;
-          t.habilitarTarde = newTarde;
-          t.sabadosTurno = (newSabTurno === "tarde") ? "tarde" : "manha";
-
-          if (oldSabTurno !== t.sabadosTurno) {
-            remapSabadosRowsToNewTimes(t.id, getSabadosTimes(t));
-          }
-
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-          renderTurma(t);
-        });
-      }
-
-      // + sábado
-      const btnAddSabado = document.getElementById("btnAddSabado");
-      if (btnAddSabado) {
-        btnAddSabado.addEventListener("click", () => {
-          const collected = collectCalendarFromDOM(t.id);
-          Object.assign(state.calendars, collected);
-
-          const headersKey = `${t.id}-sabados-headers`;
-          const sabKey = `${t.id}-sabados`;
-
-          const currentHeaders = collected[headersKey] || t.sabados || ["Sábado 1","Sábado 2","Sábado 3"];
-          t.sabados = [...currentHeaders];
-          t.sabados.push(`Sábado ${t.sabados.length + 1}`);
-
-          const rows = collected[sabKey] || state.calendars[sabKey] || [];
-          const newRows = rows.map(r => {
-            if (r.type !== "linha") return r;
-            return { ...r, cells: [...(r.cells || []), { disciplina: "", professor: "" }] };
-          });
-
-          state.calendars[headersKey] = t.sabados;
-          state.calendars[sabKey] = newRows;
-
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-          renderTurma(t);
-        });
-      }
-
-      // excluir sábado
-      const btnRemoveSabado = document.getElementById("btnRemoveSabado");
-      if (btnRemoveSabado) {
-        btnRemoveSabado.addEventListener("click", () => {
-          const MIN_SABADOS = 3;
-
-          const collected = collectCalendarFromDOM(t.id);
-          Object.assign(state.calendars, collected);
-
-          const headersKey = `${t.id}-sabados-headers`;
-          const sabKey = `${t.id}-sabados`;
-
-          const currentHeaders = collected[headersKey] || t.sabados || ["Sábado 1","Sábado 2","Sábado 3"];
-          t.sabados = [...currentHeaders];
-
-          if (t.sabados.length <= MIN_SABADOS) {
-            alert(`Não é possível excluir. Mínimo de ${MIN_SABADOS} sábados.`);
-            return;
-          }
-
-          t.sabados.pop();
-
-          const rows = collected[sabKey] || state.calendars[sabKey] || [];
-          const newRows = rows.map(r => {
-            if (r.type !== "linha") return r;
-            const cells = [...(r.cells || [])];
-            cells.pop();
-            return { ...r, cells };
-          });
-
-          state.calendars[headersKey] = t.sabados;
-          state.calendars[sabKey] = newRows;
-
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-          renderTurma(t);
-        });
-      }
-
-      // Reaplicar dados salvos (manhã/tarde)
-      if (showManha) applyCalendarData(`${id}-manha`, state.calendars?.[`${id}-manha`], ".calendar-table");
-      if (showTarde) applyCalendarData(`${id}-tarde`, state.calendars?.[`${id}-tarde`], ".calendar-table");
-
-      // Sábados: respeita headers salvos e aplica dados
-      const savedHeaders = state.calendars?.[`${id}-sabados-headers`];
-      if (Array.isArray(savedHeaders) && savedHeaders.length) t.sabados = savedHeaders;
-      applyCalendarData(`${id}-sabados`, state.calendars?.[`${id}-sabados`], ".sabados-table");
-
-      setEditMode(isEditMode);
-    }
-
-    function getCursos() {
-      const set = new Set(state.turmas.map(t => t.curso));
-      return Array.from(set).sort((a,b)=>a.localeCompare(b));
-    }
-
-    function renderCursos(selectedCurso = "") {
-      cursoSelect.innerHTML = "";
-      const cursos = getCursos();
-
-      if (cursos.length === 0) {
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.textContent = "Nenhum curso cadastrado";
-        cursoSelect.appendChild(opt);
-        return;
-      }
-
-      cursos.forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c;
-        opt.textContent = c;
-        cursoSelect.appendChild(opt);
+      entries.forEach(([key,data]) => {
+        const b = document.createElement("button");
+        b.className = `sidebar-item ${group.className}` + (key === selectedClass ? " active" : "");
+        b.innerHTML = `${data.short} — ${data.name.includes("2026") ? "Turma 2026" : data.name.includes("2025") ? "Turma 2025" : "Turma 2024"}
+          <small>Turno principal: ${data.main_shift}</small>`;
+        b.onclick = () => {
+          selectedClass = key;
+          renderAll();
+          closeSidebar();
+        };
+        section.appendChild(b);
       });
 
-      if (selectedCurso && cursos.includes(selectedCurso)) cursoSelect.value = selectedCurso;
-      else cursoSelect.value = cursos[0];
-    }
+      sidebarList.appendChild(section);
+    });
+  } else if (currentView === "teacher") {
+    sidebarTitle.textContent = "Docentes";
+    sidebarSubtitle.textContent = "Selecione um docente";
 
-    function getTurmasByCurso(curso) {
-      return state.turmas
-        .filter(t => t.curso === curso)
-        .sort((a,b)=>a.turma.localeCompare(b.turma));
-    }
-
-    function renderTurmas(curso) {
-      turmaSelect.innerHTML = "";
-      const turmas = getTurmasByCurso(curso);
-
-      if (turmas.length === 0) {
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.textContent = "Nenhuma turma para este curso";
-        turmaSelect.appendChild(opt);
-        return;
-      }
-
-      turmas.forEach(t => {
-        const opt = document.createElement("option");
-        opt.value = t.id;
-        opt.textContent = t.turma;
-        turmaSelect.appendChild(opt);
+    [...new Set(allLessons.map(x => x.teacher))]
+      .sort((a,b) => a.localeCompare(b, "pt-BR"))
+      .forEach(name => {
+        const b = document.createElement("button");
+        b.className = "sidebar-item teacher-item" + (name === selectedTeacher ? " active" : "");
+        b.textContent = name;
+        b.onclick = () => {
+          selectedTeacher = name;
+          renderAll();
+          closeSidebar();
+        };
+        sidebarList.appendChild(b);
       });
+  } else {
+    sidebarTitle.textContent = "Salas";
+    sidebarSubtitle.textContent = "Selecione uma sala";
 
-      turmaSelect.value = turmas[0].id;
+    allRooms.forEach(room => {
+      const b = document.createElement("button");
+      b.className = "sidebar-item teacher-item" + (room === selectedRoom ? " active" : "");
+      b.textContent = room;
+      b.onclick = () => {
+        selectedRoom = room;
+        renderAll();
+        closeSidebar();
+      };
+      sidebarList.appendChild(b);
+    });
+  }
+}
+
+function renderTable(lessons, mainShift=null) {
+  const body = document.getElementById("scheduleBody");
+  body.innerHTML = "";
+  let lastShift = null;
+
+  for (const p of periods) {
+    if (p.shift !== lastShift) {
+      const tr = document.createElement("tr");
+      tr.className = "shift-row";
+      let label = p.shift;
+      if (currentView === "class" && mainShift) {
+        label = p.shift === mainShift ? `Turno principal — ${p.shift}` : `Contraturno — ${p.shift}`;
+      }
+      tr.innerHTML = `<td colspan="6">${label}</td>`;
+      body.appendChild(tr);
+      lastShift = p.shift;
     }
 
-    // Atualiza state a partir do DOM (fallback local)
-    function saveLocalFromUI() {
-      const current = getSelectedTurmaObj();
-      if (current) {
-        const collected = collectCalendarFromDOM(current.id);
-        Object.assign(state.calendars, collected);
-
-        const sabHeaders = collected[`${current.id}-sabados-headers`];
-        if (Array.isArray(sabHeaders) && sabHeaders.length) {
-          current.sabados = sabHeaders;
-        }
-      }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    if (p.code === "M4" || p.code === "T4") {
+      const tr = document.createElement("tr");
+      tr.className = "interval";
+      tr.innerHTML = '<td colspan="6">INTERVALO</td>';
+      body.appendChild(tr);
     }
 
-    function loadLocal() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
-      try {
-        const data = JSON.parse(raw);
-        if (!data?.turmas?.length) return false;
-        state = data;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td class="time">${p.code}<br>${p.time}</td>` +
+      days.map(day => {
+        const items = lessons.filter(l => l.day === day && l.period === p.code);
+        const content = items.length ? items.map(lessonBox).join("") : lessonBox(null);
+        return `<td class="slot">${content}</td>`;
+      }).join("");
+    body.appendChild(tr);
+  }
+}
 
-        state.turmas.forEach(t => {
-          if (!t.sabadosTurno) t.sabadosTurno = "manha";
-          if (!Array.isArray(t.sabados) || t.sabados.length === 0) t.sabados = ["Sábado 1","Sábado 2","Sábado 3"];
-        });
+function updateConflictAlert() {
+  const grouped = new Map();
+  const byTeacherDay = new Map();
 
-        return true;
-      } catch { return false; }
+  for (const lesson of allLessons) {
+    const conflictKey = `${lesson.teacher}|${lesson.day}|${lesson.period}`;
+    if (!grouped.has(conflictKey)) grouped.set(conflictKey, []);
+    grouped.get(conflictKey).push(lesson);
+
+    const dayKey = `${lesson.teacher}|${lesson.day}`;
+    if (!byTeacherDay.has(dayKey)) byTeacherDay.set(dayKey, []);
+    byTeacherDay.get(dayKey).push(lesson);
+  }
+
+  const conflicts = [...grouped.entries()].filter(([,items]) => items.length > 1);
+  const lunchViolations = [];
+
+  for (const [key, items] of byTeacherDay.entries()) {
+    const [teacher, day] = key.split("|");
+    const mornings = items
+      .filter(x => x.period.startsWith("M"))
+      .map(x => Number(x.period.substring(1)));
+    const afternoons = items
+      .filter(x => x.period.startsWith("T"))
+      .map(x => Number(x.period.substring(1)));
+
+    if (!mornings.length || !afternoons.length) continue;
+
+    const lastMorning = Math.max(...mornings);
+    const firstAfternoon = Math.min(...afternoons);
+    const freePeriods = (6 - lastMorning) + (firstAfternoon - 1);
+
+    if (freePeriods < 2) {
+      lunchViolations.push({teacher, day, lastMorning, firstAfternoon});
     }
+  }
 
-    // ==========================
-    // EVENTS
-    // ==========================
-    btnEdit.addEventListener("click", () => {
-      passwordInput.value = "";
-      passwordError.classList.add("d-none");
-      passwordModal.show();
-      setTimeout(() => passwordInput.focus(), 250);
-    });
+  const alert = document.getElementById("conflictAlert");
+  const sections = [];
 
-    btnConfirmPassword.addEventListener("click", () => {
-      if (passwordInput.value === EDIT_PASSWORD) {
-        passwordModal.hide();
-        setEditMode(true);
-      } else {
-        passwordError.classList.remove("d-none");
-      }
-    });
+  if (conflicts.length) {
+    sections.push(
+      "<strong>Conflito de horário docente identificado.</strong><br>" +
+      conflicts.map(([key,items]) => {
+        const [teacher,day,period] = key.split("|");
+        const p = periods.find(x => x.code === period);
+        return `${teacher}: ${day}, ${period} (${p.time}) — ${items.map(x => x.className).join(" e ")}`;
+      }).join("<br>")
+    );
+  }
 
-    passwordInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") btnConfirmPassword.click();
-    });
+  if (!sections.length) {
+    alert.classList.add("hidden");
+    alert.innerHTML = "";
+    return;
+  }
 
-    btnExit.addEventListener("click", () => setEditMode(false));
+  alert.innerHTML = sections.join("<br><br>");
+  alert.classList.remove("hidden");
+}
 
-    // ✅ Salvar = COMMIT NO GIT
-    btnSave.addEventListener("click", async () => {
-      try {
-        btnSave.disabled = true;
-        const old = btnSave.textContent;
-        btnSave.textContent = "Salvando no Git...";
+function renderAll() {
+  renderSidebar();
 
-        const result = await saveToGitFromUI();
+  if (currentView === "class") {
+    const data = classes[selectedClass];
+    document.getElementById("panelTitle").textContent = data.name;
+    document.getElementById("topShiftBadge").textContent = `Turno Principal: ${data.main_shift}`;
 
-        btnSave.textContent = "Salvo no Git ✓";
-        console.log("Commit OK:", result);
+    const eadBlock = document.getElementById("eadBlock");
+    const eadList = document.getElementById("eadList");
+    const eadSubjects = eadSubjectsByClass[selectedClass] || [];
+    eadList.innerHTML = eadSubjects.map(subject => `<li>${subject}</li>`).join("");
+    eadBlock.classList.toggle("hidden", eadSubjects.length === 0);
 
-        setTimeout(() => (btnSave.textContent = old), 1400);
-      } catch (e) {
-        alert("Erro ao salvar no Git: " + e.message + "\n\nVerifique se o SAVE_TOKEN do site é o mesmo do Worker.");
-        btnSave.textContent = "Salvar";
-      } finally {
-        btnSave.disabled = false;
-      }
-    });
+    renderTable(data.schedule, data.main_shift);
+    return;
+  }
 
-    btnAddTurma.addEventListener("click", () => {
-      cursoInput.value = "";
-      turmaInput.value = "";
-      createError.classList.add("d-none");
-      document.getElementById("turnoCreateManha").checked = true;
-      addTurmaModal.show();
-      setTimeout(() => cursoInput.focus(), 250);
-    });
+  document.getElementById("eadBlock").classList.add("hidden");
 
-    btnCreateTurma.addEventListener("click", () => {
-      const curso = (cursoInput.value || "").trim();
-      const turma = (turmaInput.value || "").trim();
-      if (!curso || !turma) {
-        createError.classList.remove("d-none");
-        return;
-      }
+  if (currentView === "teacher") {
+    const lessons = allLessons.filter(x => x.teacher === selectedTeacher);
+    document.getElementById("panelTitle").textContent = selectedTeacher;
+    document.getElementById("topShiftBadge").textContent = "Turnos: Manhã e Tarde";
+    renderTable(lessons);
+    return;
+  }
 
-      const turnoCreate = document.querySelector("input[name='turnoCreate']:checked")?.value || "manha";
+  const lessons = allLessons.filter(x => x.room === selectedRoom);
+  document.getElementById("panelTitle").textContent = `Agenda de Salas — ${selectedRoom}`;
+  document.getElementById("topShiftBadge").textContent = selectedRoom;
+  renderTable(lessons);
+}
 
-      // salva o que estiver na tela
-      saveLocalFromUI();
+function setActiveViewButton(activeId) {
+  ["classViewBtn", "teacherViewBtn", "roomViewBtn"].forEach(id => {
+    document.getElementById(id).classList.toggle("active", id === activeId);
+  });
+}
 
-      const base = slugify(`${curso}-${turma}`);
-      const id = uniqueId(base);
+document.getElementById("classViewBtn").onclick = () => {
+  currentView = "class";
+  setActiveViewButton("classViewBtn");
+  renderAll();
+};
 
-      const habilitarManha = (turnoCreate === "manha" || turnoCreate === "ambos");
-      const habilitarTarde = (turnoCreate === "tarde" || turnoCreate === "ambos");
-      const sabadosTurno = (turnoCreate === "tarde") ? "tarde" : "manha";
+document.getElementById("teacherViewBtn").onclick = () => {
+  currentView = "teacher";
+  setActiveViewButton("teacherViewBtn");
+  renderAll();
+};
 
-      state.turmas.push({
-        id, curso, turma,
-        habilitarManha,
-        habilitarTarde,
-        sabadosTurno,
-        sabados: ["Sábado 1","Sábado 2","Sábado 3"]
-      });
+roomViewBtn.onclick = () => {
+  currentView = "room";
+  setActiveViewButton("roomViewBtn");
+  renderAll();
+};
 
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-
-      renderCursos(curso);
-      renderTurmas(curso);
-
-      turmaSelect.value = id;
-      renderTurma(getSelectedTurmaObj());
-
-      addTurmaModal.hide();
-    });
-
-    cursoSelect.addEventListener("change", () => {
-      saveLocalFromUI();
-      renderTurmas(cursoSelect.value);
-      renderTurma(getSelectedTurmaObj());
-    });
-
-    turmaSelect.addEventListener("change", () => {
-      saveLocalFromUI();
-      renderTurma(getSelectedTurmaObj());
-    });
-
-    // ==========================
-    // INIT
-    // ==========================
-    (async function init(){
-      const ok = await loadFromRepo();
-      if (!ok) loadLocal();
-
-      renderCursos();
-      if (cursoSelect.value) renderTurmas(cursoSelect.value);
-      renderTurma(getSelectedTurmaObj());
-      setEditMode(false);
-    })();
-  </script>
+updateConflictAlert();
+renderAll();
+</script>
 </body>
 </html>
-
-
-
-
-
-
