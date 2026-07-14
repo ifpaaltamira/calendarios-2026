@@ -580,16 +580,53 @@ td.slot{height:79px;padding:4px}
   .monthly-grid{min-width:0;grid-template-columns:repeat(6,1fr)}
   .month-day{min-height:120px}
 }
+
+  .cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+
+  padding: 40px 50px;
+  background-color: #105c2f;
+  color: white;
+}
+
+.logo-ifpa {
+  width: 55%;
+  max-width: 900px;
+  height: auto;
+  object-fit: contain;
+}
+
+.texto-cabecalho {
+  flex: 1;
+  text-align: left;
+}
+
+.texto-cabecalho h1 {
+  margin: 0 0 10px;
+  font-size: 42px;
+  line-height: 1.2;
+}
+
+.texto-cabecalho p {
+  margin: 0;
+  font-size: 25px;
+}
 </style>
 </head>
 <body>
-<header>
-<img
-  src="https://drive.google.com/thumbnail?id=1gpDO1tdBcF_SzOGikG1FZLcQl2pst4cr&sz=w1200"
-  alt="Descrição da imagem"
-  style="max-width: 100%; height: auto;">
-  <h1>Painel de Horários 2026.2</h1>
-  <p>IFPA Campus Altamira</p>
+<header class="cabecalho">
+  <img
+    class="logo-ifpa"
+    src="https://drive.google.com/thumbnail?id=1gpDO1tdBcF_SzOGikG1FZLcQl2pst4cr&sz=w1200"
+    alt="IFPA Campus Altamira">
+
+  <div class="texto-cabecalho">
+    <h1>Painel de Horários 2026.2</h1>
+    <p>IFPA Campus Altamira</p>
+  </div>
 </header>
 
 <main>
