@@ -82,6 +82,15 @@ button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:
 .sidebar-item.course-agro:hover{background:#f6f3e7}
 .sidebar-item.course-agro.active{color:#6c633d;background:#efecd9;box-shadow:inset 3px 0 0 #b6aa6a}
 
+
+/* História — lilás frio e suave */
+.course-history .course-group-title{background:#ece8f4;color:#64577b}
+.sidebar-item.course-history{background:#faf8fc}
+.sidebar-item.course-history:hover{background:#f2eef7}
+.sidebar-item.course-history.active{
+  color:#5b4c73;background:#e9e2f1;box-shadow:inset 3px 0 0 #9988b3
+}
+
 /* Administração — vermelho frio e suave */
 .course-adm .course-group-title{background:#f3e8e9;color:#7b5459}
 .sidebar-item.course-adm{background:#fcf8f8}
@@ -108,15 +117,190 @@ button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:
   font-size:14px;
   color:var(--ifpa-green-dark)
 }
-.ead-block ul{
-  margin:9px 0 0;
-  padding-left:20px
-}
-.ead-block li{
-  margin:4px 0;
+.ead-block.hidden{display:none}
+
+
+.teacher-day-notice{
+  padding:18px;
+  border:1px solid #dce5df;
+  border-radius:.7rem;
+  background:#f8faf8;
+  color:#647168;
+  text-align:center;
   font-size:13px
 }
-.ead-block.hidden{display:none}
+.teacher-night-block{
+  margin-top:14px;
+  padding:16px;
+  border:1px solid #dce5df;
+  border-radius:.85rem;
+  background:#fff;
+  box-shadow:var(--shadow)
+}
+.teacher-night-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:12px
+}
+.teacher-night-head h3{
+  margin:0;
+  color:var(--ifpa-green-dark);
+  font-size:18px
+}
+.teacher-night-head p{
+  margin:5px 0 0;
+  color:#657168;
+  font-size:12px
+}
+.teacher-night-toolbar{
+  flex:0 0 auto;
+  margin:0
+}
+.teacher-night-calendar-grid .month-day{
+  min-height:145px
+}
+.teacher-night-calendar-grid .month-event-meta{
+  margin-top:4px
+}
+@media(max-width:760px){
+  .teacher-night-head{
+    flex-direction:column
+  }
+  .teacher-night-toolbar{
+    width:100%
+  }
+}
+
+.monthly-calendar-view{padding:14px}
+.monthly-toolbar{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:12px
+}
+.monthly-toolbar button{
+  min-width:40px;padding:0;font-size:23px;color:var(--ifpa-green-dark)
+}
+.month-picker-label{
+  display:flex;align-items:center;gap:9px;padding:6px 10px;
+  border:1px solid #d7dfda;border-radius:.55rem;background:#fff;
+  color:#4f5c54;font-size:12px;font-weight:700
+}
+.month-picker-label input{
+  border:0;background:transparent;color:#27332c;font:inherit;font-weight:800
+}
+.month-picker-label input:focus{outline:0}
+
+.night-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 16px;
+  margin-bottom:12px
+}
+.night-legend-item{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:220px;
+  color:#3f4b44;
+  font-size:10.5px;
+  line-height:1.3
+}
+.night-legend-swatch{
+  flex:0 0 auto;
+  width:13px;
+  height:13px;
+  border-radius:3px;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 1px 2px rgba(0,0,0,.08)
+}
+.night-legend-text{
+  display:inline;
+}
+.night-legend-text strong{
+  font-weight:800;
+  color:#2f3d35
+}
+.night-legend-swatch.a{background:#f5dfc7}
+.night-legend-swatch.b{background:#f4efb8}
+.night-legend-swatch.c{background:#d8edf0}
+.night-legend-swatch.d{background:#dce9f7}
+.night-legend-swatch.e{background:#f3dddd}
+.night-legend-swatch.f{background:#efd9ee}
+.night-legend-swatch.g{background:#e2d9f1}
+
+.night-periods{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px
+}
+.night-periods span{
+  padding:6px 9px;border-radius:999px;background:#edf3ef;
+  color:#405047;font-size:11px
+}
+.night-periods .night-break{background:#f6f0dc;color:#6c6038}
+.night-demo-notice{
+  margin-bottom:12px;padding:10px 12px;border-left:4px solid #9a87b5;
+  border-radius:.45rem;background:#f5f1f8;color:#5c5268;
+  font-size:12px;line-height:1.45
+}
+.monthly-grid-wrap{overflow:auto}
+.monthly-grid{
+  display:grid;grid-template-columns:repeat(7,minmax(175px,1fr));
+  min-width:1225px;border-top:1px solid #e3e8e5;border-left:1px solid #e3e8e5
+}
+.month-weekday{
+  padding:9px;background:#edf3ef;color:var(--ifpa-green-dark);
+  border-right:1px solid #e3e8e5;border-bottom:1px solid #e3e8e5;
+  text-align:center;font-size:11px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.04em
+}
+.month-day{
+  min-height:165px;padding:7px;background:#fff;
+  border-right:1px solid #e3e8e5;border-bottom:1px solid #e3e8e5
+}
+.month-day.weekend{background:#fafbfa}
+.month-day.outside-month{background:#f7f8f7}
+.month-day.today{box-shadow:inset 0 0 0 2px var(--ifpa-green)}
+.month-day-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:6px;color:#4d5b53;font-size:11px
+}
+.month-day-number{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;font-weight:800
+}
+.month-day.today .month-day-number{
+  background:var(--ifpa-green);color:#fff
+}
+.month-day-label{font-size:9px;color:#8a938e}
+.month-event{
+  margin-top:5px;padding:7px;border-radius:.48rem;
+  box-shadow:0 1px 2px rgba(0,0,0,.06)
+}
+.month-event.a{background:#f5dfc7;color:#74491f}
+.month-event.b{background:#f4efb8;color:#6b6115}
+.month-event.c{background:#d8edf0;color:#275f66}
+.month-event.d{background:#dce9f7;color:#315b7a}
+.month-event.e{background:#f3dddd;color:#784444}
+.month-event.f{background:#efd9ee;color:#764f73}
+.month-event.g{background:#e2d9f1;color:#5c4877}
+.month-event.holiday{background:#c90000;color:#fff}
+.month-event.facultado{background:#c90000;color:#fff}
+.month-event.blue{background:#e5eff6;color:#375c72}
+.month-event.green{background:#e4f0e8;color:#3d6650}
+.month-event.yellow{background:#f4efd9;color:#6e653d}
+.month-event.purple{background:#ebe6f3;color:#5f5178}
+.month-event.red{background:#f2e4e6;color:#784c52}
+.month-event-title{font-size:10.5px;font-weight:800;line-height:1.18}
+.month-event-time{margin-top:3px;font-size:9.5px;font-weight:700}
+.month-event-meta{margin-top:3px;font-size:9px;line-height:1.25;opacity:.88}
+.month-empty{
+  margin-top:18px;text-align:center;color:#b1b9b4;font-size:10px
+}
+@media(max-width:700px){
+  .monthly-toolbar{justify-content:space-between}
+  .month-picker-label{flex:1;justify-content:center}
+}
+
 .panel{overflow:hidden}
 .panel-head{padding:12px 15px;border-bottom:1px solid #edf0ee}
 .panel-head h2{font-size:17px;margin:0}
@@ -337,6 +521,11 @@ td.slot{height:79px;padding:4px}
   main{padding:0}
   .workspace{display:block}
   .panel{box-shadow:none;border-radius:0}
+  .monthly-calendar-view{padding:0}
+  .monthly-toolbar{display:none!important}
+  .teacher-night-block{box-shadow:none}
+  .monthly-grid{min-width:0;grid-template-columns:repeat(7,1fr)}
+  .month-day{min-height:120px}
 }
 </style>
 </head>
@@ -350,12 +539,13 @@ td.slot{height:79px;padding:4px}
   <section class="toolbar">
     <button id="sidebarToggle" class="sidebar-toggle">☰ Menu</button>
     <div class="view-buttons">
-      <button id="classViewBtn" class="active">Por Turma</button>
-      <button id="teacherViewBtn">Por Docente</button>
+      <button id="classViewBtn" class="active">Calendários de Turmas</button>
+      <button id="teacherViewBtn">Calendário Individual - Docente</button>
       <button id="roomViewBtn">Agenda de Salas</button>
+      <button id="labViewBtn">Agenda de Laboratórios</button>
     </div>
     <button id="teacherLocatorBtn" class="teacher-locator-trigger">Onde está o Docente?</button>
-    <button type="button" disabled aria-disabled="true" title="Impressão desativada">Imprimir Calendário</button>
+    <button onclick="window.print()">Imprimir Calendário</button>
     <span class="shift-indicator" id="topShiftBadge">Turno Principal: Manhã</span>
   </section>
 
@@ -378,7 +568,7 @@ td.slot{height:79px;padding:4px}
     <div class="calendar-content">
       <section class="panel">
         <div class="panel-head"><h2 id="panelTitle"></h2></div>
-        <div class="table-wrap">
+        <div id="weeklyCalendarView" class="table-wrap">
           <table>
             <thead>
               <tr>
@@ -393,10 +583,58 @@ td.slot{height:79px;padding:4px}
             <tbody id="scheduleBody"></tbody>
           </table>
         </div>
+
+        <div id="monthlyCalendarView" class="monthly-calendar-view hidden">
+          <div class="monthly-toolbar">
+            <button id="monthPrevBtn" type="button" aria-label="Mês anterior">‹</button>
+            <label class="month-picker-label">
+              <span>Mês de referência</span>
+              <input id="monthPicker" type="month" value="2026-08">
+            </label>
+            <button id="monthNextBtn" type="button" aria-label="Próximo mês">›</button>
+          </div>
+
+          <div id="nightLegend" class="night-legend"></div>
+
+          <div class="monthly-grid-wrap">
+            <div id="monthlyCalendarGrid" class="monthly-grid"></div>
+          </div>
+        </div>
       </section>
-      <section id="eadBlock" class="ead-block hidden">
+
+      <div id="teacherDayNotice" class="teacher-day-notice hidden">
+        Nenhuma aula cadastrada nos turnos da manhã ou tarde.
+      </div>
+
+      <section id="teacherNightBlock" class="teacher-night-block hidden">
+        <div class="teacher-night-head">
+          <div>
+            <h3>Agenda Noturna Mensal</h3>
+            <p id="teacherNightSubtitle"></p>
+          </div>
+
+          <div class="monthly-toolbar teacher-night-toolbar">
+            <button id="teacherNightPrevBtn" type="button"
+                    aria-label="Mês anterior da agenda docente">‹</button>
+            <label class="month-picker-label">
+              <span>Mês de referência</span>
+              <input id="teacherNightMonthPicker" type="month" value="2026-08">
+            </label>
+            <button id="teacherNightNextBtn" type="button"
+                    aria-label="Próximo mês da agenda docente">›</button>
+          </div>
+        </div>
+
+        <div id="teacherNightLegend" class="night-legend"></div>
+
+        <div class="monthly-grid-wrap">
+          <div id="teacherNightCalendarGrid"
+               class="monthly-grid teacher-night-calendar-grid"></div>
+        </div>
+      </section>
+
+      <section id="eadBlock" class="ead-block">
         <h3>Disciplinas Ministradas em EAD:</h3>
-        <ul id="eadList"></ul>
       </section>
       <p class="note"></p>
     </div>
@@ -434,54 +672,29 @@ td.slot{height:79px;padding:4px}
 
 <script>
 const classes = {"agro-1a-2026": {"name": "EMI Agropecuária — 1º Ano A — Turma 2026", "short": "1º Ano A", "course": "EMI Agropecuária", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M2", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M3", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "M4", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "M5", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Terça", "M1", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Terça", "M2", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Terça", "M3", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Terça", "M4", "Bases Matemática para Adubação e Calagem", "Antonio Eduardo Lucena"], ["Terça", "M5", "Bases Matemática para Adubação e Calagem", "Antonio Eduardo Lucena"], ["Quarta", "M1", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M2", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M3", "História I", "Jayza Monteiro"], ["Quarta", "M4", "História I", "Jayza Monteiro"], ["Quarta", "M5", "Biologia I", "Laísa Castro"], ["Quarta", "M6", "Biologia I", "Laísa Castro"], ["Quinta", "M1", "História I", "Jayza Monteiro"], ["Quinta", "M2", "História I", "Jayza Monteiro"], ["Quinta", "M3", "Geografia I", "Luiz Viegas"], ["Quinta", "M4", "Geografia I", "Luiz Viegas"], ["Quinta", "M5", "Nutrição Animal e Forragicultura", "Karlyene Rocha"], ["Quinta", "M6", "Nutrição Animal e Forragicultura", "Karlyene Rocha"], ["Sexta", "M1", "Física I", "Luiz Carlos Leite"], ["Sexta", "M2", "Física I", "Luiz Carlos Leite"], ["Sexta", "M3", "Química I", "Waldemar Malcher"], ["Sexta", "M4", "Química I", "Waldemar Malcher"], ["Sexta", "M5", "Matemática I", "Nelson Ribeiro Filho"], ["Sexta", "M6", "Matemática I", "Nelson Ribeiro Filho"]], "regular_room": "Sala 02"}, "agro-1b-2026": {"name": "EMI Agropecuária — 1º Ano B — Turma 2026", "short": "1º Ano B", "course": "EMI Agropecuária", "main_shift": "Tarde", "schedule": [["Segunda", "T1", "Nutrição Animal e Forragicultura", "Karlyene Rocha"], ["Segunda", "T2", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "T3", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "T4", "Fundamentos da Agricultura e Pecuária", "Karlyene Rocha"], ["Segunda", "T5", "Matemática I", "Nelson Ribeiro Filho"], ["Segunda", "T6", "Matemática I", "Nelson Ribeiro Filho"], ["Terça", "T1", "Bases Matemática para Adubação e Calagem", "Antonio Eduardo Lucena"], ["Terça", "T2", "Bases Matemática para Adubação e Calagem", "Antonio Eduardo Lucena"], ["Terça", "T3", "Nutrição Animal e Forragicultura", "Karlyene Rocha"], ["Terça", "T5", "História I", "Jayza Monteiro"], ["Terça", "T6", "História I", "Jayza Monteiro"], ["Quarta", "T1", "História I", "Jayza Monteiro"], ["Quarta", "T2", "História I", "Jayza Monteiro"], ["Quarta", "T3", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Quarta", "T4", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Quarta", "T5", "Culturas Anuais e Olericultura", "Maurício Amorim"], ["Quinta", "T1", "Filosofia e Sociologia I", "Ieda Fernandes da Silva"], ["Quinta", "T2", "Filosofia e Sociologia I", "Ieda Fernandes da Silva"], ["Quinta", "T3", "Geografia I", "Luiz Viegas"], ["Quinta", "T4", "Geografia I", "Luiz Viegas"], ["Quinta", "T5", "Biologia I", "Laísa Castro"], ["Quinta", "T6", "Biologia I", "Laísa Castro"], ["Sexta", "T1", "Física I", "Luiz Carlos Leite"], ["Sexta", "T2", "Física I", "Luiz Carlos Leite"], ["Sexta", "T3", "Química I", "Waldemar Malcher"], ["Sexta", "T4", "Química I", "Waldemar Malcher"], ["Sexta", "T5", "Língua Portuguesa I", "Lívia Oliveira"], ["Sexta", "T6", "Língua Portuguesa I", "Lívia Oliveira"]], "regular_room": "Sala 01"}, "agro-2a-2025": {"name": "EMI Agropecuária — 2º Ano A — Turma 2025", "short": "2º Ano A", "course": "EMI Agropecuária", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Inglês", "Valéria Almeida"], ["Segunda", "M2", "Inglês", "Valéria Almeida"], ["Segunda", "M3", "Educação Física", "Sirleide Milhomem Araujo"], ["Segunda", "M4", "Educação Física", "Sirleide Milhomem Araujo"], ["Segunda", "M5", "Educação Física", "Sirleide Milhomem Araujo"], ["Segunda", "M6", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "M1", "Mecanização Agrícola, Irrigação e Drenagem", "Peterson Acacio de Araujo"], ["Terça", "M2", "Mecanização Agrícola, Irrigação e Drenagem", "Peterson Acacio de Araujo"], ["Terça", "M3", "Biologia II", "Anangela Ravena Leal"], ["Terça", "M4", "Biologia II", "Anangela Ravena Leal"], ["Terça", "M5", "História II", "Juliana Quintela"], ["Terça", "M6", "História II", "Juliana Quintela"], ["Quarta", "M1", "Física II", "Luiz Carlos Leite"], ["Quarta", "M2", "Física II", "Luiz Carlos Leite"], ["Quarta", "M3", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M4", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M5", "Geografia II", "Genilson Santana"], ["Quarta", "M6", "Geografia II", "Genilson Santana"], ["Quinta", "M1", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Quinta", "M2", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Quinta", "M3", "Produção de Monogástricos", "Karlyene Rocha"], ["Quinta", "M4", "Produção de Monogástricos", "Karlyene Rocha"], ["Sexta", "M1", "Matemática II", "Nelson Ribeiro Filho"], ["Sexta", "M2", "Matemática II", "Nelson Ribeiro Filho"], ["Sexta", "M3", "Matemática II", "Nelson Ribeiro Filho"], ["Sexta", "M4", "Língua Portuguesa II", "Igara Dantas"], ["Sexta", "M5", "Língua Portuguesa II", "Igara Dantas"], ["Sexta", "M6", "Língua Portuguesa II", "Igara Dantas"]], "regular_room": "Sala 06"}, "agro-2b-2025": {"name": "EMI Agropecuária — 2º Ano B — Turma 2025", "short": "2º Ano B", "course": "EMI Agropecuária", "main_shift": "Tarde", "schedule": [["Segunda", "T1", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "T2", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "T3", "Filosofia e Sociologia II", "Ieda Fernandes da Silva"], ["Segunda", "T4", "Filosofia e Sociologia II", "Ieda Fernandes da Silva"], ["Segunda", "T5", "Mecanização Agrícola, Irrigação e Drenagem", "Peterson Acacio de Araujo"], ["Segunda", "T6", "Mecanização Agrícola, Irrigação e Drenagem", "Peterson Acacio de Araujo"], ["Terça", "T1", "Produção de Monogástricos", "Karlyene Rocha"], ["Terça", "T2", "Produção de Monogástricos", "Karlyene Rocha"], ["Terça", "T3", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "T4", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "T5", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "T6", "Educação Física", "Sirleide Milhomem Araujo"], ["Quarta", "T1", "Inglês", "Valéria Almeida"], ["Quarta", "T2", "Inglês", "Valéria Almeida"], ["Quarta", "T3", "Matemática II", "Nelson Ribeiro Filho"], ["Quarta", "T4", "Matemática II", "Nelson Ribeiro Filho"], ["Quarta", "T5", "Matemática II", "Nelson Ribeiro Filho"], ["Quinta", "M1", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M2", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M3", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "T1", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Quinta", "T2", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Quinta", "T3", "História II", "Juliana Quintela"], ["Quinta", "T4", "História II", "Juliana Quintela"], ["Quinta", "T5", "Geografia II", "Genilson Santana"], ["Quinta", "T6", "Geografia II", "Genilson Santana"], ["Sexta", "T3", "Física II", "Luiz Carlos Leite"], ["Sexta", "T4", "Física II", "Luiz Carlos Leite"]], "regular_room": "Sala 03", "counterturn_room": "Sala 10"}, "agro-3-2024": {"name": "EMI Agropecuária — 3º Ano A — Turma 2024", "short": "3º Ano A", "course": "EMI Agropecuária", "main_shift": "Tarde", "schedule": [["Segunda", "M1", "Matemática III", "Nelson Ribeiro Filho"], ["Segunda", "M2", "Matemática III", "Nelson Ribeiro Filho"], ["Segunda", "M3", "Matemática III", "Nelson Ribeiro Filho"], ["Segunda", "M4", "Projeto Integrador", "Peterson Acacio de Araujo"], ["Segunda", "T1", "Química III", "Waldemar Malcher"], ["Segunda", "T2", "Química III", "Waldemar Malcher"], ["Segunda", "T3", "Biologia III", "Anangela Ravena Leal"], ["Segunda", "T4", "Biologia III", "Anangela Ravena Leal"], ["Segunda", "T5", "Produção Animal IV", "Karlyene Rocha"], ["Segunda", "T6", "Produção Animal IV", "Karlyene Rocha"], ["Terça", "T1", "Fruticultura Regional", "Maurício Amorim"], ["Terça", "T2", "Fruticultura Regional", "Maurício Amorim"], ["Terça", "T3", "Fruticultura Regional", "Maurício Amorim"], ["Terça", "T4", "Produção Animal II", "Karlyene Rocha"], ["Terça", "T5", "Produção Animal II", "Karlyene Rocha"], ["Terça", "T6", "Produção Animal II", "Karlyene Rocha"], ["Quarta", "T1", "Agroecologia e Sistemas Agroflorestais", "Maurício Amorim"], ["Quarta", "T2", "Agroecologia e Sistemas Agroflorestais", "Maurício Amorim"], ["Quarta", "T3", "Física III", "Adson Felipe Rodrigues"], ["Quarta", "T4", "Física III", "Adson Felipe Rodrigues"], ["Quarta", "T5", "Inglês II", "Valéria Almeida"], ["Quarta", "T6", "Inglês II", "Valéria Almeida"], ["Quinta", "T1", "Geografia III", "Genilson Santana"], ["Quinta", "T2", "Geografia III", "Genilson Santana"], ["Quinta", "T3", "História III", "Flávia Veras"], ["Quinta", "T4", "História III", "Flávia Veras"], ["Quinta", "T5", "Filosofia e Sociologia III", "Ieda Fernandes da Silva"], ["Quinta", "T6", "Filosofia e Sociologia III", "Ieda Fernandes da Silva"], ["Sexta", "M1", "Língua Portuguesa III", "Igara Dantas"], ["Sexta", "M2", "Língua Portuguesa III", "Igara Dantas"], ["Sexta", "M3", "Língua Portuguesa III", "Igara Dantas"], ["Sexta", "T1", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Sexta", "T2", "Topografia, Construções e Instalações Rurais", "Jaqueline Pinheiro"], ["Sexta", "T3", "Artes III", "Leandro Machado"], ["Sexta", "T4", "Artes III", "Leandro Machado"], ["Sexta", "T5", "Química III", "Waldemar Malcher"], ["Sexta", "T6", "Química III", "Waldemar Malcher"]], "regular_room": "Sala 05", "counterturn_room": "Sala 10"}, "adm-1a-2026": {"name": "EMI Administração — 1º Ano A — Turma 2026", "short": "1º Ano A", "course": "EMI Administração", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Introdução à Contabilidade", "Josevana Lucena"], ["Segunda", "M2", "Introdução à Contabilidade", "Josevana Lucena"], ["Segunda", "M3", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M4", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M5", "Logística e Gestão da Cadeia de Suprimentos", "Hugo Callado"], ["Segunda", "M6", "Logística e Gestão da Cadeia de Suprimentos", "Hugo Callado"], ["Terça", "M1", "Informática Aplicada", "João Ewerton Duarte"], ["Terça", "M2", "Informática Aplicada", "João Ewerton Duarte"], ["Terça", "M3", "Logística e Gestão da Cadeia de Suprimentos", "Hugo Callado"], ["Terça", "M4", "Logística e Gestão da Cadeia de Suprimentos", "Hugo Callado"], ["Terça", "M5", "Informática Aplicada", "João Ewerton Duarte"], ["Terça", "M6", "Informática Aplicada", "João Ewerton Duarte"], ["Quarta", "M1", "História I", "Jayza Monteiro"], ["Quarta", "M2", "História I", "Jayza Monteiro"], ["Quarta", "M3", "Biologia I", "Laísa Castro"], ["Quarta", "M4", "Biologia I", "Laísa Castro"], ["Quarta", "M5", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M6", "Língua Portuguesa I", "Lívia Oliveira"], ["Quinta", "M1", "Geografia I", "Luiz Viegas"], ["Quinta", "M2", "Geografia I", "Luiz Viegas"], ["Quinta", "M3", "História I", "Jayza Monteiro"], ["Quinta", "M4", "História I", "Jayza Monteiro"], ["Quinta", "M5", "Matemática I", "Márcio André Lima"], ["Quinta", "M6", "Matemática I", "Márcio André Lima"], ["Sexta", "M1", "Química I", "Waldemar Malcher"], ["Sexta", "M2", "Química I", "Waldemar Malcher"], ["Sexta", "M3", "Matemática Aplicada à Administração", "Josevana Lucena"], ["Sexta", "M4", "Matemática Aplicada à Administração", "Josevana Lucena"], ["Sexta", "M5", "Física I", "Adson Felipe Rodrigues"], ["Sexta", "M6", "Física I", "Adson Felipe Rodrigues"]], "regular_room": "Sala 01"}, "info-1a-2026": {"name": "EMI Informática — 1º Ano A — Turma 2026", "short": "1º Ano A", "course": "EMI Informática", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M2", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M3", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "M4", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "M5", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Terça", "M1", "Química I", "Gustavo Henrique Silva"], ["Terça", "M2", "Química I", "Gustavo Henrique Silva"], ["Terça", "M3", "Filosofia e Sociologia I", "Valber Pires"], ["Terça", "M4", "Filosofia e Sociologia I", "Valber Pires"], ["Terça", "M5", "História I", "Jayza Monteiro"], ["Terça", "M6", "História I", "Jayza Monteiro"], ["Quarta", "M1", "Geografia I", "Luiz Viegas"], ["Quarta", "M2", "Geografia I", "Luiz Viegas"], ["Quarta", "M3", "Redes de Computadores", "João Victor Pinheiro"], ["Quarta", "M4", "Redes de Computadores", "João Victor Pinheiro"], ["Quarta", "M5", "Redes de Computadores", "João Victor Pinheiro"], ["Quinta", "M1", "Biologia I", "Laísa Castro"], ["Quinta", "M2", "Biologia I", "Laísa Castro"], ["Quinta", "M3", "Matemática e Lógica de Programação", "Antonio Eduardo Lucena"], ["Quinta", "M4", "Matemática e Lógica de Programação", "Antonio Eduardo Lucena"], ["Quinta", "M5", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "M6", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "T3", "História I", "Jayza Monteiro"], ["Quinta", "T4", "História I", "Jayza Monteiro"], ["Quinta", "T5", "Matemática I", "Márcio André Lima"], ["Quinta", "T6", "Matemática I", "Márcio André Lima"], ["Sexta", "M2", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Sexta", "M3", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Sexta", "M4", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Sexta", "M5", "Língua Portuguesa I", "Lívia Oliveira"], ["Sexta", "M6", "Língua Portuguesa I", "Lívia Oliveira"]], "regular_room": "Sala 03", "counterturn_room": "Sala 10"}, "info-1b-2026": {"name": "EMI Informática — 1º Ano B — Turma 2026", "short": "1º Ano B", "course": "EMI Informática", "main_shift": "Tarde", "schedule": [["Segunda", "T1", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "T2", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "T3", "Algoritmos e Técnicas de Programação", "Daniel Faraco Maciel"], ["Segunda", "T5", "Filosofia e Sociologia I", "Ieda Fernandes da Silva"], ["Segunda", "T6", "Filosofia e Sociologia I", "Ieda Fernandes da Silva"], ["Terça", "T1", "Química I", "Gustavo Henrique Silva"], ["Terça", "T2", "Química I", "Gustavo Henrique Silva"], ["Terça", "T3", "História I", "Jayza Monteiro"], ["Terça", "T4", "História I", "Jayza Monteiro"], ["Terça", "T5", "Química I", "Gustavo Henrique Silva"], ["Terça", "T6", "Química I", "Gustavo Henrique Silva"], ["Quarta", "T2", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Quarta", "T3", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Quarta", "T4", "Arquitetura e Manutenção de Computadores", "João Victor Pinheiro"], ["Quarta", "T5", "História I", "Jayza Monteiro"], ["Quarta", "T6", "História I", "Jayza Monteiro"], ["Quinta", "M1", "Matemática e Lógica de Programação", "Antonio Eduardo Lucena"], ["Quinta", "M2", "Matemática e Lógica de Programação", "Antonio Eduardo Lucena"], ["Quinta", "M3", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "M4", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "T1", "Biologia I", "Laísa Castro"], ["Quinta", "T2", "Biologia I", "Laísa Castro"], ["Quinta", "T3", "Matemática I", "Márcio André Lima"], ["Quinta", "T4", "Matemática I", "Márcio André Lima"], ["Quinta", "T5", "Geografia I", "Luiz Viegas"], ["Quinta", "T6", "Geografia I", "Luiz Viegas"], ["Sexta", "T1", "Língua Portuguesa I", "Lívia Oliveira"], ["Sexta", "T2", "Língua Portuguesa I", "Lívia Oliveira"], ["Sexta", "T3", "Redes de Computadores", "João Victor Pinheiro"], ["Sexta", "T4", "Redes de Computadores", "João Victor Pinheiro"], ["Sexta", "T5", "Redes de Computadores", "João Victor Pinheiro"]], "regular_room": "Sala 02", "counterturn_room": "Sala 11"}, "info-2a-2025": {"name": "EMI Informática — 2º Ano A — Turma 2025", "short": "2º Ano A", "course": "EMI Informática", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Banco de Dados", "Daniel Faraco Maciel"], ["Segunda", "M2", "Banco de Dados", "Daniel Faraco Maciel"], ["Segunda", "M3", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "M4", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "M5", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M6", "Química I", "Gustavo Henrique Silva"], ["Terça", "M1", "História II", "Juliana Quintela"], ["Terça", "M2", "História II", "Juliana Quintela"], ["Terça", "M3", "Programação Web I", "João Ewerton Duarte"], ["Terça", "M4", "Programação Web I", "João Ewerton Duarte"], ["Terça", "M5", "Filosofia e Sociologia II", "Valber Pires"], ["Terça", "M6", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M1", "Matemática II", "Márcio André Lima"], ["Quarta", "M2", "Matemática II", "Márcio André Lima"], ["Quarta", "M3", "Matemática II", "Márcio André Lima"], ["Quarta", "M4", "Língua Portuguesa II", "Igara Dantas"], ["Quarta", "M5", "Língua Portuguesa II", "Igara Dantas"], ["Quarta", "M6", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M1", "Geografia II", "Genilson Santana"], ["Quinta", "M2", "Geografia II", "Genilson Santana"], ["Quinta", "M3", "Artes I", "Leandro Machado"], ["Quinta", "M4", "Artes I", "Leandro Machado"], ["Quinta", "M5", "Inglês II", "Valéria Almeida"], ["Quinta", "M6", "Inglês II", "Valéria Almeida"], ["Sexta", "M1", "Química I", "Gustavo Henrique Silva"], ["Sexta", "M2", "Química I", "Gustavo Henrique Silva"], ["Sexta", "M3", "Física II", "Luiz Carlos Leite"], ["Sexta", "M4", "Física II", "Luiz Carlos Leite"], ["Sexta", "M5", "Programação Orientada a Objetos", "Luan Farias"], ["Sexta", "M6", "Programação Orientada a Objetos", "Luan Farias"], ["Sexta", "T3", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "T4", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "T5", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "T6", "Educação Física", "Sirleide Milhomem Araujo"]], "regular_room": "Sala 07", "counterturn_room": "Sala 07"}, "info-2b-2025": {"name": "EMI Informática — 2º Ano B — Turma 2025", "short": "2º Ano B", "course": "EMI Informática", "main_shift": "Tarde", "schedule": [["Segunda", "T1", "Filosofia e Sociologia II", "Ieda Fernandes da Silva"], ["Segunda", "T2", "Filosofia e Sociologia II", "Ieda Fernandes da Silva"], ["Segunda", "T3", "Inglês II", "Valéria Almeida"], ["Segunda", "T4", "Inglês II", "Valéria Almeida"], ["Segunda", "T5", "Biologia II", "Anangela Ravena Leal"], ["Segunda", "T6", "Biologia II", "Anangela Ravena Leal"], ["Terça", "M1", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "M2", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "M3", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "M4", "Educação Física", "Sirleide Milhomem Araujo"], ["Terça", "T1", "Banco de Dados", "Daniel Faraco Maciel"], ["Terça", "T2", "Banco de Dados", "Daniel Faraco Maciel"], ["Terça", "T3", "Química I", "Gustavo Henrique Silva"], ["Terça", "T4", "Química I", "Gustavo Henrique Silva"], ["Terça", "T5", "Programação Web I", "João Ewerton Duarte"], ["Terça", "T6", "Programação Web I", "João Ewerton Duarte"], ["Quarta", "T1", "Matemática II", "Márcio André Lima"], ["Quarta", "T2", "Matemática II", "Márcio André Lima"], ["Quarta", "T3", "Língua Portuguesa II", "Igara Dantas"], ["Quarta", "T4", "Língua Portuguesa II", "Igara Dantas"], ["Quarta", "T5", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "T1", "Artes I", "Leandro Machado"], ["Quinta", "T2", "Artes I", "Leandro Machado"], ["Quinta", "T3", "Geografia II", "Genilson Santana"], ["Quinta", "T4", "Geografia II", "Genilson Santana"], ["Quinta", "T5", "História II", "Juliana Quintela"], ["Quinta", "T6", "História II", "Juliana Quintela"], ["Sexta", "M1", "Matemática II", "Márcio André Lima"], ["Sexta", "M2", "Matemática II", "Márcio André Lima"], ["Sexta", "M3", "Matemática II", "Márcio André Lima"], ["Sexta", "M4", "Matemática II", "Márcio André Lima"], ["Sexta", "T1", "Química I", "Gustavo Henrique Silva"], ["Sexta", "T2", "Química I", "Gustavo Henrique Silva"], ["Sexta", "T3", "Programação Orientada a Objetos", "Luan Farias"], ["Sexta", "T4", "Programação Orientada a Objetos", "Luan Farias"], ["Sexta", "T5", "Física II", "Luiz Carlos Leite"], ["Sexta", "T6", "Física II", "Luiz Carlos Leite"]], "regular_room": "Sala 04", "counterturn_room": "Sala 11"}, "info-3-2024": {"name": "EMI Informática — 3º Ano A — Turma 2024", "short": "3º Ano A", "course": "EMI Informática", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Química II", "Waldemar Malcher"], ["Segunda", "M2", "Química II", "Waldemar Malcher"], ["Segunda", "M3", "Química II", "Waldemar Malcher"], ["Segunda", "M4", "Química II", "Waldemar Malcher"], ["Segunda", "M5", "Programação para Dispositivos Móveis", "Luan Farias"], ["Segunda", "M6", "Programação para Dispositivos Móveis", "Luan Farias"], ["Terça", "M1", "Biologia III", "Anangela Ravena Leal"], ["Terça", "M2", "Biologia III", "Anangela Ravena Leal"], ["Terça", "M3", "Química III", "Waldemar Malcher"], ["Terça", "M4", "Química III", "Waldemar Malcher"], ["Terça", "M5", "Química III", "Waldemar Malcher"], ["Terça", "M6", "Química III", "Waldemar Malcher"], ["Terça", "T3", "Matemática III", "Antonio Eduardo Lucena"], ["Terça", "T4", "Matemática III", "Antonio Eduardo Lucena"], ["Terça", "T5", "Matemática III", "Antonio Eduardo Lucena"], ["Quarta", "M1", "Geografia III", "Genilson Santana"], ["Quarta", "M2", "Geografia III", "Genilson Santana"], ["Quarta", "M3", "Inglês II", "Valéria Almeida"], ["Quarta", "M4", "Inglês II", "Valéria Almeida"], ["Quarta", "M5", "Filosofia e Sociologia III", "Valber Pires"], ["Quarta", "M6", "Filosofia e Sociologia III", "Valber Pires"], ["Quinta", "M1", "Artes III", "Leandro Machado"], ["Quinta", "M2", "Artes III", "Leandro Machado"], ["Quinta", "M3", "História III", "Flávia Veras"], ["Quinta", "M4", "História III", "Flávia Veras"], ["Quinta", "M5", "Projeto Integrador", "Ailton Lopes de Sousa"], ["Quinta", "M6", "Projeto Integrador", "Ailton Lopes de Sousa"], ["Quinta", "T3", "Língua Portuguesa III", "Igara Dantas"], ["Quinta", "T4", "Língua Portuguesa III", "Igara Dantas"], ["Quinta", "T5", "Língua Portuguesa III", "Igara Dantas"], ["Sexta", "M1", "Física III", "Adson Felipe Rodrigues"], ["Sexta", "M2", "Física III", "Adson Felipe Rodrigues"], ["Sexta", "M3", "Desenvolvimento Web", "Luan Farias"], ["Sexta", "M4", "Desenvolvimento Web", "Luan Farias"], ["Sexta", "M5", "Segurança e Administração da Informação", "João Victor Pinheiro"], ["Sexta", "M6", "Segurança e Administração da Informação", "João Victor Pinheiro"]], "regular_room": "Sala 09", "counterturn_room": "Sala 09"}, "edif-1a-2026": {"name": "EMI Edificações — 1º Ano A — Turma 2026", "short": "1º Ano A", "course": "EMI Edificações", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Materiais de Construção e Tecnologia do Concreto e Argamassa", "Harry Kinsey"], ["Segunda", "M2", "Materiais de Construção e Tecnologia do Concreto e Argamassa", "Harry Kinsey"], ["Segunda", "M3", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M4", "Química I", "Gustavo Henrique Silva"], ["Segunda", "M5", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "M6", "Filosofia e Sociologia I", "Valber Pires"], ["Segunda", "T3", "Projeto Arquitetônico", "Francisco Willame"], ["Segunda", "T4", "Projeto Arquitetônico", "Francisco Willame"], ["Segunda", "T5", "Projeto Arquitetônico", "Francisco Willame"], ["Segunda", "T6", "Projeto Arquitetônico", "Francisco Willame"], ["Terça", "M1", "História I", "Jayza Monteiro"], ["Terça", "M2", "História I", "Jayza Monteiro"], ["Terça", "M3", "História I", "Jayza Monteiro"], ["Terça", "M4", "História I", "Jayza Monteiro"], ["Terça", "M5", "Projeto Arquitetônico", "Francisco Willame"], ["Terça", "M6", "Projeto Arquitetônico", "Francisco Willame"], ["Quarta", "M1", "Biologia I", "Laísa Castro"], ["Quarta", "M2", "Biologia I", "Laísa Castro"], ["Quarta", "M3", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M4", "Língua Portuguesa I", "Lívia Oliveira"], ["Quarta", "M5", "Física I", "Adson Felipe Rodrigues"], ["Quarta", "M6", "Física I", "Adson Felipe Rodrigues"], ["Quinta", "M3", "Tecnologia da Construção", "Jaqueline Pinheiro"], ["Quinta", "M4", "Tecnologia da Construção", "Jaqueline Pinheiro"], ["Quinta", "M5", "Geografia I", "Luiz Viegas"], ["Quinta", "M6", "Geografia I", "Luiz Viegas"], ["Sexta", "M1", "Matemática Básica para Estruturas", "Davi Goveia"], ["Sexta", "M2", "Matemática Básica para Estruturas", "Davi Goveia"], ["Sexta", "M3", "Química I", "Gustavo Henrique Silva"], ["Sexta", "M4", "Química I", "Gustavo Henrique Silva"], ["Sexta", "M5", "Matemática I", "Márcio André Lima"], ["Sexta", "M6", "Matemática I", "Márcio André Lima"]], "regular_room": "Sala 04", "counterturn_room": "Sala 10"}, "adm-2a-2025": {"name": "EMI Administração — 2º Ano A — Turma 2025", "short": "2º Ano A", "course": "EMI Administração", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Administração da Produção e Operações", "Hugo Callado"], ["Segunda", "M2", "Administração da Produção e Operações", "Hugo Callado"], ["Segunda", "M3", "Administração da Produção e Operações", "Hugo Callado"], ["Segunda", "M4", "Administração da Produção e Operações", "Hugo Callado"], ["Segunda", "M5", "Inglês", "Valéria Almeida"], ["Segunda", "M6", "Inglês", "Valéria Almeida"], ["Terça", "M1", "Gestão Financeira", "Hugo Callado"], ["Terça", "M2", "Gestão Financeira", "Hugo Callado"], ["Terça", "M3", "História II", "Juliana Quintela"], ["Terça", "M4", "História II", "Juliana Quintela"], ["Terça", "M5", "Gestão Financeira", "Hugo Callado"], ["Terça", "M6", "Gestão Financeira", "Hugo Callado"], ["Quarta", "M1", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M2", "Filosofia e Sociologia II", "Valber Pires"], ["Quarta", "M3", "Geografia II", "Luiz Viegas"], ["Quarta", "M4", "Geografia II", "Luiz Viegas"], ["Quarta", "M5", "Física II", "Luiz Carlos Leite"], ["Quarta", "M6", "Física II", "Luiz Carlos Leite"], ["Quinta", "M1", "Matemática II", "Márcio André Lima"], ["Quinta", "M2", "Matemática II", "Márcio André Lima"], ["Quinta", "M3", "Matemática II", "Márcio André Lima"], ["Quinta", "M4", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M5", "Língua Portuguesa II", "Igara Dantas"], ["Quinta", "M6", "Língua Portuguesa II", "Igara Dantas"], ["Sexta", "M1", "Biologia II", "Laísa Castro"], ["Sexta", "M2", "Biologia II", "Laísa Castro"], ["Sexta", "M3", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "M4", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "M5", "Educação Física", "Sirleide Milhomem Araujo"], ["Sexta", "M6", "Educação Física", "Sirleide Milhomem Araujo"]], "regular_room": "Sala 05"}, "edif-3a-2024": {"name": "EMI Edificações — 3º Ano A — Turma 2024", "short": "3º Ano A", "course": "EMI Edificações", "main_shift": "Manhã", "schedule": [["Segunda", "M1", "Projeto Integrador", "Francisco Willame"], ["Segunda", "M2", "Projeto Integrador", "Francisco Willame"], ["Segunda", "M3", "Inglês II", "Valéria Almeida"], ["Segunda", "M4", "Inglês II", "Valéria Almeida"], ["Segunda", "M5", "Instalações Prediais Hidráulicas e Sanitárias", "Harry Kinsey"], ["Segunda", "M6", "Instalações Prediais Hidráulicas e Sanitárias", "Harry Kinsey"], ["Segunda", "T3", "Química III", "Waldemar Malcher"], ["Segunda", "T4", "Química III", "Waldemar Malcher"], ["Segunda", "T5", "Química III", "Waldemar Malcher"], ["Segunda", "T6", "Química III", "Waldemar Malcher"], ["Terça", "M1", "Filosofia e Sociologia III", "Valber Pires"], ["Terça", "M2", "Filosofia e Sociologia III", "Valber Pires"], ["Terça", "M3", "Química II", "Gustavo Henrique Silva"], ["Terça", "M4", "Química II", "Gustavo Henrique Silva"], ["Terça", "M5", "Biologia II", "Anangela Ravena Leal"], ["Terça", "M6", "Biologia II", "Anangela Ravena Leal"], ["Terça", "T3", "Instalações Elétricas e Prediais", "Francisco Willame"], ["Terça", "T4", "Instalações Elétricas e Prediais", "Francisco Willame"], ["Terça", "T5", "Instalações Elétricas e Prediais", "Francisco Willame"], ["Terça", "T6", "Instalações Elétricas e Prediais", "Francisco Willame"], ["Quarta", "M1", "Língua Portuguesa III", "Igara Dantas"], ["Quarta", "M2", "Língua Portuguesa III", "Igara Dantas"], ["Quarta", "M3", "Língua Portuguesa III", "Igara Dantas"], ["Quarta", "M4", "Matemática III", "Antonio Eduardo Lucena"], ["Quarta", "M5", "Matemática III", "Antonio Eduardo Lucena"], ["Quarta", "M6", "Matemática III", "Antonio Eduardo Lucena"], ["Quinta", "M1", "Física III", "Adson Felipe Rodrigues"], ["Quinta", "M2", "Física III", "Adson Felipe Rodrigues"], ["Quinta", "M3", "Geografia III", "Genilson Santana"], ["Quinta", "M4", "Geografia III", "Genilson Santana"], ["Quinta", "M5", "História III", "Flávia Veras"], ["Quinta", "M6", "História III", "Flávia Veras"], ["Sexta", "M1", "Introdução ao Cálculo Estrutural", "Jaqueline Pinheiro"], ["Sexta", "M2", "Introdução ao Cálculo Estrutural", "Jaqueline Pinheiro"], ["Sexta", "M3", "Patologia das Construções", "Davi Goveia"], ["Sexta", "M4", "Patologia das Construções", "Davi Goveia"], ["Sexta", "M5", "Planejamento e Custo de Obras", "Davi Goveia"], ["Sexta", "M6", "Planejamento e Custo de Obras", "Davi Goveia"], ["Sexta", "T3", "Química II", "Gustavo Henrique Silva"], ["Sexta", "T4", "Química II", "Gustavo Henrique Silva"], ["Sexta", "T5", "Artes III", "Leandro Machado"], ["Sexta", "T6", "Artes III", "Leandro Machado"]], "regular_room": "Sala 08", "counterturn_room": "Sala 08"}};
-
-const eadSubjectsByClass = {
-  "agro-1a-2026": [
-    "Metodologia Científica",
-    "Higiene e Segurança do Trabalho"
-  ],
-  "agro-1b-2026": [
-    "Metodologia Científica",
-    "Higiene e Segurança do Trabalho"
-  ],
-  "edif-1a-2026": [
-    "Metodologia Científica",
-    "Higiene e Segurança do Trabalho"
-  ],
-  "info-1a-2026": [
-    "Metodologia Científica",
-    "Higiene e Segurança do Trabalho"
-  ],
-  "info-1b-2026": [
-    "Metodologia Científica",
-    "Higiene e Segurança do Trabalho"
-  ],
-  "agro-2a-2025": [
-    "Introdução a Informática",
-    "Higiene e Segurança do Trabalho"
-  ],
-  "agro-2b-2025": [
-    "Introdução a Informática",
-    "Higiene e Segurança do Trabalho"
-  ],
-  "info-2a-2025": [
-    "Introdução a Informática",
-    "Higiene e Segurança do Trabalho"
-  ],
-  "info-2b-2025": [
-    "Introdução a Informática",
-    "Higiene e Segurança do Trabalho"
-  ]
-}
-
+const nightClasses = {"historia-1p-2025": {"name": "1º Período — História — Turma 2025", "short": "1º Período", "course": "Licenciatura em História", "main_shift": "Noite", "calendar_type": "monthly", "default_month": "2026-08", "disciplines": {"A": {"subject": "Estágio Supervisionado I", "teacher": "Flávia Veras"}, "B": {"subject": "PPC I", "teacher": "Flávia Veras"}, "C": {"subject": "Português Instrumental", "teacher": "Lívia Oliveira"}, "D": {"subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires"}, "E": {"subject": "Teoria e Medodologia", "teacher": "Flávia Veras"}, "F": {"subject": "Libras", "teacher": "Docente a definir"}, "G": {"subject": "Informática Aplicada à História", "teacher": "Daniel Ferraz"}}, "events": [{"date": "2026-08-03", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-08-03", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-08-04", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-08-04", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-08-05", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-08-05", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-08-06", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-08-06", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-08-07", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-08-07", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-08-10", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-08-11", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-08-13", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-08-13", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-08-15", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-08-17", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-08-18", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-08-20", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-08-20", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-08-24", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-08-25", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-08-27", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-08-27", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-08-31", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-09-01", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-09-02", "subject": "Informática Aplicada à História", "teacher": "Daniel Ferraz", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "g", "code": "G"}, {"date": "2026-09-03", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-09-03", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-09-07", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-09-08", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-09-09", "subject": "Informática Aplicada à História", "teacher": "Daniel Ferraz", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "g", "code": "G"}, {"date": "2026-09-10", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-09-10", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-09-14", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-09-15", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-09-16", "subject": "Informática Aplicada à História", "teacher": "Daniel Ferraz", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "g", "code": "G"}, {"date": "2026-09-17", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-09-17", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-09-21", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-09-22", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-09-23", "subject": "Informática Aplicada à História", "teacher": "Daniel Ferraz", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "g", "code": "G"}, {"date": "2026-09-24", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-09-24", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-09-28", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "d", "code": "D"}, {"date": "2026-09-29", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-09-30", "subject": "Informática Aplicada à História", "teacher": "Daniel Ferraz", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "g", "code": "G"}, {"date": "2026-10-01", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-10-01", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-10-05", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-10-06", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-10-07", "subject": "Informática Aplicada à História", "teacher": "Daniel Ferraz", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "g", "code": "G"}, {"date": "2026-10-08", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-10-08", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-10-12", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-10-13", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-10-15", "subject": "Ponto Facultativo", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-10-16", "subject": "Ponto Facultativo", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-10-19", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-10-20", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-10-21", "subject": "Informática Aplicada à História", "teacher": "Daniel Ferraz", "periods": ["N1", "N2"], "room": "Sala 01", "tone": "g", "code": "G"}, {"date": "2026-10-22", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-10-22", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-10-26", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-10-27", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-10-28", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-10-29", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-10-29", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-10-30", "subject": "Ponto Facultativo", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-02", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-03", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-11-04", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-11-05", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-11-05", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-11-06", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-07", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-11-09", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-11-10", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-11-11", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-11-12", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-11-12", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-11-15", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-16", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-11-17", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-11-19", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-11-19", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-11-20", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-23", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-11-24", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-11-25", "subject": "Teoria e Medodologia", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "e", "code": "E"}, {"date": "2026-11-26", "subject": "Estágio Supervisionado I", "teacher": "Flávia Veras", "periods": ["N1", "N2", "N3"], "room": "Sala 01", "tone": "a", "code": "A"}, {"date": "2026-11-26", "subject": "PPC I", "teacher": "Flávia Veras", "periods": ["N4"], "room": "Sala 01", "tone": "b", "code": "B"}, {"date": "2026-11-30", "subject": "Português Instrumental", "teacher": "Lívia Oliveira", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "c", "code": "C"}, {"date": "2026-12-01", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-02", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-03", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-04", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-05", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-07", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-08", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-12-09", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-10", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-11", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-12", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 01", "tone": "f", "code": "F"}, {"date": "2026-12-25", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}], "source_sheet": "História 1º Período", "regular_room": "Sala 01"}, "historia-3p-2026": {"name": "3º Período — História — Turma 2026", "short": "3º Período", "course": "Licenciatura em História", "main_shift": "Noite", "calendar_type": "monthly", "default_month": "2026-08", "disciplines": {"A": {"subject": "Estágio Supervisionado III", "teacher": "Genilson Santana"}, "B": {"subject": "PPC", "teacher": "Genilson Santana"}, "C": {"subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas"}, "D": {"subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires"}, "E": {"subject": "Filosofia da História", "teacher": "Prof substituto"}, "F": {"subject": "Libras", "teacher": "Docente a definir"}}, "events": [{"date": "2026-08-03", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-08-03", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-08-04", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-08-04", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-08-05", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-08-05", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-08-06", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-08-06", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-08-07", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-08-07", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-08-10", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-08-11", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-08-12", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-08-13", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-08-13", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-08-15", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-08-17", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-08-18", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-08-19", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-08-20", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-08-20", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-08-24", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-08-25", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-08-26", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-08-27", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-08-27", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-08-31", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-09-01", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-09-02", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-09-03", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-09-03", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-09-07", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-09-08", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-09-09", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-09-10", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-09-10", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-09-14", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-09-15", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-09-16", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-09-17", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-09-17", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-09-21", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-09-22", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-09-23", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-09-24", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-09-24", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-09-28", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-09-29", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-09-30", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-10-01", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-10-01", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-10-05", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-10-06", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-10-07", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-10-08", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-10-08", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-10-12", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-10-13", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-10-14", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-10-15", "subject": "Ponto Facultativo", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-10-16", "subject": "Ponto Facultativo", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-10-19", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-10-20", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-10-21", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-10-22", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-10-22", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-10-26", "subject": "Computador e Sociedade", "teacher": "Valéria Almeida / Valber Pires", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "d", "code": "D"}, {"date": "2026-10-27", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-10-28", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-10-29", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-10-29", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-10-30", "subject": "Ponto Facultativo", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-02", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-03", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-11-04", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-11-05", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-11-05", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-11-06", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-09", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-11-10", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-11-11", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-11-12", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-11-12", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-11-15", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-16", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-11-17", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-11-18", "subject": "Brasil I", "teacher": "Flávia Veras / Luiz Viegas", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "c", "code": "C"}, {"date": "2026-11-19", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-11-19", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-11-20", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-11-23", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-11-24", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-11-26", "subject": "Estágio Supervisionado III", "teacher": "Genilson Santana", "periods": ["N1", "N2", "N3"], "room": "Sala 02", "tone": "a", "code": "A"}, {"date": "2026-11-26", "subject": "PPC", "teacher": "Genilson Santana", "periods": ["N4"], "room": "Sala 02", "tone": "b", "code": "B"}, {"date": "2026-11-30", "subject": "Filosofia da História", "teacher": "Prof substituto", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "e", "code": "E"}, {"date": "2026-12-01", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-02", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-03", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-04", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-05", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-07", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-08", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}, {"date": "2026-12-09", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-10", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-11", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-12", "subject": "Libras", "teacher": "Docente a definir", "periods": ["N1", "N2", "N3", "N4"], "room": "Sala 02", "tone": "f", "code": "F"}, {"date": "2026-12-25", "subject": "Feriado", "teacher": "", "periods": ["N1", "N2", "N3", "N4"], "room": "", "tone": "holiday", "special": true}], "source_sheet": "História 3º Periodo", "regular_room": "Sala 02"}};
 const periods = [{"code": "M1", "time": "07:30–08:20", "shift": "Manhã"}, {"code": "M2", "time": "08:20–09:10", "shift": "Manhã"}, {"code": "M3", "time": "09:10–10:00", "shift": "Manhã"}, {"code": "M4", "time": "10:20–11:10", "shift": "Manhã"}, {"code": "M5", "time": "11:10–12:00", "shift": "Manhã"}, {"code": "M6", "time": "12:00–12:50", "shift": "Manhã"}, {"code": "T1", "time": "13:00–13:50", "shift": "Tarde"}, {"code": "T2", "time": "13:50–14:40", "shift": "Tarde"}, {"code": "T3", "time": "14:40–15:30", "shift": "Tarde"}, {"code": "T4", "time": "15:50–16:40", "shift": "Tarde"}, {"code": "T5", "time": "16:40–17:30", "shift": "Tarde"}, {"code": "T6", "time": "17:30–18:20", "shift": "Tarde"}];
+const labSubjects = new Set(["Algoritmos e Técnicas de Programação", "Arquitetura e Manutenção de Computadores", "Banco de Dados", "Desenvolvimento Web", "Informática Aplicada", "Matemática e Lógica de Programação", "Programação Orientada a Objetos", "Programação Web I", "Programação para Dispositivos Móveis", "Projeto Arquitetônico", "Redes de Computadores", "Segurança e Administração da Informação"]);
+const labAllocations = {"adm-1a-2026|Terça|M1|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M2|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M5|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M6|Informática Aplicada": "Laboratório III", "edif-1a-2026|Segunda|T3|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T4|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T5|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T6|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Terça|M5|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Terça|M6|Projeto Arquitetônico": "Laboratório I", "info-1a-2026|Quarta|M3|Redes de Computadores": "Laboratório III", "info-1a-2026|Quarta|M4|Redes de Computadores": "Laboratório III", "info-1a-2026|Quarta|M5|Redes de Computadores": "Laboratório III", "info-1a-2026|Quinta|M3|Matemática e Lógica de Programação": "Laboratório III", "info-1a-2026|Quinta|M4|Matemática e Lógica de Programação": "Laboratório III", "info-1a-2026|Segunda|M3|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Segunda|M4|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Segunda|M5|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Sexta|M2|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1a-2026|Sexta|M3|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1a-2026|Sexta|M4|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T2|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T3|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T4|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quinta|M1|Matemática e Lógica de Programação": "Laboratório III", "info-1b-2026|Quinta|M2|Matemática e Lógica de Programação": "Laboratório III", "info-1b-2026|Segunda|T1|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Segunda|T2|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Segunda|T3|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Sexta|T3|Redes de Computadores": "Laboratório III", "info-1b-2026|Sexta|T4|Redes de Computadores": "Laboratório III", "info-1b-2026|Sexta|T5|Redes de Computadores": "Laboratório III", "info-2a-2025|Segunda|M1|Banco de Dados": "Laboratório III", "info-2a-2025|Segunda|M2|Banco de Dados": "Laboratório III", "info-2a-2025|Sexta|M5|Programação Orientada a Objetos": "Laboratório III", "info-2a-2025|Sexta|M6|Programação Orientada a Objetos": "Laboratório III", "info-2a-2025|Terça|M3|Programação Web I": "Laboratório III", "info-2a-2025|Terça|M4|Programação Web I": "Laboratório III", "info-2b-2025|Sexta|T3|Programação Orientada a Objetos": "Laboratório I", "info-2b-2025|Sexta|T4|Programação Orientada a Objetos": "Laboratório I", "info-2b-2025|Terça|T1|Banco de Dados": "Laboratório III", "info-2b-2025|Terça|T2|Banco de Dados": "Laboratório III", "info-2b-2025|Terça|T5|Programação Web I": "Laboratório III", "info-2b-2025|Terça|T6|Programação Web I": "Laboratório III", "info-3-2024|Segunda|M5|Programação para Dispositivos Móveis": "Laboratório I", "info-3-2024|Segunda|M6|Programação para Dispositivos Móveis": "Laboratório I", "info-3-2024|Sexta|M3|Desenvolvimento Web": "Laboratório I", "info-3-2024|Sexta|M4|Desenvolvimento Web": "Laboratório I", "info-3-2024|Sexta|M5|Segurança e Administração da Informação": "Laboratório I", "info-3-2024|Sexta|M6|Segurança e Administração da Informação": "Laboratório I"};
+const laboratoryPeriods = [
+  ...periods,
+  {"code":"N1","time":"19:00–19:40","shift":"Noite"},
+  {"code":"N2","time":"19:40–20:30","shift":"Noite"},
+  {"code":"N3","time":"21:00–21:50","shift":"Noite"},
+  {"code":"N4","time":"21:50–22:40","shift":"Noite"}
+];
 const subjectColors = {"Agroecologia e Sistemas Agroflorestais": "#d7e8f5", "Artes III": "#d9ecf0", "Bases Matemática para Adubação e Calagem": "#dbe6f7", "Biologia I": "#d7ece7", "Biologia II": "#dfe5f3", "Biologia III": "#d9e7ef", "Culturas Anuais e Olericultura": "#dceaf5", "Filosofia e Sociologia I": "#d8e4ee", "Filosofia e Sociologia II": "#e0e4f5", "Filosofia e Sociologia III": "#d9eef0", "Fruticultura Regional": "#dce7f1", "Fundamentos da Agricultura e Pecuária": "#d8e9e4", "Física I": "#dde9f4", "Física II": "#dce2f1", "Física III": "#d7e6f0", "Geografia I": "#d7e8f5", "Geografia II": "#d9ecf0", "Geografia III": "#dbe6f7", "História II": "#d7ece7", "História III": "#dfe5f3", "Inglês": "#d9e7ef", "Inglês II": "#dceaf5", "Língua Portuguesa I": "#d8e4ee", "Língua Portuguesa II": "#e0e4f5", "Língua Portuguesa III": "#d9eef0", "Matemática I": "#dce7f1", "Matemática II": "#d8e9e4", "Matemática III": "#dde9f4", "Mecanização Agrícola, Irrigação e Drenagem": "#dce2f1", "Nutrição Animal e Forragicultura": "#d7e6f0", "Produção Animal II": "#d7e8f5", "Produção Animal IV": "#d9ecf0", "Produção de Monogástricos": "#dbe6f7", "Projeto Integrador": "#d7ece7", "Química I": "#dfe5f3", "Química II": "#d9e7ef", "Topografia, Construções e Instalações Rurais": "#dceaf5", "Introdução à Contabilidade": "#d7e8f5", "Matemática Aplicada à Administração": "#dde3f4", "Logística e Gestão da Cadeia de Suprimentos": "#d7ece8", "Gestão Financeira": "#dce9f2", "Algoritmos e Técnicas de Programação": "#d7e8f5", "Arquitetura e Manutenção de Computadores": "#d9ecf0", "Artes I": "#dbe6f7", "Banco de Dados": "#dfe5f3", "Desenvolvimento Web": "#e0e4f5", "Desenvolvimento de Software e Design de Interfaces": "#d9eef0", "Matemática e Lógica de Programação": "#dce2f1", "Programação Orientada a Objetos": "#d7e6f0", "Programação Web I": "#d7e8f5", "Programação para Dispositivos Móveis": "#d9ecf0", "Redes de Computadores": "#dbe6f7", "Segurança e Administração da Informação": "#d7ece7", "Materiais de Construção e Tecnologia do Concreto e Argamassa": "#d9e8f2", "Tecnologia da Construção": "#d7ebe7", "Matemática Básica para Estruturas": "#dfe4f4", "Instalações Prediais Hidráulicas e Sanitárias": "#d7e9ee", "Introdução ao Cálculo Estrutural": "#dce3f3", "Patologia das Construções": "#d9e7ef", "Planejamento e Custo de Obras": "#d8e9e3", "Química III": "#dce6f4", "Educação Física": "#d8e8f0", "História I": "#e2e8f0", "Projeto Arquitetônico": "#dbe7ef", "Instalações Elétricas e Prediais": "#e3e8f1", "Informática Aplicada": "#dceaf1", "Administração da Produção e Operações": "#e3eaee"};
 const days = ["Segunda","Terça","Quarta","Quinta","Sexta"];
 
-for (const data of Object.values(classes)) {
+for (const [classKey, data] of Object.entries(classes)) {
   data.schedule = data.schedule.map(([day, period, subject, teacher]) => {
     const p = periods.find(x => x.code === period);
-    const room = p.shift === data.main_shift ? data.regular_room : (data.counterturn_room || "A definir");
+    const allocationKey = `${classKey}|${day}|${period}|${subject}`;
+    const defaultRoom = p.shift === data.main_shift
+      ? data.regular_room
+      : (data.counterturn_room || "A definir");
+    const room = labAllocations[allocationKey] || defaultRoom;
+
     return {
       day,
       period,
@@ -490,7 +703,9 @@ for (const data of Object.values(classes)) {
       time: p.time,
       shift: p.shift,
       className: data.name,
-      room
+      classKey,
+      room,
+      usesLaboratory: labSubjects.has(subject)
     };
   });
 }
@@ -504,6 +719,22 @@ const sidebarOverlay = document.getElementById("sidebarOverlay");
 const sidebarToggle = document.getElementById("sidebarToggle");
 const sidebarClose = document.getElementById("sidebarClose");
 const roomViewBtn = document.getElementById("roomViewBtn");
+const labViewBtn = document.getElementById("labViewBtn");
+const weeklyCalendarView = document.getElementById("weeklyCalendarView");
+const monthlyCalendarView = document.getElementById("monthlyCalendarView");
+const monthlyCalendarGrid = document.getElementById("monthlyCalendarGrid");
+const monthPicker = document.getElementById("monthPicker");
+const monthPrevBtn = document.getElementById("monthPrevBtn");
+const monthNextBtn = document.getElementById("monthNextBtn");
+const nightLegend = document.getElementById("nightLegend");
+const teacherDayNotice = document.getElementById("teacherDayNotice");
+const teacherNightBlock = document.getElementById("teacherNightBlock");
+const teacherNightSubtitle = document.getElementById("teacherNightSubtitle");
+const teacherNightLegend = document.getElementById("teacherNightLegend");
+const teacherNightCalendarGrid = document.getElementById("teacherNightCalendarGrid");
+const teacherNightMonthPicker = document.getElementById("teacherNightMonthPicker");
+const teacherNightPrevBtn = document.getElementById("teacherNightPrevBtn");
+const teacherNightNextBtn = document.getElementById("teacherNightNextBtn");
 const teacherLocatorBtn = document.getElementById("teacherLocatorBtn");
 const teacherLocatorModal = document.getElementById("teacherLocatorModal");
 const teacherLocatorClose = document.getElementById("teacherLocatorClose");
@@ -516,12 +747,45 @@ const allRooms = Array.from(
   {length: 12},
   (_, index) => `Sala ${String(index + 1).padStart(2, "0")}`
 );
+const allLaboratories = [
+  "Laboratório III",
+  "Laboratório I",
+  "Laboratório II"
+];
+function splitNightTeacherNames(value) {
+  return String(value || "")
+    .split(/\s*\/\s*/)
+    .map(name => name.trim())
+    .filter(Boolean);
+}
+
+const ignoredNightTeacherNames = new Set([
+  "Docente a definir",
+  "Prof substituto"
+]);
+
+const nightTeacherNames = Object.values(nightClasses)
+  .flatMap(data => data.events)
+  .filter(event => !event.special)
+  .flatMap(event => splitNightTeacherNames(event.teacher))
+  .filter(name => !ignoredNightTeacherNames.has(name));
+
 const teacherNames = [...new Set(allLessons.map(x => x.teacher))]
   .sort((a,b) => a.localeCompare(b, "pt-BR"));
+
+const teacherSidebarNames = [...new Set([
+  ...teacherNames,
+  ...nightTeacherNames
+])].sort((a,b) => a.localeCompare(b, "pt-BR"));
+
 let currentView = "class";
 let selectedClass = Object.keys(classes)[0];
 let selectedTeacher = teacherNames[0];
 let selectedRoom = allRooms[0] || "Sala 01";
+let selectedLaboratory = allLaboratories[0];
+let selectedNightClass = Object.keys(nightClasses)[0];
+let selectedNightMonth = nightClasses[selectedNightClass].default_month;
+let selectedTeacherNightMonth = "2026-08";
 
 function openSidebar() {
   sidebar.classList.add("open");
@@ -789,7 +1053,7 @@ function lessonBox(item) {
   if (!item) return '<div class="empty">Livre</div>';
   const bg = subjectColors[item.subject] || "#dce7ef";
 
-  if (currentView === "room") {
+  if (currentView === "room" || currentView === "lab") {
     return `<div class="lesson" style="background:${bg}">
       <div class="subject">${item.subject}</div>
       <div class="teacher">${item.className}</div>
@@ -849,24 +1113,51 @@ function renderSidebar() {
 
       sidebarList.appendChild(section);
     });
+
+    const historySection = document.createElement("div");
+    historySection.className = "course-group course-history";
+
+    const historyTitle = document.createElement("div");
+    historyTitle.className = "course-group-title";
+    historyTitle.textContent = "Licenciatura em História";
+    historySection.appendChild(historyTitle);
+
+    Object.entries(nightClasses).forEach(([key,data]) => {
+      const b = document.createElement("button");
+      b.className = "sidebar-item course-history" +
+        (key === selectedClass ? " active" : "");
+      b.innerHTML = `${data.name}
+        <small>Turno noturno · calendário mensal</small>`;
+      b.onclick = () => {
+        selectedClass = key;
+        selectedNightClass = key;
+        selectedNightMonth = data.default_month;
+        monthPicker.value = selectedNightMonth;
+        renderAll();
+        closeSidebar();
+      };
+      historySection.appendChild(b);
+    });
+
+    sidebarList.appendChild(historySection);
   } else if (currentView === "teacher") {
     sidebarTitle.textContent = "Docentes";
     sidebarSubtitle.textContent = "Selecione um docente";
 
-    [...new Set(allLessons.map(x => x.teacher))]
-      .sort((a,b) => a.localeCompare(b, "pt-BR"))
-      .forEach(name => {
+    teacherSidebarNames.forEach(name => {
         const b = document.createElement("button");
         b.className = "sidebar-item teacher-item" + (name === selectedTeacher ? " active" : "");
         b.textContent = name;
         b.onclick = () => {
           selectedTeacher = name;
+          selectedTeacherNightMonth = defaultNightMonthForTeacher(name);
+          teacherNightMonthPicker.value = selectedTeacherNightMonth;
           renderAll();
           closeSidebar();
         };
         sidebarList.appendChild(b);
       });
-  } else {
+  } else if (currentView === "room") {
     sidebarTitle.textContent = "Salas";
     sidebarSubtitle.textContent = "Selecione uma sala";
 
@@ -881,15 +1172,412 @@ function renderSidebar() {
       };
       sidebarList.appendChild(b);
     });
+  } else {
+    sidebarTitle.textContent = "Laboratórios";
+    sidebarSubtitle.textContent = "Selecione um laboratório";
+
+    allLaboratories.forEach(laboratory => {
+      const b = document.createElement("button");
+      b.className = "sidebar-item teacher-item" +
+        (laboratory === selectedLaboratory ? " active" : "");
+      b.textContent = laboratory;
+      b.onclick = () => {
+        selectedLaboratory = laboratory;
+        renderAll();
+        closeSidebar();
+      };
+      sidebarList.appendChild(b);
+    });
   }
 }
 
-function renderTable(lessons, mainShift=null) {
+
+const nightPeriodDetails = {
+  N1: {time:"19:00–19:40", start:"19:00", end:"19:40"},
+  N2: {time:"19:40–20:30", start:"19:40", end:"20:30"},
+  N3: {time:"21:00–21:50", start:"21:00", end:"21:50"},
+  N4: {time:"21:50–22:40", start:"21:50", end:"22:40"}
+};
+
+const monthWeekdays = [
+  "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"
+];
+
+function monthLabel(year, monthIndex) {
+  const date = new Date(year, monthIndex, 1);
+  const text = new Intl.DateTimeFormat("pt-BR", {
+    month: "long",
+    year: "numeric"
+  }).format(date);
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function renderNightLegend(data) {
+  const items = [];
+  const seen = new Set();
+
+  data.events.forEach(event => {
+    if (event.special) return;
+
+    const key = `${event.subject}|${event.teacher}|${event.tone}`;
+    if (seen.has(key)) return;
+
+    seen.add(key);
+    items.push({
+      subject: event.subject,
+      teacher: event.teacher,
+      tone: event.tone || "blue"
+    });
+  });
+
+  nightLegend.innerHTML = items
+    .map(item => `
+      <div class="night-legend-item">
+        <span class="night-legend-swatch ${item.tone}" aria-hidden="true"></span>
+        <span class="night-legend-text">
+          <strong>${item.subject}</strong>
+          <span>— ${item.teacher}</span>
+        </span>
+      </div>
+    `)
+    .join("");
+}
+
+function eventPeriodLabel(event) {
+  const first = event.periods[0];
+  const last = event.periods[event.periods.length - 1];
+  const firstDetail = nightPeriodDetails[first];
+  const lastDetail = nightPeriodDetails[last];
+
+  if (first === last) {
+    return `${first} · ${firstDetail.time}`;
+  }
+
+  const intervalText = event.periods.includes("N2") && event.periods.includes("N3")
+    ? " · intervalo 20:30–21:00"
+    : "";
+
+  return `${first}–${last} · ${firstDetail.start}–${lastDetail.end}${intervalText}`;
+}
+
+function getNightEventsForTeacher(teacherName) {
+  const events = [];
+
+  Object.entries(nightClasses).forEach(([classKey, data]) => {
+    data.events.forEach(event => {
+      if (event.special) return;
+
+      const eventTeachers = splitNightTeacherNames(event.teacher);
+      if (!eventTeachers.includes(teacherName)) return;
+
+      events.push({
+        ...event,
+        classKey,
+        className: data.name
+      });
+    });
+  });
+
+  return events.sort((a,b) => {
+    const dateCompare = a.date.localeCompare(b.date);
+    if (dateCompare) return dateCompare;
+
+    const aIndex = Object.keys(nightPeriodDetails).indexOf(a.periods[0]);
+    const bIndex = Object.keys(nightPeriodDetails).indexOf(b.periods[0]);
+    return aIndex - bIndex;
+  });
+}
+
+function defaultNightMonthForTeacher(teacherName) {
+  const events = getNightEventsForTeacher(teacherName);
+  if (!events.length) return "2026-08";
+
+  const today = new Date();
+  const todayIso = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0")
+  ].join("-");
+
+  const nextEvent = events.find(event => event.date >= todayIso);
+  return (nextEvent || events[0]).date.slice(0, 7);
+}
+
+function renderTeacherNightLegend(events) {
+  const items = [];
+  const seen = new Set();
+
+  events.forEach(event => {
+    const key = `${event.subject}|${event.className}|${event.tone}`;
+    if (seen.has(key)) return;
+
+    seen.add(key);
+    items.push({
+      subject: event.subject,
+      className: event.className,
+      tone: event.tone || "blue"
+    });
+  });
+
+  teacherNightLegend.innerHTML = items
+    .map(item => `
+      <div class="night-legend-item">
+        <span class="night-legend-swatch ${item.tone}" aria-hidden="true"></span>
+        <span class="night-legend-text">
+          <strong>${item.subject}</strong>
+          <span>— ${item.className}</span>
+        </span>
+      </div>
+    `)
+    .join("");
+}
+
+function renderTeacherNightCalendar() {
+  const allTeacherEvents = getNightEventsForTeacher(selectedTeacher);
+  const [year, month] = selectedTeacherNightMonth.split("-").map(Number);
+  const monthIndex = month - 1;
+  const firstDate = new Date(year, monthIndex, 1);
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  const mondayOffset = (firstDate.getDay() + 6) % 7;
+  const today = new Date();
+
+  teacherNightMonthPicker.value = selectedTeacherNightMonth;
+  teacherNightSubtitle.textContent =
+    `${selectedTeacher} · ${monthLabel(year, monthIndex)}`;
+  renderTeacherNightLegend(allTeacherEvents);
+  teacherNightCalendarGrid.innerHTML = "";
+
+  monthWeekdays.forEach(dayName => {
+    const header = document.createElement("div");
+    header.className = "month-weekday";
+    header.textContent = dayName;
+    teacherNightCalendarGrid.appendChild(header);
+  });
+
+  for (let index = 0; index < mondayOffset; index++) {
+    const empty = document.createElement("div");
+    empty.className = "month-day outside-month";
+    teacherNightCalendarGrid.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, monthIndex, day);
+    const isoDate = [
+      year,
+      String(month).padStart(2, "0"),
+      String(day).padStart(2, "0")
+    ].join("-");
+
+    const dayEvents = allTeacherEvents.filter(event => event.date === isoDate);
+    const cell = document.createElement("div");
+    const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+    const isToday =
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate();
+
+    cell.className = "month-day" +
+      (isWeekend ? " weekend" : "") +
+      (isToday ? " today" : "");
+
+    const shortWeekday = new Intl.DateTimeFormat("pt-BR", {
+      weekday: "short"
+    }).format(date).replace(".", "");
+
+    cell.innerHTML = `
+      <div class="month-day-head">
+        <span class="month-day-number">${day}</span>
+        <span class="month-day-label">${shortWeekday}</span>
+      </div>
+    `;
+
+    if (!dayEvents.length) {
+      const emptyText = document.createElement("div");
+      emptyText.className = "month-empty";
+      emptyText.textContent = "Livre";
+      cell.appendChild(emptyText);
+    } else {
+      dayEvents.forEach(event => {
+        const card = document.createElement("div");
+        card.className = `month-event ${event.tone || "blue"}`;
+        const metaItems = [event.className, event.room].filter(Boolean);
+
+        card.innerHTML = `
+          <div class="month-event-title">${event.subject}</div>
+          <div class="month-event-time">${eventPeriodLabel(event)}</div>
+          <div class="month-event-meta">${metaItems.join("<br>")}</div>
+        `;
+
+        cell.appendChild(card);
+      });
+    }
+
+    teacherNightCalendarGrid.appendChild(cell);
+  }
+
+  const totalCells = mondayOffset + daysInMonth;
+  const trailing = (7 - (totalCells % 7)) % 7;
+
+  for (let index = 0; index < trailing; index++) {
+    const empty = document.createElement("div");
+    empty.className = "month-day outside-month";
+    teacherNightCalendarGrid.appendChild(empty);
+  }
+}
+
+function moveTeacherNightMonth(offset) {
+  const [year, month] = selectedTeacherNightMonth.split("-").map(Number);
+  const date = new Date(year, month - 1 + offset, 1);
+
+  selectedTeacherNightMonth = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0")
+  ].join("-");
+
+  teacherNightMonthPicker.value = selectedTeacherNightMonth;
+  renderTeacherNightCalendar();
+}
+
+teacherNightMonthPicker.addEventListener("change", () => {
+  if (!teacherNightMonthPicker.value) return;
+  selectedTeacherNightMonth = teacherNightMonthPicker.value;
+  renderTeacherNightCalendar();
+});
+
+teacherNightPrevBtn.onclick = () => moveTeacherNightMonth(-1);
+teacherNightNextBtn.onclick = () => moveTeacherNightMonth(1);
+
+function renderMonthlyCalendar() {
+  const data = nightClasses[selectedNightClass];
+  const [year, month] = selectedNightMonth.split("-").map(Number);
+  const monthIndex = month - 1;
+  const firstDate = new Date(year, monthIndex, 1);
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  const mondayOffset = (firstDate.getDay() + 6) % 7;
+  const today = new Date();
+
+  monthPicker.value = selectedNightMonth;
+  renderNightLegend(data);
+  monthlyCalendarGrid.innerHTML = "";
+
+  monthWeekdays.forEach(dayName => {
+    const header = document.createElement("div");
+    header.className = "month-weekday";
+    header.textContent = dayName;
+    monthlyCalendarGrid.appendChild(header);
+  });
+
+  for (let index = 0; index < mondayOffset; index++) {
+    const empty = document.createElement("div");
+    empty.className = "month-day outside-month";
+    monthlyCalendarGrid.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, monthIndex, day);
+    const isoDate = [
+      year,
+      String(month).padStart(2, "0"),
+      String(day).padStart(2, "0")
+    ].join("-");
+
+    const dayEvents = data.events
+      .filter(event => event.date === isoDate)
+      .sort((a,b) => {
+        const aIndex = Object.keys(nightPeriodDetails).indexOf(a.periods[0]);
+        const bIndex = Object.keys(nightPeriodDetails).indexOf(b.periods[0]);
+        return aIndex - bIndex;
+      });
+
+    const cell = document.createElement("div");
+    const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+    const isToday =
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate();
+
+    cell.className = "month-day" +
+      (isWeekend ? " weekend" : "") +
+      (isToday ? " today" : "");
+
+    const shortWeekday = new Intl.DateTimeFormat("pt-BR", {
+      weekday: "short"
+    }).format(date).replace(".", "");
+
+    cell.innerHTML = `
+      <div class="month-day-head">
+        <span class="month-day-number">${day}</span>
+        <span class="month-day-label">${shortWeekday}</span>
+      </div>
+    `;
+
+    if (!dayEvents.length) {
+      const emptyText = document.createElement("div");
+      emptyText.className = "month-empty";
+      emptyText.textContent = "Livre";
+      cell.appendChild(emptyText);
+    } else {
+      dayEvents.forEach(event => {
+        const card = document.createElement("div");
+        card.className = `month-event ${event.tone || "blue"}`;
+        const metaItems = [event.teacher, event.room].filter(Boolean);
+        const timeLine = event.special
+          ? ""
+          : `<div class="month-event-time">${eventPeriodLabel(event)}</div>`;
+
+        card.innerHTML = `
+          <div class="month-event-title">${event.subject}</div>
+          ${timeLine}
+          ${metaItems.length
+            ? `<div class="month-event-meta">${metaItems.join("<br>")}</div>`
+            : ""}
+        `;
+        cell.appendChild(card);
+      });
+    }
+
+    monthlyCalendarGrid.appendChild(cell);
+  }
+
+  const totalCells = mondayOffset + daysInMonth;
+  const trailing = (7 - (totalCells % 7)) % 7;
+
+  for (let index = 0; index < trailing; index++) {
+    const empty = document.createElement("div");
+    empty.className = "month-day outside-month";
+    monthlyCalendarGrid.appendChild(empty);
+  }
+
+  document.getElementById("topShiftBadge").textContent =
+    `Noturno · ${monthLabel(year, monthIndex)}`;
+}
+
+function moveNightMonth(offset) {
+  const [year, month] = selectedNightMonth.split("-").map(Number);
+  const date = new Date(year, month - 1 + offset, 1);
+  selectedNightMonth = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0")
+  ].join("-");
+  monthPicker.value = selectedNightMonth;
+  renderMonthlyCalendar();
+}
+
+monthPicker.addEventListener("change", () => {
+  if (!monthPicker.value) return;
+  selectedNightMonth = monthPicker.value;
+  renderMonthlyCalendar();
+});
+
+monthPrevBtn.onclick = () => moveNightMonth(-1);
+monthNextBtn.onclick = () => moveNightMonth(1);
+
+function renderTable(lessons, mainShift=null, periodList=periods) {
   const body = document.getElementById("scheduleBody");
   body.innerHTML = "";
   let lastShift = null;
 
-  for (const p of periods) {
+  for (const p of periodList) {
     if (p.shift !== lastShift) {
       const tr = document.createElement("tr");
       tr.className = "shift-row";
@@ -902,7 +1590,7 @@ function renderTable(lessons, mainShift=null) {
       lastShift = p.shift;
     }
 
-    if (p.code === "M4" || p.code === "T4") {
+    if (p.code === "M4" || p.code === "T4" || p.code === "N3") {
       const tr = document.createElement("tr");
       tr.className = "interval";
       tr.innerHTML = '<td colspan="6">INTERVALO</td>';
@@ -984,17 +1672,34 @@ function updateConflictAlert() {
 function renderAll() {
   renderSidebar();
 
+  const isHistoryClassView =
+    currentView === "class" && Boolean(nightClasses[selectedClass]);
+  const isMonthlyView = isHistoryClassView;
+
+  weeklyCalendarView.classList.toggle("hidden", isMonthlyView);
+  monthlyCalendarView.classList.toggle("hidden", !isMonthlyView);
+  teacherDayNotice.classList.add("hidden");
+  teacherNightBlock.classList.add("hidden");
+
+  if (isMonthlyView) {
+    if (isHistoryClassView) {
+      selectedNightClass = selectedClass;
+      selectedNightMonth = nightClasses[selectedClass].default_month;
+      monthPicker.value = selectedNightMonth;
+    }
+
+    const data = nightClasses[selectedNightClass];
+    document.getElementById("panelTitle").textContent = data.name;
+    document.getElementById("eadBlock").classList.add("hidden");
+    renderMonthlyCalendar();
+    return;
+  }
+
   if (currentView === "class") {
     const data = classes[selectedClass];
     document.getElementById("panelTitle").textContent = data.name;
     document.getElementById("topShiftBadge").textContent = `Turno Principal: ${data.main_shift}`;
-
-    const eadBlock = document.getElementById("eadBlock");
-    const eadList = document.getElementById("eadList");
-    const eadSubjects = eadSubjectsByClass[selectedClass] || [];
-    eadList.innerHTML = eadSubjects.map(subject => `<li>${subject}</li>`).join("");
-    eadBlock.classList.toggle("hidden", eadSubjects.length === 0);
-
+    document.getElementById("eadBlock").classList.remove("hidden");
     renderTable(data.schedule, data.main_shift);
     return;
   }
@@ -1003,20 +1708,55 @@ function renderAll() {
 
   if (currentView === "teacher") {
     const lessons = allLessons.filter(x => x.teacher === selectedTeacher);
+    const nightEvents = getNightEventsForTeacher(selectedTeacher);
+    const activeShifts = [];
+
+    if (lessons.some(x => x.shift === "Manhã")) activeShifts.push("Manhã");
+    if (lessons.some(x => x.shift === "Tarde")) activeShifts.push("Tarde");
+    if (nightEvents.length) activeShifts.push("Noite");
+
     document.getElementById("panelTitle").textContent = selectedTeacher;
-    document.getElementById("topShiftBadge").textContent = "Turnos: Manhã e Tarde";
+    document.getElementById("topShiftBadge").textContent =
+      activeShifts.length
+        ? `Turnos: ${activeShifts.join(", ")}`
+        : "Sem aulas cadastradas";
+
+    if (lessons.length) {
+      weeklyCalendarView.classList.remove("hidden");
+      teacherDayNotice.classList.add("hidden");
+      renderTable(lessons);
+    } else {
+      weeklyCalendarView.classList.add("hidden");
+      teacherDayNotice.classList.remove("hidden");
+    }
+
+    if (nightEvents.length) {
+      teacherNightBlock.classList.remove("hidden");
+      renderTeacherNightCalendar();
+    }
+
+    return;
+  }
+
+  if (currentView === "room") {
+    const lessons = allLessons.filter(x => x.room === selectedRoom);
+    document.getElementById("panelTitle").textContent = `Agenda de Salas — ${selectedRoom}`;
+    document.getElementById("topShiftBadge").textContent = selectedRoom;
     renderTable(lessons);
     return;
   }
 
-  const lessons = allLessons.filter(x => x.room === selectedRoom);
-  document.getElementById("panelTitle").textContent = `Agenda de Salas — ${selectedRoom}`;
-  document.getElementById("topShiftBadge").textContent = selectedRoom;
-  renderTable(lessons);
+  const lessons = allLessons.filter(
+    x => x.usesLaboratory && x.room === selectedLaboratory
+  );
+  document.getElementById("panelTitle").textContent =
+    `Agenda de Laboratórios — ${selectedLaboratory}`;
+  document.getElementById("topShiftBadge").textContent = selectedLaboratory;
+  renderTable(lessons, null, laboratoryPeriods);
 }
 
 function setActiveViewButton(activeId) {
-  ["classViewBtn", "teacherViewBtn", "roomViewBtn"].forEach(id => {
+  ["classViewBtn", "teacherViewBtn", "roomViewBtn", "labViewBtn"].forEach(id => {
     document.getElementById(id).classList.toggle("active", id === activeId);
   });
 }
@@ -1029,6 +1769,8 @@ document.getElementById("classViewBtn").onclick = () => {
 
 document.getElementById("teacherViewBtn").onclick = () => {
   currentView = "teacher";
+  selectedTeacherNightMonth = defaultNightMonthForTeacher(selectedTeacher);
+  teacherNightMonthPicker.value = selectedTeacherNightMonth;
   setActiveViewButton("teacherViewBtn");
   renderAll();
 };
@@ -1036,6 +1778,12 @@ document.getElementById("teacherViewBtn").onclick = () => {
 roomViewBtn.onclick = () => {
   currentView = "room";
   setActiveViewButton("roomViewBtn");
+  renderAll();
+};
+
+labViewBtn.onclick = () => {
+  currentView = "lab";
+  setActiveViewButton("labViewBtn");
   renderAll();
 };
 
