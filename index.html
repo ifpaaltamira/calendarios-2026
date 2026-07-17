@@ -1145,35 +1145,6 @@ td.slot{height:79px;padding:4px}
         </div>
       </section>
 
-      <section id="roomNightBlock" class="teacher-night-block hidden">
-        <div class="teacher-night-head">
-          <div>
-            <h3>Horários Noturnos Mensais</h3>
-            <p id="roomNightSubtitle"></p>
-          </div>
-
-          <div class="monthly-toolbar teacher-night-toolbar">
-            <button id="roomNightPrevBtn" type="button"
-                    aria-label="Mês anterior da agenda da sala">‹</button>
-            <label class="month-picker-label">
-              <span>Mês de referência</span>
-              <input id="roomNightMonthPicker"
-                     type="month"
-                     value="2026-08">
-            </label>
-            <button id="roomNightNextBtn" type="button"
-                    aria-label="Próximo mês da agenda da sala">›</button>
-          </div>
-        </div>
-
-        <div id="roomNightLegend" class="night-legend"></div>
-
-        <div class="monthly-grid-wrap">
-          <div id="roomNightCalendarGrid"
-               class="monthly-grid teacher-night-calendar-grid"></div>
-        </div>
-      </section>
-
       <section id="laboratoryNightBlock"
                class="teacher-night-block laboratory-monthly-block hidden">
         <div class="teacher-night-head">
@@ -1514,6 +1485,69 @@ for (const [classKey, data] of Object.entries(classes)) {
 }
 
 const allLessons = Object.values(classes).flatMap(c => c.schedule);
+
+function buildNightRoomWeeklyLessons() {
+  const weekdayNames = [
+    "Domingo",
+    "Segunda",
+    "Terça",
+    "Quarta",
+    "Quinta",
+    "Sexta",
+    "Sábado"
+  ];
+  const grouped = new Map();
+
+  Object.entries(nightClasses).forEach(([classKey, classData]) => {
+    classData.events.forEach(event => {
+      if (
+        event.special ||
+        event.usesLaboratory ||
+        !String(event.room || "").startsWith("Sala ")
+      ) {
+        return;
+      }
+
+      const eventDate = new Date(`${event.date}T12:00:00`);
+      const day = weekdayNames[eventDate.getDay()];
+
+      if (!days.includes(day)) return;
+
+      event.periods.forEach(period => {
+        const key = [
+          event.room,
+          day,
+          period,
+          classKey
+        ].join("|");
+
+        if (grouped.has(key)) return;
+
+        const periodData = laboratoryPeriods.find(
+          item => item.code === period
+        );
+
+        grouped.set(key, {
+          day,
+          period,
+          subject: classData.name,
+          teacher: "",
+          time: periodData?.time || "",
+          shift: "Noite",
+          className: classData.name,
+          classKey,
+          room: event.room,
+          usesLaboratory: false,
+          isNightRoomClass: true
+        });
+      });
+    });
+  });
+
+  return [...grouped.values()];
+}
+
+const nightRoomWeeklyLessons = buildNightRoomWeeklyLessons();
 const sidebar = document.getElementById("sidebar");
 const sidebarList = document.getElementById("sidebarList");
 const sidebarTitle = document.getElementById("sidebarTitle");
@@ -1547,13 +1581,6 @@ const teacherNightCalendarGrid = document.getElementById("teacherNightCalendarGr
 const teacherNightMonthPicker = document.getElementById("teacherNightMonthPicker");
 const teacherNightPrevBtn = document.getElementById("teacherNightPrevBtn");
 const teacherNightNextBtn = document.getElementById("teacherNightNextBtn");
-const roomNightBlock = document.getElementById("roomNightBlock");
-const roomNightSubtitle = document.getElementById("roomNightSubtitle");
-const roomNightLegend = document.getElementById("roomNightLegend");
-const roomNightCalendarGrid = document.getElementById("roomNightCalendarGrid");
-const roomNightMonthPicker = document.getElementById("roomNightMonthPicker");
-const roomNightPrevBtn = document.getElementById("roomNightPrevBtn");
-const roomNightNextBtn = document.getElementById("roomNightNextBtn");
 const laboratoryNightBlock = document.getElementById("laboratoryNightBlock");
 const laboratoryNightSubtitle = document.getElementById("laboratoryNightSubtitle");
 const laboratoryNightCalendarGrid = document.getElementById("laboratoryNightCalendarGrid");
@@ -1632,7 +1659,6 @@ let selectedLaboratory = allLaboratories[0];
 let selectedNightClass = Object.keys(nightClasses)[0];
 let selectedNightMonth = nightClasses[selectedNightClass].default_month;
 let selectedTeacherNightMonth = "2026-08";
-let selectedRoomNightMonth = "2026-08";
 let selectedLaboratoryNightMonth = "2026-08";
 
 function openSidebar() {
@@ -2360,6 +2386,12 @@ function lessonBox(item) {
   if (!item) return '<div class="empty">Livre</div>';
   const bg = subjectColors[item.subject] || "#dce7ef";
 
+  if (currentView === "room" && item.isNightRoomClass) {
+    return `<div class="lesson" style="background:#e8e5f2">
+      <div class="subject">${item.className}</div>
+    </div>`;
+  }
+
   if (currentView === "room" || currentView === "lab") {
     return `<div class="lesson" style="background:${bg}">
       <div class="subject">${item.subject}</div>
@@ -2886,178 +2918,6 @@ teacherNightMonthPicker.addEventListener("change", () => {
 
 teacherNightPrevBtn.onclick = () => moveTeacherNightMonth(-1);
 teacherNightNextBtn.onclick = () => moveTeacherNightMonth(1);
-
-function getNightEventsForRoom(room) {
-  return Object.entries(nightClasses)
-    .flatMap(([classKey, classData]) =>
-      classData.events
-        .filter(event =>
-          !event.special &&
-          !event.usesLaboratory &&
-          event.room === room
-        )
-        .map(event => ({
-          ...event,
-          classKey,
-          className: classData.name,
-          course: classData.course
-        }))
-    )
-    .sort((a, b) =>
-      a.date.localeCompare(b.date) ||
-      Object.keys(nightPeriodDetails).indexOf(a.periods[0]) -
-      Object.keys(nightPeriodDetails).indexOf(b.periods[0])
-    );
-}
-
-function renderRoomNightLegend(events) {
-  const items = [];
-  const seen = new Set();
-
-  events.forEach(event => {
-    const key = `${event.subject}|${event.className}|${event.tone}`;
-    if (seen.has(key)) return;
-
-    seen.add(key);
-    items.push({
-      subject: event.subject,
-      className: event.className,
-      tone: event.tone || "blue"
-    });
-  });
-
-  roomNightLegend.innerHTML = items
-    .map(item => `
-      <div class="night-legend-item">
-        <span class="night-legend-swatch ${item.tone}" aria-hidden="true"></span>
-        <span class="night-legend-text">
-          <strong>${item.subject}</strong>
-          <span>— ${item.className}</span>
-        </span>
-      </div>
-    `)
-    .join("");
-}
-
-function renderRoomNightCalendar() {
-  const allRoomEvents = getNightEventsForRoom(selectedRoom);
-  const [year, month] =
-    selectedRoomNightMonth.split("-").map(Number);
-  const monthIndex = month - 1;
-  const displayDays = visibleMonthDays(year, monthIndex);
-  const mondayOffset =
-    sixDayMonthOffset(year, monthIndex, displayDays);
-  const today = new Date();
-
-  roomNightMonthPicker.value = selectedRoomNightMonth;
-  roomNightSubtitle.textContent =
-    `${selectedRoom} · ${monthLabel(year, monthIndex)}`;
-  renderRoomNightLegend(allRoomEvents);
-  roomNightCalendarGrid.innerHTML = "";
-
-  monthWeekdays.forEach(dayName => {
-    const header = document.createElement("div");
-    header.className = "month-weekday";
-    header.textContent = dayName;
-    roomNightCalendarGrid.appendChild(header);
-  });
-
-  for (let index = 0; index < mondayOffset; index++) {
-    const empty = document.createElement("div");
-    empty.className = "month-day outside-month";
-    roomNightCalendarGrid.appendChild(empty);
-  }
-
-  for (const day of displayDays) {
-    const date = new Date(year, monthIndex, day);
-    const isoDate = [
-      year,
-      String(month).padStart(2, "0"),
-      String(day).padStart(2, "0")
-    ].join("-");
-
-    const dayEvents = allRoomEvents
-      .filter(event => event.date === isoDate);
-
-    const cell = document.createElement("div");
-    const isWeekend = date.getDay() === 6;
-    const isToday =
-      date.getFullYear() === today.getFullYear() &&
-      date.getMonth() === today.getMonth() &&
-      date.getDate() === today.getDate();
-
-    cell.className = "month-day" +
-      (isWeekend ? " weekend" : "") +
-      (isToday ? " today" : "");
-
-    const shortWeekday = new Intl.DateTimeFormat("pt-BR", {
-      weekday: "short"
-    }).format(date).replace(".", "");
-
-    cell.innerHTML = `
-      <div class="month-day-head">
-        <span class="month-day-number">${day}</span>
-        <span class="month-day-label">${shortWeekday}</span>
-      </div>
-    `;
-
-    if (!dayEvents.length) {
-      const emptyText = document.createElement("div");
-      emptyText.className = "month-empty";
-      emptyText.textContent = "Livre";
-      cell.appendChild(emptyText);
-    } else {
-      dayEvents.forEach(event => {
-        const card = document.createElement("div");
-        card.className = `month-event ${event.tone || "blue"}`;
-
-        card.innerHTML = `
-          <div class="month-event-title">${event.subject}</div>
-          <div class="month-event-time">${eventPeriodLabel(event)}</div>
-          <div class="month-event-meta">
-            ${event.className}<br>${event.teacher}
-          </div>
-        `;
-
-        cell.appendChild(card);
-      });
-    }
-
-    roomNightCalendarGrid.appendChild(cell);
-  }
-
-  const totalCells = mondayOffset + displayDays.length;
-  const trailing = (6 - (totalCells % 6)) % 6;
-
-  for (let index = 0; index < trailing; index++) {
-    const empty = document.createElement("div");
-    empty.className = "month-day outside-month";
-    roomNightCalendarGrid.appendChild(empty);
-  }
-}
-
-function moveRoomNightMonth(offset) {
-  const [year, month] =
-    selectedRoomNightMonth.split("-").map(Number);
-  const date = new Date(year, month - 1 + offset, 1);
-
-  selectedRoomNightMonth = [
-    date.getFullYear(),
-    String(date.getMonth() + 1).padStart(2, "0")
-  ].join("-");
-
-  roomNightMonthPicker.value = selectedRoomNightMonth;
-  renderRoomNightCalendar();
-}
-
-roomNightMonthPicker.addEventListener("change", () => {
-  if (!roomNightMonthPicker.value) return;
-  selectedRoomNightMonth = roomNightMonthPicker.value;
-  renderRoomNightCalendar();
-});
-
-roomNightPrevBtn.onclick = () => moveRoomNightMonth(-1);
-roomNightNextBtn.onclick = () => moveRoomNightMonth(1);
 
 function getNightEventsForLaboratory(laboratory) {
   return Object.entries(nightClasses)
@@ -3815,7 +3675,6 @@ function renderAll() {
   monthlyCalendarView.classList.toggle("hidden", !isMonthlyView);
   teacherDayNotice.classList.add("hidden");
   teacherNightBlock.classList.add("hidden");
-  roomNightBlock.classList.add("hidden");
   laboratoryNightBlock.classList.add("hidden");
   teacherEadBlock.classList.add("hidden");
   renderPpcLinks(null);
@@ -3902,21 +3761,21 @@ function renderAll() {
   }
 
   if (currentView === "room") {
-    const lessons = allLessons.filter(x => x.room === selectedRoom);
-    const nightRoomEvents = getNightEventsForRoom(selectedRoom);
+    const lessons = [
+      ...allLessons.filter(
+        lesson => lesson.room === selectedRoom
+      ),
+      ...nightRoomWeeklyLessons.filter(
+        lesson => lesson.room === selectedRoom
+      )
+    ];
 
     document.getElementById("panelTitle").textContent =
       `Agenda de Salas — ${selectedRoom}`;
     document.getElementById("topShiftBadge").textContent =
       selectedRoom;
 
-    renderTable(lessons);
-
-    if (nightRoomEvents.length) {
-      roomNightBlock.classList.remove("hidden");
-      renderRoomNightCalendar();
-    }
-
+    renderTable(lessons, null, laboratoryPeriods);
     return;
   }
 
