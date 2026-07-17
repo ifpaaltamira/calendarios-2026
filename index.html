@@ -1225,7 +1225,7 @@ td.slot{height:79px;padding:4px}
     <div class="teacher-locator-head">
       <div>
         <h2 id="teacherLocatorTitle">Onde está o Docente?</h2>
-        <p>Localiza a aula atual ou a próxima aula prevista usando a data e o horário do dispositivo.</p>
+        <p>Localiza a aula atual ou a próxima aula prevista usando a data e o horário do dispositivo, considerando o calendário a partir de 05 de agosto de 2026.</p>
       </div>
       <button id="teacherLocatorClose" class="teacher-locator-close"
               type="button" aria-label="Fechar">×</button>
@@ -1655,6 +1655,8 @@ const jsDayByName = {
   "Sexta": 5
 };
 
+const teacherLocatorStartDate = new Date(2026, 7, 5, 0, 0, 0, 0);
+
 teacherLocatorList.innerHTML = teacherNames
   .map(name => `<option value="${name.replace(/"/g, "&quot;")}"></option>`)
   .join("");
@@ -1755,6 +1757,8 @@ function lessonStartDate(reference, lesson) {
 }
 
 function currentLessonForTeacher(teacher, now) {
+  if (now < teacherLocatorStartDate) return null;
+
   const dayName = Object.entries(jsDayByName)
     .find(([,dayNumber]) => dayNumber === now.getDay())?.[0];
 
@@ -1770,11 +1774,16 @@ function currentLessonForTeacher(teacher, now) {
 }
 
 function nextLessonForTeacher(teacher, now) {
+  const reference =
+    now < teacherLocatorStartDate
+      ? new Date(teacherLocatorStartDate)
+      : now;
+
   return allLessons
     .filter(lesson => lesson.teacher === teacher)
     .map(lesson => ({
       lesson,
-      startsAt: lessonStartDate(now, lesson)
+      startsAt: lessonStartDate(reference, lesson)
     }))
     .sort((a,b) => a.startsAt - b.startsAt)[0] || null;
 }
@@ -1805,6 +1814,12 @@ function locateTeacher() {
 
   teacherLocatorInput.value = teacher;
   const now = new Date();
+  const beforeCalendarStart = now < teacherLocatorStartDate;
+  const calendarStartNotice = beforeCalendarStart
+    ? `<p class="teacher-location-muted">
+         O calendário é considerado somente a partir de 05/08/2026.
+       </p>`
+    : "";
   const currentLesson = currentLessonForTeacher(teacher, now);
 
   if (currentLesson) {
@@ -1827,7 +1842,8 @@ function locateTeacher() {
     showTeacherLocatorMessage(
       `<span class="teacher-location-status">Sem aulas</span>
        <h3>${teacher}</h3>
-       <p>Não há aulas cadastradas para este docente no calendário.</p>`
+       <p>Não há aulas cadastradas para este docente no calendário.</p>
+       ${calendarStartNotice}`
     );
     return;
   }
@@ -1841,7 +1857,8 @@ function locateTeacher() {
      <p><strong>Quando:</strong> ${formatNextLessonDate(next.startsAt)},
      ${next.lesson.period} (${next.lesson.time})</p>
      <p class="teacher-location-muted">Início previsto em
-     ${formatWaitTime(next.startsAt - now)}.</p>`,
+     ${formatWaitTime(next.startsAt - now)}.</p>
+     ${calendarStartNotice}`,
     "next"
   );
 }
