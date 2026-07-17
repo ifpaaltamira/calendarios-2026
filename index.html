@@ -463,9 +463,10 @@ button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:
   flex-direction:column;
   gap:5px;
   padding:8px 9px;
-  border:1px solid rgba(28,74,46,.08);
+  border:1px solid var(--room-card-border, rgba(28,74,46,.10));
+  border-left:4px solid var(--room-card-accent, #6f927d);
   border-radius:.55rem;
-  background:#edf4ef;
+  background:var(--room-card-background, #edf4ef);
   box-shadow:0 1px 4px rgba(0,0,0,.05)
 }
 .room-reservation-card + .room-reservation-card{
@@ -3124,6 +3125,83 @@ function roomPeriodRange(periodsList) {
   return first === last ? first : `${first}–${last}`;
 }
 
+const roomClassColorPalette = [
+  {
+    background: "#e7f0f8",
+    border: "#bfd3e5",
+    accent: "#6e9bc0"
+  },
+  {
+    background: "#e8f3eb",
+    border: "#c3ddca",
+    accent: "#6fa57d"
+  },
+  {
+    background: "#f7eddc",
+    border: "#e8d2aa",
+    accent: "#bd8d45"
+  },
+  {
+    background: "#f2e7f5",
+    border: "#ddc5e5",
+    accent: "#9a6dad"
+  },
+  {
+    background: "#f8e7e7",
+    border: "#e9c4c4",
+    accent: "#bd7373"
+  },
+  {
+    background: "#e5f2f1",
+    border: "#bddbd8",
+    accent: "#5e9b96"
+  },
+  {
+    background: "#f1efdd",
+    border: "#ddd8ad",
+    accent: "#9f9654"
+  },
+  {
+    background: "#eae9f7",
+    border: "#cfcae8",
+    accent: "#7d76b0"
+  },
+  {
+    background: "#f5e9df",
+    border: "#e5cdb9",
+    accent: "#ad7c57"
+  },
+  {
+    background: "#e7f1e3",
+    border: "#c5dbbd",
+    accent: "#759d65"
+  },
+  {
+    background: "#f3e7ee",
+    border: "#dfc4d3",
+    accent: "#a66e8c"
+  },
+  {
+    background: "#e9eef2",
+    border: "#c8d4dc",
+    accent: "#748d9d"
+  }
+];
+
+function roomClassColor(classKey, className) {
+  const value = classKey || className || "turma";
+  let hash = 0;
+
+  for (let index = 0; index < value.length; index++) {
+    hash = ((hash << 5) - hash) + value.charCodeAt(index);
+    hash |= 0;
+  }
+
+  return roomClassColorPalette[
+    Math.abs(hash) % roomClassColorPalette.length
+  ];
+}
+
 function roomShiftClass(shift) {
   if (shift === "Manhã") return "morning";
   if (shift === "Tarde") return "afternoon";
@@ -3192,7 +3270,24 @@ function renderRoomMonthlyCalendar() {
     } else {
       reservations.forEach(reservation => {
         const card = document.createElement("div");
+        const classColor = roomClassColor(
+          reservation.classKey,
+          reservation.className
+        );
+
         card.className = "room-reservation-card";
+        card.style.setProperty(
+          "--room-card-background",
+          classColor.background
+        );
+        card.style.setProperty(
+          "--room-card-border",
+          classColor.border
+        );
+        card.style.setProperty(
+          "--room-card-accent",
+          classColor.accent
+        );
 
         card.innerHTML = `
           <div class="room-reservation-title">
