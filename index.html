@@ -438,6 +438,41 @@ button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:
 .teacher-night-calendar-grid .month-event-meta{
   margin-top:4px
 }
+.laboratory-monthly-block{
+  margin-top:0
+}
+.laboratory-monthly-note{
+  margin:-2px 0 12px;
+  padding:8px 10px;
+  border-radius:.55rem;
+  background:#f3f7f4;
+  color:#607067;
+  font-size:10.5px;
+  line-height:1.4
+}
+.laboratory-combined-calendar-grid .month-day{
+  min-height:205px
+}
+.laboratory-combined-calendar-grid .month-event{
+  padding:7px 8px
+}
+.laboratory-reservation-source{
+  display:inline-flex;
+  align-items:center;
+  margin-top:5px;
+  padding:2px 6px;
+  border-radius:999px;
+  background:rgba(255,255,255,.55);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.025em;
+  text-transform:uppercase
+}
+@media(max-width:700px){
+  .laboratory-combined-calendar-grid .month-day{
+    min-height:185px
+  }
+}
 @media(max-width:760px){
   .teacher-night-head{
     flex-direction:column
@@ -1139,10 +1174,11 @@ td.slot{height:79px;padding:4px}
         </div>
       </section>
 
-      <section id="laboratoryNightBlock" class="teacher-night-block hidden">
+      <section id="laboratoryNightBlock"
+               class="teacher-night-block laboratory-monthly-block hidden">
         <div class="teacher-night-head">
           <div>
-            <h3>Alocações Noturnas Mensais</h3>
+            <h3>Agenda Mensal de Reservas</h3>
             <p id="laboratoryNightSubtitle"></p>
           </div>
 
@@ -1153,6 +1189,8 @@ td.slot{height:79px;padding:4px}
               <span>Mês de referência</span>
               <input id="laboratoryNightMonthPicker"
                      type="month"
+                     min="2026-08"
+                     max="2026-12"
                      value="2026-08">
             </label>
             <button id="laboratoryNightNextBtn" type="button"
@@ -1160,11 +1198,14 @@ td.slot{height:79px;padding:4px}
           </div>
         </div>
 
-        <div id="laboratoryNightLegend" class="night-legend"></div>
+        <div class="laboratory-monthly-note">
+          Reúne as reservas semanais do Ensino Médio e as reservas com
+          datas específicas dos cursos de graduação.
+        </div>
 
         <div class="monthly-grid-wrap">
           <div id="laboratoryNightCalendarGrid"
-               class="monthly-grid teacher-night-calendar-grid"></div>
+               class="monthly-grid laboratory-combined-calendar-grid"></div>
         </div>
       </section>
 
@@ -1515,7 +1556,6 @@ const roomNightPrevBtn = document.getElementById("roomNightPrevBtn");
 const roomNightNextBtn = document.getElementById("roomNightNextBtn");
 const laboratoryNightBlock = document.getElementById("laboratoryNightBlock");
 const laboratoryNightSubtitle = document.getElementById("laboratoryNightSubtitle");
-const laboratoryNightLegend = document.getElementById("laboratoryNightLegend");
 const laboratoryNightCalendarGrid = document.getElementById("laboratoryNightCalendarGrid");
 const laboratoryNightMonthPicker = document.getElementById("laboratoryNightMonthPicker");
 const laboratoryNightPrevBtn = document.getElementById("laboratoryNightPrevBtn");
@@ -3015,48 +3055,230 @@ function getNightEventsForLaboratory(laboratory) {
           ...event,
           classKey,
           className: classData.name,
-          course: classData.course
+          course: classData.course,
+          sourceType: "Graduação"
         }))
     )
     .sort((a, b) =>
       a.date.localeCompare(b.date) ||
-      Object.keys(nightPeriodDetails).indexOf(a.periods[0]) -
-      Object.keys(nightPeriodDetails).indexOf(b.periods[0])
+      laboratoryReservationStartMinutes(a) -
+      laboratoryReservationStartMinutes(b)
     );
 }
 
-function renderLaboratoryNightLegend(events) {
-  const items = [];
-  const seen = new Set();
+function periodIndex(periodCode) {
+  return laboratoryPeriods.findIndex(
+    period => period.code === periodCode
+  );
+}
 
-  events.forEach(event => {
-    const key = `${event.subject}|${event.className}|${event.tone}`;
-    if (seen.has(key)) return;
+function periodShift(periodCode) {
+  return laboratoryPeriods.find(
+    period => period.code === periodCode
+  )?.shift || "";
+}
 
-    seen.add(key);
-    items.push({
-      subject: event.subject,
-      className: event.className,
-      tone: event.tone || "blue"
+function groupRecurringLaboratoryLessons(laboratory) {
+  const lessons = allLessons
+    .filter(lesson =>
+      lesson.usesLaboratory &&
+      lesson.room === laboratory
+    );
+
+  const grouped = new Map();
+
+  lessons.forEach(lesson => {
+    const key = [
+      lesson.day,
+      lesson.subject,
+      lesson.teacher,
+      lesson.className,
+      lesson.classKey
+    ].join("|");
+
+    if (!grouped.has(key)) grouped.set(key, []);
+    grouped.get(key).push(lesson);
+  });
+
+  const reservations = [];
+
+  grouped.forEach(groupLessons => {
+    const ordered = [...groupLessons].sort(
+      (a, b) => periodIndex(a.period) - periodIndex(b.period)
+    );
+
+    let current = null;
+
+    ordered.forEach(lesson => {
+      const currentIndex = periodIndex(lesson.period);
+      const previousPeriod =
+        current?.periods[current.periods.length - 1];
+      const previousIndex =
+        previousPeriod ? periodIndex(previousPeriod) : -100;
+
+      const canJoin =
+        current &&
+        periodShift(previousPeriod) === periodShift(lesson.period) &&
+        currentIndex === previousIndex + 1;
+
+      if (canJoin) {
+        current.periods.push(lesson.period);
+        return;
+      }
+
+      current = {
+        day: lesson.day,
+        periods: [lesson.period],
+        subject: lesson.subject,
+        teacher: lesson.teacher,
+        className: lesson.className,
+        classKey: lesson.classKey,
+        room: lesson.room,
+        sourceType: "Ensino Médio"
+      };
+
+      reservations.push(current);
     });
   });
 
-  laboratoryNightLegend.innerHTML = items
-    .map(item => `
-      <div class="night-legend-item">
-        <span class="night-legend-swatch ${item.tone}" aria-hidden="true"></span>
-        <span class="night-legend-text">
-          <strong>${item.subject}</strong>
-          <span>— ${item.className}</span>
-        </span>
-      </div>
-    `)
-    .join("");
+  return reservations.sort((a, b) =>
+    jsDayByName[a.day] - jsDayByName[b.day] ||
+    laboratoryReservationStartMinutes(a) -
+    laboratoryReservationStartMinutes(b) ||
+    a.className.localeCompare(b.className, "pt-BR")
+  );
 }
 
-function renderLaboratoryNightCalendar() {
-  const allLaboratoryEvents =
-    getNightEventsForLaboratory(selectedLaboratory);
+function isLaboratoryAcademicDate(date) {
+  const isoDate = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+
+  return isoDate >= "2026-08-01" &&
+    isoDate <= "2026-12-31";
+}
+
+function dayNameFromDate(date) {
+  return Object.entries(jsDayByName)
+    .find(([, dayNumber]) => dayNumber === date.getDay())?.[0] || null;
+}
+
+function getLaboratoryReservationsForDate(laboratory, date) {
+  const isoDate = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+
+  const reservations = [];
+
+  if (isLaboratoryAcademicDate(date)) {
+    const dayName = dayNameFromDate(date);
+
+    if (dayName) {
+      groupRecurringLaboratoryLessons(laboratory)
+        .filter(reservation => reservation.day === dayName)
+        .forEach(reservation => {
+          reservations.push({
+            ...reservation,
+            date: isoDate
+          });
+        });
+    }
+  }
+
+  getNightEventsForLaboratory(laboratory)
+    .filter(event => event.date === isoDate)
+    .forEach(event => reservations.push(event));
+
+  return reservations.sort((a, b) =>
+    laboratoryReservationStartMinutes(a) -
+    laboratoryReservationStartMinutes(b) ||
+    a.className.localeCompare(b.className, "pt-BR") ||
+    a.subject.localeCompare(b.subject, "pt-BR")
+  );
+}
+
+function laboratoryReservationStartMinutes(reservation) {
+  const firstPeriod = reservation.periods[0];
+
+  if (nightPeriodDetails[firstPeriod]) {
+    return parseClockMinutes(
+      nightPeriodDetails[firstPeriod].start
+    );
+  }
+
+  const period = laboratoryPeriods.find(
+    item => item.code === firstPeriod
+  );
+
+  if (!period) return 9999;
+  return parseClockMinutes(period.time.split("–")[0]);
+}
+
+function laboratoryReservationPeriodLabel(reservation) {
+  const first = reservation.periods[0];
+  const last =
+    reservation.periods[reservation.periods.length - 1];
+
+  if (nightPeriodDetails[first]) {
+    const firstDetail = nightPeriodDetails[first];
+    const lastDetail = nightPeriodDetails[last];
+
+    if (first === last) {
+      return `${first} · ${firstDetail.time}`;
+    }
+
+    return `${first}–${last} · ${firstDetail.start}–${lastDetail.end}`;
+  }
+
+  const firstPeriod = laboratoryPeriods.find(
+    item => item.code === first
+  );
+  const lastPeriod = laboratoryPeriods.find(
+    item => item.code === last
+  );
+
+  if (!firstPeriod || !lastPeriod) {
+    return reservation.periods.join("–");
+  }
+
+  if (first === last) {
+    return `${first} · ${firstPeriod.time}`;
+  }
+
+  const start = firstPeriod.time.split("–")[0];
+  const end = lastPeriod.time.split("–")[1];
+
+  return `${first}–${last} · ${start}–${end}`;
+}
+
+const laboratoryToneColors = {
+  a: "#f5dfc7",
+  b: "#f4efb8",
+  c: "#d8edf0",
+  d: "#dce9f7",
+  e: "#f3dddd",
+  f: "#efd9ee",
+  g: "#e2d9f1",
+  blue: "#e5eff6",
+  green: "#e4f0e8",
+  yellow: "#f4efd9",
+  purple: "#ebe6f3",
+  red: "#f2e4e6"
+};
+
+function laboratoryReservationColor(reservation) {
+  if (reservation.sourceType === "Ensino Médio") {
+    return subjectColors[reservation.subject] || "#e5eff6";
+  }
+
+  return laboratoryToneColors[reservation.tone] || "#e5eff6";
+}
+
+function renderLaboratoryMonthlyCalendar() {
   const [year, month] =
     selectedLaboratoryNightMonth.split("-").map(Number);
   const monthIndex = month - 1;
@@ -3069,7 +3291,6 @@ function renderLaboratoryNightCalendar() {
     selectedLaboratoryNightMonth;
   laboratoryNightSubtitle.textContent =
     `${selectedLaboratory} · ${monthLabel(year, monthIndex)}`;
-  renderLaboratoryNightLegend(allLaboratoryEvents);
   laboratoryNightCalendarGrid.innerHTML = "";
 
   monthWeekdays.forEach(dayName => {
@@ -3087,14 +3308,11 @@ function renderLaboratoryNightCalendar() {
 
   for (const day of displayDays) {
     const date = new Date(year, monthIndex, day);
-    const isoDate = [
-      year,
-      String(month).padStart(2, "0"),
-      String(day).padStart(2, "0")
-    ].join("-");
-
-    const dayEvents = allLaboratoryEvents
-      .filter(event => event.date === isoDate);
+    const reservations =
+      getLaboratoryReservationsForDate(
+        selectedLaboratory,
+        date
+      );
 
     const cell = document.createElement("div");
     const isWeekend = date.getDay() === 6;
@@ -3118,23 +3336,32 @@ function renderLaboratoryNightCalendar() {
       </div>
     `;
 
-    if (!dayEvents.length) {
+    if (!reservations.length) {
       const emptyText = document.createElement("div");
       emptyText.className = "month-empty";
       emptyText.textContent = "Livre";
       cell.appendChild(emptyText);
     } else {
-      dayEvents.forEach(event => {
+      reservations.forEach(reservation => {
         const card = document.createElement("div");
-        card.className =
-          `month-event ${event.tone || "blue"}`;
+        card.className = "month-event";
+        card.style.background =
+          laboratoryReservationColor(reservation);
 
         card.innerHTML = `
-          <div class="month-event-title">${event.subject}</div>
-          <div class="month-event-time">${eventPeriodLabel(event)}</div>
-          <div class="month-event-meta">
-            ${event.className}<br>${event.teacher}
+          <div class="month-event-title">
+            ${reservation.subject}
           </div>
+          <div class="month-event-time">
+            ${laboratoryReservationPeriodLabel(reservation)}
+          </div>
+          <div class="month-event-meta">
+            ${reservation.className}<br>
+            ${reservation.teacher}
+          </div>
+          <span class="laboratory-reservation-source">
+            ${reservation.sourceType}
+          </span>
         `;
 
         cell.appendChild(card);
@@ -3158,22 +3385,27 @@ function moveLaboratoryNightMonth(offset) {
   const [year, month] =
     selectedLaboratoryNightMonth.split("-").map(Number);
   const date = new Date(year, month - 1 + offset, 1);
-
-  selectedLaboratoryNightMonth = [
+  const nextValue = [
     date.getFullYear(),
     String(date.getMonth() + 1).padStart(2, "0")
   ].join("-");
 
+  if (nextValue < "2026-08" || nextValue > "2026-12") {
+    return;
+  }
+
+  selectedLaboratoryNightMonth = nextValue;
   laboratoryNightMonthPicker.value =
     selectedLaboratoryNightMonth;
-  renderLaboratoryNightCalendar();
+  renderLaboratoryMonthlyCalendar();
 }
 
 laboratoryNightMonthPicker.addEventListener("change", () => {
   if (!laboratoryNightMonthPicker.value) return;
+
   selectedLaboratoryNightMonth =
     laboratoryNightMonthPicker.value;
-  renderLaboratoryNightCalendar();
+  renderLaboratoryMonthlyCalendar();
 });
 
 laboratoryNightPrevBtn.onclick =
@@ -3557,8 +3789,12 @@ function renderAll() {
   const isNightClassView =
     currentView === "class" && Boolean(nightClasses[selectedClass]);
   const isMonthlyView = isNightClassView;
+  const isLaboratoryMonthlyView = currentView === "lab";
 
-  weeklyCalendarView.classList.toggle("hidden", isMonthlyView);
+  weeklyCalendarView.classList.toggle(
+    "hidden",
+    isMonthlyView || isLaboratoryMonthlyView
+  );
   monthlyCalendarView.classList.toggle("hidden", !isMonthlyView);
   teacherDayNotice.classList.add("hidden");
   teacherNightBlock.classList.add("hidden");
@@ -3667,23 +3903,13 @@ function renderAll() {
     return;
   }
 
-  const lessons = allLessons.filter(
-    x => x.usesLaboratory && x.room === selectedLaboratory
-  );
-  const nightLaboratoryEvents =
-    getNightEventsForLaboratory(selectedLaboratory);
-
   document.getElementById("panelTitle").textContent =
     `Agenda de Laboratórios — ${selectedLaboratory}`;
   document.getElementById("topShiftBadge").textContent =
     selectedLaboratory;
 
-  renderTable(lessons, null, laboratoryPeriods);
-
-  if (nightLaboratoryEvents.length) {
-    laboratoryNightBlock.classList.remove("hidden");
-    renderLaboratoryNightCalendar();
-  }
+  laboratoryNightBlock.classList.remove("hidden");
+  renderLaboratoryMonthlyCalendar();
 }
 
 function setActiveViewButton(activeId) {
