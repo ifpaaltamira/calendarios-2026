@@ -1168,12 +1168,6 @@ td.slot{height:79px;padding:4px}
                     aria-label="Próximo mês da agenda do laboratório">›</button>
           </div>
         </div>
-
-        <div class="laboratory-monthly-note">
-          Reúne as reservas semanais do Ensino Médio e as reservas com
-          datas específicas dos cursos de graduação.
-        </div>
-
         <div class="monthly-grid-wrap">
           <div id="laboratoryNightCalendarGrid"
                class="monthly-grid laboratory-combined-calendar-grid"></div>
@@ -1840,12 +1834,6 @@ function locateTeacher() {
 
   teacherLocatorInput.value = teacher;
   const now = new Date();
-  const beforeCalendarStart = now < teacherLocatorStartDate;
-  const calendarStartNotice = beforeCalendarStart
-    ? `<p class="teacher-location-muted">
-         O calendário é considerado somente a partir de 05/08/2026.
-       </p>`
-    : "";
   const currentLesson = currentLessonForTeacher(teacher, now);
 
   if (currentLesson) {
@@ -1868,8 +1856,7 @@ function locateTeacher() {
     showTeacherLocatorMessage(
       `<span class="teacher-location-status">Sem aulas</span>
        <h3>${teacher}</h3>
-       <p>Não há aulas cadastradas para este docente no calendário.</p>
-       ${calendarStartNotice}`
+       <p>Não há aulas cadastradas para este docente no calendário.</p>`
     );
     return;
   }
@@ -1882,9 +1869,8 @@ function locateTeacher() {
      <p><strong>Local:</strong> ${next.lesson.room}</p>
      <p><strong>Quando:</strong> ${formatNextLessonDate(next.startsAt)},
      ${next.lesson.period} (${next.lesson.time})</p>
-     <p class="teacher-location-muted">Início previsto em
-     ${formatWaitTime(next.startsAt - now)}.</p>
-     ${calendarStartNotice}`,
+     <p class="teacher-location-muted">Próxima aula prevista em
+     ${formatWaitTime(next.startsAt - now)}.</p>`,
     "next"
   );
 }
