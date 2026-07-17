@@ -441,6 +441,11 @@ button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:
 .laboratory-monthly-block{
   margin-top:0
 }
+.room-monthly-block,
+.laboratory-monthly-block{
+  margin-top:0
+}
+.room-monthly-note,
 .laboratory-monthly-note{
   margin:-2px 0 12px;
   padding:8px 10px;
@@ -449,6 +454,67 @@ button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:
   color:#607067;
   font-size:10.5px;
   line-height:1.4
+}
+.room-combined-calendar-grid .month-day{
+  min-height:165px
+}
+.room-reservation-card{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  padding:8px 9px;
+  border:1px solid rgba(28,74,46,.08);
+  border-radius:.55rem;
+  background:#edf4ef;
+  box-shadow:0 1px 4px rgba(0,0,0,.05)
+}
+.room-reservation-card + .room-reservation-card{
+  margin-top:6px
+}
+.room-reservation-title{
+  color:#30483a;
+  font-size:10.5px;
+  font-weight:850;
+  line-height:1.3
+}
+.room-reservation-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:7px
+}
+.room-reservation-periods{
+  color:#4e6256;
+  font-size:9.5px;
+  font-weight:800
+}
+.room-shift-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:19px;
+  padding:2px 7px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.025em;
+  text-transform:uppercase
+}
+.room-shift-badge.morning{
+  background:#e5eef7;
+  color:#42627f
+}
+.room-shift-badge.afternoon{
+  background:#f6ecd8;
+  color:#7b6035
+}
+.room-shift-badge.night{
+  background:#e9e4f3;
+  color:#5f5077
+}
+@media(max-width:700px){
+  .room-combined-calendar-grid .month-day{
+    min-height:145px
+  }
 }
 .laboratory-combined-calendar-grid .month-day{
   min-height:205px
@@ -1145,10 +1211,11 @@ td.slot{height:79px;padding:4px}
         </div>
       </section>
 
-      <section id="roomNightBlock" class="teacher-night-block hidden">
+      <section id="roomNightBlock"
+               class="teacher-night-block room-monthly-block hidden">
         <div class="teacher-night-head">
           <div>
-            <h3>Horários Noturnos Mensais</h3>
+            <h3>Agenda Mensal de Ocupação</h3>
             <p id="roomNightSubtitle"></p>
           </div>
 
@@ -1159,6 +1226,8 @@ td.slot{height:79px;padding:4px}
               <span>Mês de referência</span>
               <input id="roomNightMonthPicker"
                      type="month"
+                     min="2026-08"
+                     max="2026-12"
                      value="2026-08">
             </label>
             <button id="roomNightNextBtn" type="button"
@@ -1166,11 +1235,13 @@ td.slot{height:79px;padding:4px}
           </div>
         </div>
 
-        <div id="roomNightLegend" class="night-legend"></div>
+        <div class="room-monthly-note">
+          Exibe a turma responsável pela ocupação da sala em cada turno.
+        </div>
 
         <div class="monthly-grid-wrap">
           <div id="roomNightCalendarGrid"
-               class="monthly-grid teacher-night-calendar-grid"></div>
+               class="monthly-grid room-combined-calendar-grid"></div>
         </div>
       </section>
 
@@ -1549,7 +1620,6 @@ const teacherNightPrevBtn = document.getElementById("teacherNightPrevBtn");
 const teacherNightNextBtn = document.getElementById("teacherNightNextBtn");
 const roomNightBlock = document.getElementById("roomNightBlock");
 const roomNightSubtitle = document.getElementById("roomNightSubtitle");
-const roomNightLegend = document.getElementById("roomNightLegend");
 const roomNightCalendarGrid = document.getElementById("roomNightCalendarGrid");
 const roomNightMonthPicker = document.getElementById("roomNightMonthPicker");
 const roomNightPrevBtn = document.getElementById("roomNightPrevBtn");
@@ -2887,60 +2957,180 @@ teacherNightMonthPicker.addEventListener("change", () => {
 teacherNightPrevBtn.onclick = () => moveTeacherNightMonth(-1);
 teacherNightNextBtn.onclick = () => moveTeacherNightMonth(1);
 
-function getNightEventsForRoom(room) {
-  return Object.entries(nightClasses)
-    .flatMap(([classKey, classData]) =>
-      classData.events
-        .filter(event =>
-          !event.special &&
-          !event.usesLaboratory &&
-          event.room === room
-        )
-        .map(event => ({
-          ...event,
-          classKey,
-          className: classData.name,
-          course: classData.course
-        }))
-    )
+function periodIndexForRoom(periodCode) {
+  return laboratoryPeriods.findIndex(
+    period => period.code === periodCode
+  );
+}
+
+function groupRecurringRoomReservations(room) {
+  const lessons = allLessons.filter(
+    lesson => lesson.room === room
+  );
+  const grouped = new Map();
+
+  lessons.forEach(lesson => {
+    const key = [
+      lesson.day,
+      lesson.classKey,
+      lesson.className,
+      lesson.shift
+    ].join("|");
+
+    if (!grouped.has(key)) {
+      grouped.set(key, {
+        day: lesson.day,
+        classKey: lesson.classKey,
+        className: lesson.className,
+        shift: lesson.shift,
+        periods: []
+      });
+    }
+
+    grouped.get(key).periods.push(lesson.period);
+  });
+
+  return [...grouped.values()]
+    .map(reservation => ({
+      ...reservation,
+      periods: [...new Set(reservation.periods)]
+        .sort(
+          (a, b) =>
+            periodIndexForRoom(a) - periodIndexForRoom(b)
+        ),
+      sourceType: "Ensino Médio"
+    }))
     .sort((a, b) =>
-      a.date.localeCompare(b.date) ||
-      Object.keys(nightPeriodDetails).indexOf(a.periods[0]) -
-      Object.keys(nightPeriodDetails).indexOf(b.periods[0])
+      jsDayByName[a.day] - jsDayByName[b.day] ||
+      periodIndexForRoom(a.periods[0]) -
+      periodIndexForRoom(b.periods[0]) ||
+      a.className.localeCompare(b.className, "pt-BR")
     );
 }
 
-function renderRoomNightLegend(events) {
-  const items = [];
-  const seen = new Set();
+function getNightRoomReservations(room) {
+  const grouped = new Map();
 
-  events.forEach(event => {
-    const key = `${event.subject}|${event.className}|${event.tone}`;
-    if (seen.has(key)) return;
+  Object.entries(nightClasses).forEach(([classKey, classData]) => {
+    classData.events
+      .filter(event =>
+        !event.special &&
+        !event.usesLaboratory &&
+        event.room === room
+      )
+      .forEach(event => {
+        const key = [
+          event.date,
+          classKey,
+          classData.name,
+          room
+        ].join("|");
 
-    seen.add(key);
-    items.push({
-      subject: event.subject,
-      className: event.className,
-      tone: event.tone || "blue"
-    });
+        if (!grouped.has(key)) {
+          grouped.set(key, {
+            date: event.date,
+            classKey,
+            className: classData.name,
+            shift: "Noite",
+            periods: [],
+            sourceType: "Graduação"
+          });
+        }
+
+        grouped.get(key).periods.push(...event.periods);
+      });
   });
 
-  roomNightLegend.innerHTML = items
-    .map(item => `
-      <div class="night-legend-item">
-        <span class="night-legend-swatch ${item.tone}" aria-hidden="true"></span>
-        <span class="night-legend-text">
-          <strong>${item.subject}</strong>
-          <span>— ${item.className}</span>
-        </span>
-      </div>
-    `)
-    .join("");
+  return [...grouped.values()]
+    .map(reservation => ({
+      ...reservation,
+      periods: [...new Set(reservation.periods)]
+        .sort(
+          (a, b) =>
+            periodIndexForRoom(a) - periodIndexForRoom(b)
+        )
+    }))
+    .sort((a, b) =>
+      a.date.localeCompare(b.date) ||
+      periodIndexForRoom(a.periods[0]) -
+      periodIndexForRoom(b.periods[0]) ||
+      a.className.localeCompare(b.className, "pt-BR")
+    );
 }
 
-function renderRoomNightCalendar() {
-  const allRoomEvents = getNightEventsForRoom(selectedRoom);
+function isRoomAcademicDate(date) {
+  const isoDate = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+
+  return isoDate >= "2026-08-05" &&
+    isoDate <= "2026-12-31";
+}
+
+function roomDayNameFromDate(date) {
+  return Object.entries(jsDayByName)
+    .find(([, dayNumber]) =>
+      dayNumber === date.getDay()
+    )?.[0] || null;
+}
+
+function getRoomReservationsForDate(room, date) {
+  const isoDate = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+
+  const reservations = [];
+
+  if (isRoomAcademicDate(date)) {
+    const dayName = roomDayNameFromDate(date);
+
+    if (dayName) {
+      groupRecurringRoomReservations(room)
+        .filter(reservation => reservation.day === dayName)
+        .forEach(reservation => {
+          reservations.push({
+            ...reservation,
+            date: isoDate
+          });
+        });
+    }
+  }
+
+  getNightRoomReservations(room)
+    .filter(reservation => reservation.date === isoDate)
+    .forEach(reservation => reservations.push(reservation));
+
+  return reservations.sort((a, b) =>
+    periodIndexForRoom(a.periods[0]) -
+    periodIndexForRoom(b.periods[0]) ||
+    a.className.localeCompare(b.className, "pt-BR")
+  );
+}
+
+function roomPeriodRange(periodsList) {
+  if (!periodsList.length) return "";
+
+  const ordered = [...periodsList].sort(
+    (a, b) =>
+      periodIndexForRoom(a) - periodIndexForRoom(b)
+  );
+  const first = ordered[0];
+  const last = ordered[ordered.length - 1];
+
+  return first === last ? first : `${first}–${last}`;
+}
+
+function roomShiftClass(shift) {
+  if (shift === "Manhã") return "morning";
+  if (shift === "Tarde") return "afternoon";
+  return "night";
+}
+
+function renderRoomMonthlyCalendar() {
   const [year, month] =
     selectedRoomNightMonth.split("-").map(Number);
   const monthIndex = month - 1;
@@ -2952,7 +3142,6 @@ function renderRoomNightCalendar() {
   roomNightMonthPicker.value = selectedRoomNightMonth;
   roomNightSubtitle.textContent =
     `${selectedRoom} · ${monthLabel(year, monthIndex)}`;
-  renderRoomNightLegend(allRoomEvents);
   roomNightCalendarGrid.innerHTML = "";
 
   monthWeekdays.forEach(dayName => {
@@ -2970,14 +3159,8 @@ function renderRoomNightCalendar() {
 
   for (const day of displayDays) {
     const date = new Date(year, monthIndex, day);
-    const isoDate = [
-      year,
-      String(month).padStart(2, "0"),
-      String(day).padStart(2, "0")
-    ].join("-");
-
-    const dayEvents = allRoomEvents
-      .filter(event => event.date === isoDate);
+    const reservations =
+      getRoomReservationsForDate(selectedRoom, date);
 
     const cell = document.createElement("div");
     const isWeekend = date.getDay() === 6;
@@ -3001,21 +3184,27 @@ function renderRoomNightCalendar() {
       </div>
     `;
 
-    if (!dayEvents.length) {
+    if (!reservations.length) {
       const emptyText = document.createElement("div");
       emptyText.className = "month-empty";
       emptyText.textContent = "Livre";
       cell.appendChild(emptyText);
     } else {
-      dayEvents.forEach(event => {
+      reservations.forEach(reservation => {
         const card = document.createElement("div");
-        card.className = `month-event ${event.tone || "blue"}`;
+        card.className = "room-reservation-card";
 
         card.innerHTML = `
-          <div class="month-event-title">${event.subject}</div>
-          <div class="month-event-time">${eventPeriodLabel(event)}</div>
-          <div class="month-event-meta">
-            ${event.className}<br>${event.teacher}
+          <div class="room-reservation-title">
+            ${reservation.className}
+          </div>
+          <div class="room-reservation-meta">
+            <span class="room-reservation-periods">
+              ${roomPeriodRange(reservation.periods)}
+            </span>
+            <span class="room-shift-badge ${roomShiftClass(reservation.shift)}">
+              ${reservation.shift}
+            </span>
           </div>
         `;
 
@@ -3040,20 +3229,25 @@ function moveRoomNightMonth(offset) {
   const [year, month] =
     selectedRoomNightMonth.split("-").map(Number);
   const date = new Date(year, month - 1 + offset, 1);
-
-  selectedRoomNightMonth = [
+  const nextValue = [
     date.getFullYear(),
     String(date.getMonth() + 1).padStart(2, "0")
   ].join("-");
 
+  if (nextValue < "2026-08" || nextValue > "2026-12") {
+    return;
+  }
+
+  selectedRoomNightMonth = nextValue;
   roomNightMonthPicker.value = selectedRoomNightMonth;
-  renderRoomNightCalendar();
+  renderRoomMonthlyCalendar();
 }
 
 roomNightMonthPicker.addEventListener("change", () => {
   if (!roomNightMonthPicker.value) return;
+
   selectedRoomNightMonth = roomNightMonthPicker.value;
-  renderRoomNightCalendar();
+  renderRoomMonthlyCalendar();
 });
 
 roomNightPrevBtn.onclick = () => moveRoomNightMonth(-1);
@@ -3806,11 +4000,14 @@ function renderAll() {
   const isNightClassView =
     currentView === "class" && Boolean(nightClasses[selectedClass]);
   const isMonthlyView = isNightClassView;
+  const isRoomMonthlyView = currentView === "room";
   const isLaboratoryMonthlyView = currentView === "lab";
 
   weeklyCalendarView.classList.toggle(
     "hidden",
-    isMonthlyView || isLaboratoryMonthlyView
+    isMonthlyView ||
+    isRoomMonthlyView ||
+    isLaboratoryMonthlyView
   );
   monthlyCalendarView.classList.toggle("hidden", !isMonthlyView);
   teacherDayNotice.classList.add("hidden");
@@ -3902,21 +4099,13 @@ function renderAll() {
   }
 
   if (currentView === "room") {
-    const lessons = allLessons.filter(x => x.room === selectedRoom);
-    const nightRoomEvents = getNightEventsForRoom(selectedRoom);
-
     document.getElementById("panelTitle").textContent =
       `Agenda de Salas — ${selectedRoom}`;
     document.getElementById("topShiftBadge").textContent =
       selectedRoom;
 
-    renderTable(lessons);
-
-    if (nightRoomEvents.length) {
-      roomNightBlock.classList.remove("hidden");
-      renderRoomNightCalendar();
-    }
-
+    roomNightBlock.classList.remove("hidden");
+    renderRoomMonthlyCalendar();
     return;
   }
 
