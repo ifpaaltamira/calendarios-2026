@@ -2431,7 +2431,22 @@ function lessonBox(item) {
   if (!item) return '<div class="empty">Livre</div>';
   const bg = subjectColors[item.subject] || "#dce7ef";
 
-  if (currentView === "room" || currentView === "lab") {
+  if (currentView === "room") {
+    const classColor = roomClassColor(
+      item.classKey,
+      item.className
+    );
+
+    return `<div class="lesson"
+                 style="
+                   background:${classColor.background};
+                   border-left:4px solid ${classColor.accent};
+                 ">
+      <div class="subject">${item.className}</div>
+    </div>`;
+  }
+
+  if (currentView === "lab") {
     return `<div class="lesson" style="background:${bg}">
       <div class="subject">${item.subject}</div>
       <div class="teacher">${item.className}</div>
@@ -2439,7 +2454,11 @@ function lessonBox(item) {
     </div>`;
   }
 
-  const secondaryLine = currentView === "teacher" ? item.className : item.teacher;
+  const secondaryLine =
+    currentView === "teacher"
+      ? item.className
+      : item.teacher;
+
   return `<div class="lesson" style="background:${bg}">
     <div class="subject">${item.subject}</div>
     <div class="teacher">${secondaryLine}</div>
@@ -4095,14 +4114,11 @@ function renderAll() {
   const isNightClassView =
     currentView === "class" && Boolean(nightClasses[selectedClass]);
   const isMonthlyView = isNightClassView;
-  const isRoomMonthlyView = currentView === "room";
   const isLaboratoryMonthlyView = currentView === "lab";
 
   weeklyCalendarView.classList.toggle(
     "hidden",
-    isMonthlyView ||
-    isRoomMonthlyView ||
-    isLaboratoryMonthlyView
+    isMonthlyView || isLaboratoryMonthlyView
   );
   monthlyCalendarView.classList.toggle("hidden", !isMonthlyView);
   teacherDayNotice.classList.add("hidden");
@@ -4194,13 +4210,16 @@ function renderAll() {
   }
 
   if (currentView === "room") {
+    const lessons = allLessons.filter(
+      lesson => lesson.room === selectedRoom
+    );
+
     document.getElementById("panelTitle").textContent =
       `Agenda de Salas — ${selectedRoom}`;
     document.getElementById("topShiftBadge").textContent =
       selectedRoom;
 
-    roomNightBlock.classList.remove("hidden");
-    renderRoomMonthlyCalendar();
+    renderTable(lessons);
     return;
   }
 
