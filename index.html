@@ -1653,6 +1653,8 @@ const teacherSidebarNames = [...new Set([
   ...classEadTeacherNames
 ])].sort((a,b) => a.localeCompare(b, "pt-BR"));
 
+const teacherLocatorNames = teacherSidebarNames;
+
 let currentView = "class";
 let selectedClass = Object.keys(classes)[0];
 let selectedTeacher = teacherNames[0];
@@ -1685,7 +1687,7 @@ const jsDayByName = {
 
 const teacherLocatorStartDate = new Date(2026, 7, 5, 0, 0, 0, 0);
 
-teacherLocatorList.innerHTML = teacherNames
+teacherLocatorList.innerHTML = teacherLocatorNames
   .map(name => `<option value="${name.replace(/"/g, "&quot;")}"></option>`)
   .join("");
 
@@ -1701,17 +1703,17 @@ function resolveTeacherName(value) {
   const normalized = normalizeTeacherName(value);
   if (!normalized) return null;
 
-  const exact = teacherNames.find(
+  const exact = teacherLocatorNames.find(
     name => normalizeTeacherName(name) === normalized
   );
   if (exact) return exact;
 
-  const startsWith = teacherNames.filter(
+  const startsWith = teacherLocatorNames.filter(
     name => normalizeTeacherName(name).startsWith(normalized)
   );
   if (startsWith.length === 1) return startsWith[0];
 
-  const contains = teacherNames.filter(
+  const contains = teacherLocatorNames.filter(
     name => normalizeTeacherName(name).includes(normalized)
   );
   return contains.length === 1 ? contains[0] : null;
@@ -1864,7 +1866,7 @@ function locateTeacher() {
     showTeacherLocatorMessage(
       `<span class="teacher-location-status">Sem aulas</span>
        <h3>${teacher}</h3>
-       <p>Não há aulas cadastradas para este docente no calendário.</p>`
+       <p>Não há aula presencial semanal cadastrada para este docente no calendário.</p>`
     );
     return;
   }
