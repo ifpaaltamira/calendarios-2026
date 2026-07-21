@@ -1620,6 +1620,49 @@ const ignoredNightTeacherNames = new Set([
   "Prof substituto"
 ]);
 
+const teacherNightLessons = Object.entries(nightClasses)
+  .flatMap(([classKey, classData]) =>
+    classData.events
+      .filter(event =>
+        !event.special &&
+        event.date >= "2026-08-05"
+      )
+      .flatMap(event =>
+        splitNightTeacherNames(event.teacher)
+          .filter(name => !ignoredNightTeacherNames.has(name))
+          .flatMap(teacher =>
+            event.periods.map(period => {
+              const periodData = laboratoryPeriods.find(
+                item => item.code === period
+              );
+
+              return {
+                date: event.date,
+                day: "",
+                period,
+                subject: event.subject,
+                teacher,
+                time: periodData?.time || "",
+                shift: "Noite",
+                className: classData.name,
+                classKey,
+                room: event.room,
+                usesLaboratory: Boolean(event.usesLaboratory),
+                scheduleType: "dated"
+              };
+            })
+          )
+      )
+  );
+
+const teacherLocatorLessons = [
+  ...allLessons.map(lesson => ({
+    ...lesson,
+    scheduleType: "weekly"
+  })),
+  ...teacherNightLessons
+];
+
 const nightTeacherNames = Object.values(nightClasses)
   .flatMap(data => data.events)
   .filter(event => !event.special)
@@ -1725,7 +1768,14 @@ function parseClockMinutes(clock) {
 }
 
 function periodBounds(periodCode) {
-  const period = periods.find(item => item.code === periodCode);
+  const period = laboratoryPeriods.find(
+    item => item.code === periodCode
+  );
+
+  if (!period) {
+    throw new Error(`Período não encontrado: ${periodCode}`);
+  }
+
   const [start, end] = period.time.split("–");
   return {
     start: parseClockMinutes(start),
@@ -1786,20 +1836,53 @@ function lessonStartDate(reference, lesson) {
   return result;
 }
 
+function systemDateIso(date) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function datedLessonStartDate(lesson) {
+  const bounds = periodBounds(lesson.period);
+  const [year, month, day] = lesson.date.split("-").map(Number);
+  const result = new Date(year, month - 1, day);
+
+  result.setHours(
+    Math.floor(bounds.start / 60),
+    bounds.start % 60,
+    0,
+    0
+  );
+
+  return result;
+}
+
 function currentLessonForTeacher(teacher, now) {
   if (now < teacherLocatorStartDate) return null;
 
   const dayName = Object.entries(jsDayByName)
-    .find(([,dayNumber]) => dayNumber === now.getDay())?.[0];
+    .find(([, dayNumber]) => dayNumber === now.getDay())?.[0];
+  const currentDate = systemDateIso(now);
+  const currentMinutes =
+    now.getHours() * 60 + now.getMinutes();
 
-  if (!dayName) return null;
+  return teacherLocatorLessons.find(lesson => {
+    if (lesson.teacher !== teacher) return false;
 
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const occursToday =
+      lesson.scheduleType === "dated"
+        ? lesson.date === currentDate
+        : lesson.day === dayName;
 
-  return allLessons.find(lesson => {
-    if (lesson.teacher !== teacher || lesson.day !== dayName) return false;
+    if (!occursToday) return false;
+
     const bounds = periodBounds(lesson.period);
-    return currentMinutes >= bounds.start && currentMinutes < bounds.end;
+    return (
+      currentMinutes >= bounds.start &&
+      currentMinutes < bounds.end
+    );
   }) || null;
 }
 
@@ -1809,13 +1892,17 @@ function nextLessonForTeacher(teacher, now) {
       ? new Date(teacherLocatorStartDate)
       : now;
 
-  return allLessons
+  return teacherLocatorLessons
     .filter(lesson => lesson.teacher === teacher)
     .map(lesson => ({
       lesson,
-      startsAt: lessonStartDate(reference, lesson)
+      startsAt:
+        lesson.scheduleType === "dated"
+          ? datedLessonStartDate(lesson)
+          : lessonStartDate(reference, lesson)
     }))
-    .sort((a,b) => a.startsAt - b.startsAt)[0] || null;
+    .filter(item => item.startsAt > reference)
+    .sort((a, b) => a.startsAt - b.startsAt)[0] || null;
 }
 
 function updateTeacherLocatorClock() {
