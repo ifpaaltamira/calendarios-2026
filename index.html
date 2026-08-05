@@ -1608,6 +1608,21 @@ const allLaboratories = [
   "Laboratório I",
   "Laboratório II"
 ];
+
+const recurringLaboratoryReservations = [
+  {
+    laboratories: [...allLaboratories],
+    day: "Terça",
+    subject: "Limpeza e Manutenção",
+    className: "Reserva fixa semanal",
+    teacher: "",
+    periods: ["M1", "M2", "M3", "M4", "M5"],
+    startTime: "08:00",
+    endTime: "12:00",
+    sourceType: "Manutenção",
+    tone: "yellow"
+  }
+];
 function splitNightTeacherNames(value) {
   return String(value || "")
     .split(/\s*\/\s*/)
@@ -3138,6 +3153,19 @@ function getLaboratoryReservationsForDate(laboratory, date) {
     const dayName = dayNameFromDate(date);
 
     if (dayName) {
+      recurringLaboratoryReservations
+        .filter(reservation =>
+          reservation.day === dayName &&
+          reservation.laboratories.includes(laboratory)
+        )
+        .forEach(reservation => {
+          reservations.push({
+            ...reservation,
+            date: isoDate,
+            room: laboratory
+          });
+        });
+
       groupRecurringLaboratoryLessons(laboratory)
         .filter(reservation => reservation.day === dayName)
         .forEach(reservation => {
@@ -3162,6 +3190,10 @@ function getLaboratoryReservationsForDate(laboratory, date) {
 }
 
 function laboratoryReservationStartMinutes(reservation) {
+  if (reservation.startTime) {
+    return parseClockMinutes(reservation.startTime);
+  }
+
   const firstPeriod = reservation.periods[0];
 
   if (nightPeriodDetails[firstPeriod]) {
@@ -3179,6 +3211,10 @@ function laboratoryReservationStartMinutes(reservation) {
 }
 
 function laboratoryReservationPeriodLabel(reservation) {
+  if (reservation.startTime && reservation.endTime) {
+    return `${reservation.startTime}–${reservation.endTime}`;
+  }
+
   const first = reservation.periods[0];
   const last =
     reservation.periods[reservation.periods.length - 1];
@@ -3231,6 +3267,10 @@ const laboratoryToneColors = {
 };
 
 function laboratoryReservationColor(reservation) {
+  if (reservation.sourceType === "Manutenção") {
+    return "#f4efd9";
+  }
+
   if (reservation.sourceType === "Ensino Médio") {
     return subjectColors[reservation.subject] || "#e5eff6";
   }
