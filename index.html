@@ -4126,12 +4126,27 @@ function escapeSaturdayHtml(value) {
 
 function saturdayTeachersInClass(classKey, subject) {
   const classData = classes[classKey];
-  if (!classData?.schedule) return [];
+  if (!Array.isArray(classData?.schedule)) return [];
+
+  const assignments = classData.schedule.map(item => {
+    if (Array.isArray(item)) {
+      return {subject: item[2], teacher: item[3]};
+    }
+
+    if (item && typeof item === "object") {
+      return {
+        subject: item.subject ?? item.discipline ?? item.disciplina ?? "",
+        teacher: item.teacher ?? item.docente ?? ""
+      };
+    }
+
+    return {subject: "", teacher: ""};
+  });
 
   return [...new Set(
-    classData.schedule
-      .filter(([, , scheduledSubject]) => scheduledSubject === subject)
-      .map(([, , , teacher]) => teacher)
+    assignments
+      .filter(item => item.subject === subject)
+      .map(item => item.teacher)
       .filter(Boolean)
   )];
 }
