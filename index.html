@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Horários 2026.2</title>
+<title>Painel de Horários 2026.2 — Sábados Letivos Consolidados</title>
 <style>
 :root {
   --ifpa-green:#19733b;
@@ -996,6 +996,195 @@ td.slot{height:79px;padding:4px}
   margin: 0;
   font-size: 15px;
 }
+
+
+/* Calendários de sábados letivos */
+.saturday-calendar-view{
+  padding:16px;
+  background:#f8faf8
+}
+.saturday-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+  padding:12px 14px;
+  border:1px solid #dfe7e1;
+  border-radius:.75rem;
+  background:#fff
+}
+.saturday-filter-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px
+}
+.saturday-filter-btn{
+  min-height:34px;
+  padding:0 12px;
+  border:0;
+  border-radius:999px;
+  background:#edf2ef;
+  color:#4d5d53;
+  font-size:12px
+}
+.saturday-filter-btn:hover{
+  background:#e1ece4;
+  color:var(--ifpa-green-dark)
+}
+.saturday-filter-btn.active{
+  background:var(--ifpa-green);
+  color:#fff
+}
+.saturday-summary{
+  color:#5e6b63;
+  font-size:12px;
+  font-weight:700
+}
+.saturday-intro{
+  margin:0 0 16px;
+  color:#657269;
+  font-size:12px;
+  line-height:1.5
+}
+.saturday-month-section{
+  margin-top:18px
+}
+.saturday-month-section:first-of-type{
+  margin-top:0
+}
+.saturday-month-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:0 0 10px;
+  color:var(--ifpa-green-dark);
+  font-size:15px
+}
+.saturday-month-title::before{
+  content:"";
+  width:5px;
+  height:20px;
+  border-radius:999px;
+  background:var(--ifpa-green)
+}
+.saturday-card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
+  gap:12px
+}
+.saturday-card{
+  overflow:hidden;
+  border:1px solid #dfe7e1;
+  border-radius:.8rem;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(15,79,41,.055)
+}
+.saturday-card-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:11px 13px;
+  border-bottom:1px solid #e7ece8;
+  background:#edf5ef
+}
+.saturday-date-wrap{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+.saturday-day-number{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  border-radius:.6rem;
+  background:var(--ifpa-green);
+  color:#fff;
+  font-size:17px;
+  font-weight:900
+}
+.saturday-date-text strong{
+  display:block;
+  color:#26362c;
+  font-size:12px
+}
+.saturday-date-text small{
+  display:block;
+  margin-top:2px;
+  color:#6c786f;
+  font-size:10px
+}
+.saturday-card-badge{
+  flex:0 0 auto;
+  padding:3px 7px;
+  border-radius:999px;
+  background:#dbeade;
+  color:#326142;
+  font-size:8.5px;
+  font-weight:900;
+  letter-spacing:.035em;
+  text-transform:uppercase
+}
+.saturday-lessons{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  padding:11px
+}
+.saturday-lesson{
+  display:grid;
+  grid-template-columns:82px minmax(0,1fr);
+  gap:9px;
+  align-items:start;
+  padding:9px 10px;
+  border-radius:.6rem;
+  background:#f7f9f8
+}
+.saturday-lesson-time{
+  color:#52705d;
+  font-size:9.5px;
+  font-weight:850;
+  line-height:1.35
+}
+.saturday-lesson-time span{
+  display:block;
+  margin-top:2px;
+  color:#859087;
+  font-size:8.5px;
+  font-weight:700
+}
+.saturday-lesson-subject{
+  color:#2f3c34;
+  font-size:11px;
+  font-weight:800;
+  line-height:1.32
+}
+.saturday-empty{
+  padding:30px 18px;
+  border:1px dashed #cfd9d2;
+  border-radius:.75rem;
+  background:#fff;
+  color:#77837b;
+  text-align:center;
+  font-size:13px
+}
+@media(max-width:620px){
+  .saturday-toolbar{align-items:flex-start}
+  .saturday-filter-group{width:100%}
+  .saturday-filter-btn{flex:1 1 auto}
+  .saturday-summary{width:100%}
+  .saturday-card-grid{grid-template-columns:1fr}
+}
+@media print{
+  .saturday-calendar-view{padding:0;background:#fff}
+  .saturday-toolbar{display:none!important}
+  .saturday-card{break-inside:avoid;box-shadow:none}
+}
+
 </style>
 </head>
 <body>
@@ -1020,6 +1209,7 @@ td.slot{height:79px;padding:4px}
       <button id="teacherViewBtn" type="button">Calendário Individual - Docente</button>
       <button id="roomViewBtn" type="button">Salas</button>
       <button id="labViewBtn" type="button">Laboratórios</button>
+      <button id="saturdayViewBtn" type="button">Sábados Letivos</button>
     </nav>
 
     <div class="toolbar-actions">
@@ -1111,6 +1301,17 @@ td.slot{height:79px;padding:4px}
           <div class="monthly-grid-wrap">
             <div id="monthlyCalendarGrid" class="monthly-grid"></div>
           </div>
+        </div>
+
+        <div id="saturdayCalendarView" class="saturday-calendar-view hidden">
+          <div class="saturday-toolbar">
+            <div id="saturdayFilterGroup" class="saturday-filter-group" aria-label="Período dos sábados letivos"></div>
+            <div id="saturdaySummary" class="saturday-summary"></div>
+          </div>
+          <p class="saturday-intro">
+            Selecione uma turma no menu lateral para consultar as aulas previstas em cada sábado letivo.
+          </p>
+          <div id="saturdayCalendarContent"></div>
         </div>
       </section>
 
@@ -1449,6 +1650,10 @@ const manualTeacherEadAssignments = [
   }
 ];
 
+
+
+const saturdayCalendars = {"adm-1a-2026":{"name":"EMI Administração — 1º Ano A — Turma 2026","short":"1º Ano A","course":"EMI Administração","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2"],"subject":"Fundamentos de Administração"},{"periods":["M3","M4"],"subject":"Matemática Aplicada"},{"periods":["M5","M6"],"subject":"Língua Portuguesa I"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2"],"subject":"Física I"},{"periods":["M3","M4"],"subject":"Geografia I"},{"periods":["M5","M6"],"subject":"Metodologia Científica"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Matemática Aplicada"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Física I"},{"periods":["M5","M6"],"subject":"História I"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2"],"subject":"Gestão de Processos"},{"periods":["M3","M4"],"subject":"Fundamentos de Administração"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2"],"subject":"Biologia I"},{"periods":["M3","M4"],"subject":"Filosofia e Sociologia I"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Química I"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2"],"subject":"Matemática I"},{"periods":["M3","M4"],"subject":"Química I"},{"periods":["M5","M6"],"subject":"Filosofia e Sociologia I"}]},{"date":"2026-08-08","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Matemática I"}]},{"date":"2026-08-22","lessons":[{"periods":["M1","M2"],"subject":"Introdução à Contabilidade"},{"periods":["M3","M4"],"subject":"Geografia I"},{"periods":["M5","M6"],"subject":"Matemática I"}]},{"date":"2026-09-05","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Física I"},{"periods":["M5","M6"],"subject":"Matemática Aplicada"}]},{"date":"2026-09-19","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Filosofia e Sociologia I"}]},{"date":"2026-09-26","lessons":[{"periods":["M1","M2"],"subject":"Gestão de Processos"},{"periods":["M3","M4"],"subject":"Logística e Gestão da Cadeia de Suprimentos"}]},{"date":"2026-10-10","lessons":[{"periods":["M1","M2"],"subject":"Gestão de Processos"},{"periods":["M3","M4"],"subject":"Logística e Gestão da Cadeia de Suprimentos"}]},{"date":"2026-10-24","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Química I"}]},{"date":"2026-11-14","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Física I"}]},{"date":"2026-11-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Química I"}]},{"date":"2026-12-05","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"História I"}]}]},"adm-2a-2025":{"name":"EMI Administração — 2º Ano A — Turma 2025","short":"2º Ano A","course":"EMI Administração","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2"],"subject":"Física II"},{"periods":["M4","M5"],"subject":"Marketing"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2","M3"],"subject":"Língua Portuguesa II"},{"periods":["M4","M5","M6"],"subject":"Química II"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2"],"subject":"Geografia II"},{"periods":["M3","M4"],"subject":"Filosofia e Sociologia II"},{"periods":["M5","M6"],"subject":"Educação Física"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Marketing"},{"periods":["M5","M6"],"subject":"Química"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3"],"subject":"Matemática II"},{"periods":["M4","M5"],"subject":"História II"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2"],"subject":"Química I"},{"periods":["M3","M4"],"subject":"Biologia II"},{"periods":["M5","M6"],"subject":"Língua Inglesa"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3"],"subject":"Química I"},{"periods":["M4","M5"],"subject":"Educação Física"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Biologia II"},{"periods":["M5","M6"],"subject":"Marketing"}]},{"date":"2026-08-08","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Química II"},{"periods":["M5","M6"],"subject":"Gestão Financeira"}]},{"date":"2026-08-22","lessons":[{"periods":["M1","M2","M3"],"subject":"História II"},{"periods":["M4","M5","M6"],"subject":"Química II"}]},{"date":"2026-09-05","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Educação Física"},{"periods":["M5","M6"],"subject":"Gestão Financeira"}]},{"date":"2026-09-19","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Biologia II"},{"periods":["M5","M6"],"subject":"Administração da Produção"}]},{"date":"2026-09-26","lessons":[{"periods":["M1","M2","M3"],"subject":"Língua Portuguesa II"},{"periods":["M4","M5","M6"],"subject":"História II"}]},{"date":"2026-10-10","lessons":[{"periods":["M1","M2","M3"],"subject":"Química II"},{"periods":["M4","M5"],"subject":"Língua Inglesa"}]},{"date":"2026-10-24","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Língua Inglesa"},{"periods":["M5","M6"],"subject":"Administração da Produção"}]},{"date":"2026-11-14","lessons":[{"periods":["M1","M2","M3"],"subject":"Matemática II"},{"periods":["M4","M5"],"subject":"História II"}]},{"date":"2026-11-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Biologia II"},{"periods":["M5","M6"],"subject":"Química II"}]},{"date":"2026-12-05","lessons":[{"periods":["M1","M2","M3"],"subject":"Gestão Financeira"},{"periods":["M4","M5","M6"],"subject":"Administração da Produção"}]}]},"edif-1a-2026":{"name":"EMI Edificações — 1º Ano A — Turma 2026","short":"1º Ano A","course":"EMI Edificações","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Materiais de Construção e Tecnologia do Concreto e Argamassa"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Materiais de Construção e Tecnologia do Concreto e Argamassa"},{"periods":["M5","M6"],"subject":"Tecnologia da Construção"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Tecnologia da Construção"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Tecnologia da Construção"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3"],"subject":"Tecnologia da Construção"},{"periods":["M5","M6"],"subject":"Tecnologia da Construção"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Tecnologia da Construção"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Tecnologia da Construção"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Tecnologia da Construção"}]},{"date":"2026-08-08","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Tecnologia da Construção"}]},{"date":"2026-08-22","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Matemática Básica para Estruturas"},{"periods":["M5","M6"],"subject":"Língua Portuguesa I"}]},{"date":"2026-09-05","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Matemática I"}]},{"date":"2026-09-19","lessons":[{"periods":["M1","M2","M3","M4","M5"],"subject":"Matemática I"},{"periods":["M6"],"subject":"Biologia I"}]},{"date":"2026-09-26","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Filosofia e Sociologia I"}]},{"date":"2026-10-10","lessons":[{"periods":["M1","M2","M3","M4","M5"],"subject":"Filosofia e Sociologia I"},{"periods":["M6"],"subject":"Química I"}]},{"date":"2026-10-24","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Química I"}]},{"date":"2026-11-14","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"História I"}]},{"date":"2026-11-28","lessons":[{"periods":["M1"],"subject":"História I"},{"periods":["M2","M3","M4","M5"],"subject":"Física I"},{"periods":["M6"],"subject":"Geografia I"}]},{"date":"2026-12-05","lessons":[{"periods":["M1","M2"],"subject":"Geografia I"},{"periods":["M3","M4","M5","M6"],"subject":"Tecnologia da Construção"}]}]},"edif-3a-2024":{"name":"EMI Edificações — 3º Ano A — Turma 2024","short":"3º Ano A","course":"EMI Edificações","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2"],"subject":"Inglês II"},{"periods":["M3","M4","M5","M6"],"subject":"Química II"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2"],"subject":"Química II"},{"periods":["M3","M4","M5","M6"],"subject":"Artes III"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Artes III"},{"periods":["M5","M6"],"subject":"Filosofia e Sociologia III"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Filosofia e Sociologia III"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2"],"subject":"Artes III"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Biologia III"},{"periods":["M5"],"subject":"Geografia III"},{"periods":["M6"],"subject":"Patologia das Construções"}]},{"date":"2026-05-23","lessons":[{"periods":["M4","M5","M6"],"subject":"Geografia III"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Patologia das Construções"}]},{"date":"2026-08-08","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Física III"}]},{"date":"2026-08-22","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"História III"},{"periods":["M5","M6"],"subject":"Planejamento e Custo de Obras"}]},{"date":"2026-09-05","lessons":[{"periods":["M1","M2","M3"],"subject":"Matemática III"}]},{"date":"2026-09-19","lessons":[{"periods":["M4","M5","M6"],"subject":"Planejamento e Custo de Obras"}]},{"date":"2026-09-26","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Planejamento e Custo de Obras"}]},{"date":"2026-10-10","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Planejamento e Custo de Obras"}]},{"date":"2026-10-24","lessons":[{"periods":["M1","M2"],"subject":"Planejamento e Custo de Obras"},{"periods":["M3","M4","M5","M6"],"subject":"Língua Portuguesa III"}]},{"date":"2026-11-14","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Introdução ao Cálculo Estrutural"}]},{"date":"2026-11-28","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Introdução ao Cálculo Estrutural"}]},{"date":"2026-12-05","lessons":[{"periods":["M1","M2"],"subject":"Introdução ao Cálculo Estrutural"},{"periods":["M3","M4","M5","M6"],"subject":"Biologia III"}]}]},"agro-1a-2026":{"name":"EMI Agropecuária — 1º Ano A — Turma 2026","short":"1º Ano A","course":"EMI Agropecuária","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Nutrição Animal e Forragicultura"},{"periods":["M5","M6"],"subject":"Bases Matemática para Adubação e Calagem"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2"],"subject":"Bases Matemática para Adubação e Calagem"},{"periods":["M3","M4","M5","M6"],"subject":"Fundamentos da Agricultura e Pecuária"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2","M3"],"subject":"Física I"},{"periods":["M4","M5","M6"],"subject":"Culturas Anuais e Olericultura"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2"],"subject":"Física I"},{"periods":["M3","M4"],"subject":"Língua Portuguesa I"},{"periods":["M5","M6"],"subject":"Biologia I"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Filosofia e Sociologia I"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2"],"subject":"Fundamentos da Agricultura e Pecuária"},{"periods":["M3","M4"],"subject":"História I"},{"periods":["M5","M6"],"subject":"Fundamentos da Agricultura e Pecuária"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3"],"subject":"Física I"},{"periods":["M4","M5","M6"],"subject":"Culturas Anuais e Olericultura"}]},{"date":"2026-06-20","lessons":[]}]},"agro-1b-2026":{"name":"EMI Agropecuária — 1º Ano B — Turma 2026","short":"1º Ano B","course":"EMI Agropecuária","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Nutrição Animal e Forragicultura"},{"periods":["M5","M6"],"subject":"Filosofia e Sociologia I"}]},{"date":"2026-03-14","lessons":[{"periods":["M2","M3"],"subject":"Química I"},{"periods":["M4","M5","M6"],"subject":"Bases Matemática para Adubação e Calagem"}]},{"date":"2026-03-28","lessons":[{"periods":["M2","M3"],"subject":"Física I"},{"periods":["M4","M5","M6"],"subject":"Bases Matemática para Adubação e Calagem"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Língua Portuguesa I"},{"periods":["M5","M6"],"subject":"Biologia I"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Língua Portuguesa I"},{"periods":["M5","M6"],"subject":"Biologia I"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Língua Portuguesa I"},{"periods":["M5","M6"],"subject":"Biologia I"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Fundamentos da Agricultura e Pecuária"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Química I"}]}]},"agro-2a-2025":{"name":"EMI Agropecuária — 2º Ano A — Turma 2025","short":"2º Ano A","course":"EMI Agropecuária","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Língua Portuguesa II"},{"periods":["M5","M6"],"subject":"Química I"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Produção de Monogástricos"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Língua Portuguesa II"},{"periods":["M5","M6"],"subject":"Física II"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2"],"subject":"Geografia II"},{"periods":["M3","M4"],"subject":"Física II"},{"periods":["M5","M6"],"subject":"Química I"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2"],"subject":"Biologia II"},{"periods":["M3","M4"],"subject":"Topografia, Construções e Instalações Rurais"},{"periods":["M5","M6"],"subject":"Biologia II"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Língua Portuguesa II"},{"periods":["M5","M6"],"subject":"Filosofia e Sociologia II"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Língua Portuguesa II"},{"periods":["M5","M6"],"subject":"Inglês"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Matemática II"}]}]},"agro-2b-2025":{"name":"EMI Agropecuária — 2º Ano B — Turma 2025","short":"2º Ano B","course":"EMI Agropecuária","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2"],"subject":"Língua Portuguesa II"},{"periods":["M3","M4"],"subject":"História II"},{"periods":["M5","M6"],"subject":"Mecanização Agrícola, Irrigação e Drenagem"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Química I"},{"periods":["M5","M6"],"subject":"Topografia, Construções e Instalações Rurais"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2"],"subject":"Língua Portuguesa II"},{"periods":["M3","M4"],"subject":"História II"},{"periods":["M5","M6"],"subject":"Física II"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2"],"subject":"Química I"},{"periods":["M3","M4"],"subject":"Mecanização Agrícola, Irrigação e Drenagem"},{"periods":["M5","M6"],"subject":"Física II"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2"],"subject":"Geografia II"},{"periods":["M3","M4","M5","M6"],"subject":"Biologia II"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2"],"subject":"Língua Portuguesa II"},{"periods":["M3","M4"],"subject":"Geografia II"},{"periods":["M5","M6"],"subject":"Física II"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Biologia II"},{"periods":["M5","M6"],"subject":"Física II"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Produção de Monogástricos"},{"periods":["M5","M6"],"subject":"Mecanização Agrícola, Irrigação e Drenagem"}]}]},"agro-3-2024":{"name":"EMI Agropecuária — 3º Ano A — Turma 2024","short":"3º Ano A","course":"EMI Agropecuária","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2"],"subject":"Agroecologia e Sistemas Agroflorestais"},{"periods":["M3","M4","M5","M6"],"subject":"Língua Portuguesa III"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Fruticultura Regional"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2"],"subject":"Inglês II"},{"periods":["M3","M4","M5","M6"],"subject":"Língua Portuguesa III"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2"],"subject":"Geografia III"},{"periods":["M3","M4"],"subject":"História III"},{"periods":["M5","M6"],"subject":"Geografia III"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Fruticultura Regional"},{"periods":["M5","M6"],"subject":"História III"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2"],"subject":"Fruticultura Regional"},{"periods":["M3","M4","M5","M6"],"subject":"Língua Portuguesa III"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Matemática III"},{"periods":["M5","M6"],"subject":"Língua Portuguesa III"}]},{"date":"2026-06-20","lessons":[]}]},"info-1a-2026":{"name":"EMI Informática — 1º Ano A — Turma 2026","short":"1º Ano A","course":"EMI Informática","events":[{"date":"2026-02-28","lessons":[]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2"],"subject":"Geografia I"},{"periods":["M3","M4","M5","M6"],"subject":"Química I"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Algoritmos e Técnicas de Programação"},{"periods":["M5","M6"],"subject":"Língua Portuguesa I"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Biologia I"},{"periods":["M5","M6"],"subject":"Algoritmos e Técnicas de Programação"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Filosofia e Sociologia I"},{"periods":["M5","M6"],"subject":"Matemática e Lógica de Programação"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2","M3"],"subject":"Arquitetura e Manutenção de Computadores"},{"periods":["M5","M6"],"subject":"Redes de Computadores"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3"],"subject":"Arquitetura e Manutenção de Computadores"},{"periods":["M5","M6"],"subject":"Arquitetura e Manutenção de Computadores"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3"],"subject":"Língua Portuguesa I"},{"periods":["M5","M6"],"subject":"Língua Portuguesa I"}]},{"date":"2026-08-08","lessons":[]},{"date":"2026-08-22","lessons":[]}]},"info-1b-2026":{"name":"EMI Informática — 1º Ano B — Turma 2026","short":"1º Ano B","course":"EMI Informática","events":[{"date":"2026-02-28","lessons":[]},{"date":"2026-03-14","lessons":[]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2"],"subject":"Matemática e Lógica de Programação"},{"periods":["M3","M4","M5","M6"],"subject":"Matemática I"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2"],"subject":"Física I"},{"periods":["M3","M4","M5","M6"],"subject":"Química I"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3"],"subject":"Algoritmos e Técnicas de Programação"},{"periods":["M4","M5","M6"],"subject":"Redes de Computadores"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2","M3"],"subject":"História I"},{"periods":["M4","M5","M6"],"subject":"Arquitetura e Manutenção de Computadores"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3"],"subject":"Língua Portuguesa I"},{"periods":["M5","M6"],"subject":"Língua Portuguesa I"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Biologia I"},{"periods":["M5","M6"],"subject":"Redes de Computadores"}]},{"date":"2026-08-08","lessons":[]},{"date":"2026-08-22","lessons":[]}]},"info-2a-2025":{"name":"EMI Informática — 2º Ano A — Turma 2025","short":"2º Ano A","course":"EMI Informática","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Programação Web I"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Programação Orientada a Objetos"},{"periods":["M5","M6"],"subject":"Biologia III"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Química I"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Banco de Dados"},{"periods":["M5","M6"],"subject":"Química I"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Física II"}]},{"date":"2026-05-09","lessons":[{"periods":["M3","M4","M5","M6"],"subject":"Inglês II"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"História II"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Filosofia e Sociologia II"},{"periods":["M5","M6"],"subject":"Artes I"}]},{"date":"2026-08-08","lessons":[]}]},"info-2b-2025":{"name":"EMI Informática — 2º Ano B — Turma 2025","short":"2º Ano B","course":"EMI Informática","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Filosofia e Sociologia II"},{"periods":["M5","M6"],"subject":"Artes I"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2"],"subject":"Inglês II"},{"periods":["M3","M4"],"subject":"Biologia II"},{"periods":["M5","M6"],"subject":"Inglês II"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2"],"subject":"História II"},{"periods":["M3","M4","M5","M6"],"subject":"Geografia II"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3"],"subject":"Língua Portuguesa II"},{"periods":["M4","M5","M6"],"subject":"Programação Orientada a Objetos"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2"],"subject":"Artes I"},{"periods":["M3","M4","M5","M6"],"subject":"Física II"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2"],"subject":"Programação Orientada a Objetos"},{"periods":["M3","M4","M5","M6"],"subject":"Química I"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3","M4"],"subject":"Física II"},{"periods":["M5","M6"],"subject":"Química I"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Matemática I"}]}]},"info-3-2024":{"name":"EMI Informática — 3º Ano A — Turma 2024","short":"3º Ano A","course":"EMI Informática","events":[{"date":"2026-02-28","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Programação para Dispositivos Móveis"}]},{"date":"2026-03-14","lessons":[{"periods":["M1","M2","M3"],"subject":"Desenvolvimento Web"},{"periods":["M4","M5","M6"],"subject":"Segurança e Administração da Informação"}]},{"date":"2026-03-28","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Química II"}]},{"date":"2026-04-11","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Biologia III"}]},{"date":"2026-04-25","lessons":[{"periods":["M1","M2","M3"],"subject":"História III"},{"periods":["M4","M5","M6"],"subject":"Geografia III"}]},{"date":"2026-05-09","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Matemática III"}]},{"date":"2026-05-23","lessons":[{"periods":["M1","M2","M3"],"subject":"Filosofia e Sociologia III"},{"periods":["M4","M5","M6"],"subject":"História III"}]},{"date":"2026-06-20","lessons":[{"periods":["M1","M2","M3","M4","M5","M6"],"subject":"Inglês II"}]},{"date":"2026-08-08","lessons":[]}]}};
+
 const periods = [{"code": "M1", "time": "07:30–08:20", "shift": "Manhã"}, {"code": "M2", "time": "08:20–09:10", "shift": "Manhã"}, {"code": "M3", "time": "09:10–10:00", "shift": "Manhã"}, {"code": "M4", "time": "10:20–11:10", "shift": "Manhã"}, {"code": "M5", "time": "11:10–12:00", "shift": "Manhã"}, {"code": "M6", "time": "12:00–12:50", "shift": "Manhã"}, {"code": "T1", "time": "13:00–13:50", "shift": "Tarde"}, {"code": "T2", "time": "13:50–14:40", "shift": "Tarde"}, {"code": "T3", "time": "14:40–15:30", "shift": "Tarde"}, {"code": "T4", "time": "15:50–16:40", "shift": "Tarde"}, {"code": "T5", "time": "16:40–17:30", "shift": "Tarde"}, {"code": "T6", "time": "17:30–18:20", "shift": "Tarde"}];
 const labSubjects = new Set(["Algoritmos e Técnicas de Programação", "Arquitetura e Manutenção de Computadores", "Banco de Dados", "Desenvolvimento Web", "Informática Aplicada", "Matemática e Lógica de Programação", "Programação Orientada a Objetos", "Programação Web I", "Programação para Dispositivos Móveis", "Projeto Arquitetônico", "Redes de Computadores", "Segurança e Administração da Informação"]);
 const labAllocations = {"adm-1a-2026|Terça|M1|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M2|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M5|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M6|Informática Aplicada": "Laboratório III", "edif-1a-2026|Segunda|T3|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T4|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T5|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T6|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Terça|M5|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Terça|M6|Projeto Arquitetônico": "Laboratório I", "info-1a-2026|Quarta|M3|Redes de Computadores": "Laboratório III", "info-1a-2026|Quarta|M4|Redes de Computadores": "Laboratório III", "info-1a-2026|Quarta|M5|Redes de Computadores": "Laboratório III", "info-1a-2026|Quinta|M3|Matemática e Lógica de Programação": "Laboratório III", "info-1a-2026|Quinta|M4|Matemática e Lógica de Programação": "Laboratório III", "info-1a-2026|Segunda|M3|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Segunda|M4|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Segunda|M5|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Sexta|M2|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1a-2026|Sexta|M3|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1a-2026|Sexta|M4|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T2|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T3|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T4|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quinta|M1|Matemática e Lógica de Programação": "Laboratório III", "info-1b-2026|Quinta|M2|Matemática e Lógica de Programação": "Laboratório III", "info-1b-2026|Segunda|T1|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Segunda|T2|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Segunda|T3|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Sexta|T3|Redes de Computadores": "Laboratório III", "info-1b-2026|Sexta|T4|Redes de Computadores": "Laboratório III", "info-1b-2026|Sexta|T5|Redes de Computadores": "Laboratório III", "info-2a-2025|Segunda|M1|Banco de Dados": "Laboratório III", "info-2a-2025|Segunda|M2|Banco de Dados": "Laboratório III", "info-2a-2025|Sexta|M5|Programação Orientada a Objetos": "Laboratório III", "info-2a-2025|Sexta|M6|Programação Orientada a Objetos": "Laboratório III", "info-2a-2025|Terça|M3|Programação Web I": "Laboratório III", "info-2a-2025|Terça|M4|Programação Web I": "Laboratório III", "info-2b-2025|Sexta|T3|Programação Orientada a Objetos": "Laboratório I", "info-2b-2025|Sexta|T4|Programação Orientada a Objetos": "Laboratório I", "info-2b-2025|Terça|T1|Banco de Dados": "Laboratório III", "info-2b-2025|Terça|T2|Banco de Dados": "Laboratório III", "info-2b-2025|Terça|T5|Programação Web I": "Laboratório III", "info-2b-2025|Terça|T6|Programação Web I": "Laboratório III", "info-3-2024|Segunda|M5|Programação para Dispositivos Móveis": "Laboratório I", "info-3-2024|Segunda|M6|Programação para Dispositivos Móveis": "Laboratório I", "info-3-2024|Sexta|M3|Desenvolvimento Web": "Laboratório I", "info-3-2024|Sexta|M4|Desenvolvimento Web": "Laboratório I", "info-3-2024|Sexta|M5|Segurança e Administração da Informação": "Laboratório I", "info-3-2024|Sexta|M6|Segurança e Administração da Informação": "Laboratório I"};
@@ -1559,6 +1764,7 @@ const sidebarToggle = document.getElementById("sidebarToggle");
 const sidebarClose = document.getElementById("sidebarClose");
 const roomViewBtn = document.getElementById("roomViewBtn");
 const labViewBtn = document.getElementById("labViewBtn");
+const saturdayViewBtn = document.getElementById("saturdayViewBtn");
 const workspace = document.querySelector(".workspace");
 const resourceSlider = document.getElementById("resourceSlider");
 const resourceSliderTrack = document.getElementById("resourceSliderTrack");
@@ -1566,6 +1772,10 @@ const resourcePrevBtn = document.getElementById("resourcePrevBtn");
 const resourceNextBtn = document.getElementById("resourceNextBtn");
 const weeklyCalendarView = document.getElementById("weeklyCalendarView");
 const monthlyCalendarView = document.getElementById("monthlyCalendarView");
+const saturdayCalendarView = document.getElementById("saturdayCalendarView");
+const saturdayFilterGroup = document.getElementById("saturdayFilterGroup");
+const saturdaySummary = document.getElementById("saturdaySummary");
+const saturdayCalendarContent = document.getElementById("saturdayCalendarContent");
 const monthlyCalendarGrid = document.getElementById("monthlyCalendarGrid");
 const panelPpcLinks = document.getElementById("panelPpcLinks");
 const monthPicker = document.getElementById("monthPicker");
@@ -1722,6 +1932,8 @@ let selectedNightClass = Object.keys(nightClasses)[0];
 let selectedNightMonth = nightClasses[selectedNightClass].default_month;
 let selectedTeacherNightMonth = "2026-08";
 let selectedLaboratoryNightMonth = "2026-08";
+let selectedSaturdayClass = "adm-1a-2026";
+let selectedSaturdaySemester = "2026.2";
 
 function openSidebar() {
   sidebar.classList.add("open");
@@ -2711,6 +2923,45 @@ function renderSidebar() {
         closeSidebar();
       };
       sidebarList.appendChild(b);
+    });
+  } else if (currentView === "saturday") {
+    sidebarTitle.textContent = "Sábados Letivos";
+    sidebarSubtitle.textContent = "Selecione uma turma";
+
+    const courseOrder = [
+      {course:"EMI Administração", title:"Administração", className:"course-adm"},
+      {course:"EMI Informática", title:"Informática", className:"course-info"},
+      {course:"EMI Edificações", title:"Edificações", className:"course-edif"},
+      {course:"EMI Agropecuária", title:"Agropecuária", className:"course-agro"}
+    ];
+
+    courseOrder.forEach(group => {
+      const entries = Object.entries(saturdayCalendars)
+        .filter(([,data]) => data.course === group.course);
+      if (!entries.length) return;
+
+      const section = document.createElement("div");
+      section.className = `course-group ${group.className}`;
+
+      const title = document.createElement("div");
+      title.className = "course-group-title";
+      title.textContent = group.title;
+      section.appendChild(title);
+
+      entries.forEach(([key,data]) => {
+        const button = document.createElement("button");
+        button.className = `sidebar-item ${group.className}` +
+          (key === selectedSaturdayClass ? " active" : "");
+        button.innerHTML = `${data.short}<small>${data.events.length} sábados cadastrados</small>`;
+        button.onclick = () => {
+          selectedSaturdayClass = key;
+          renderAll();
+          closeSidebar();
+        };
+        section.appendChild(button);
+      });
+
+      sidebarList.appendChild(section);
     });
   } else {
     sidebarTitle.textContent = "Laboratórios";
@@ -3782,6 +4033,138 @@ function renderEadSubjects(classKey) {
   eadBlock.classList.remove("hidden");
 }
 
+
+
+const saturdaySemesterOptions = [
+  {key:"2026.1", label:"2026.1"},
+  {key:"2026.2", label:"2026.2"},
+  {key:"all", label:"Ano completo"}
+];
+
+const saturdayMonthNames = [
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+];
+
+function saturdayEventMatchesSemester(event, semester) {
+  if (semester === "all") return true;
+  const month = Number(event.date.slice(5,7));
+  return semester === "2026.1" ? month <= 6 : month >= 7;
+}
+
+function formatSaturdayLessonTime(periodCodes) {
+  const first = periods.find(period => period.code === periodCodes[0]);
+  const last = periods.find(period => period.code === periodCodes[periodCodes.length - 1]);
+  const firstLabel = periodCodes[0];
+  const lastLabel = periodCodes[periodCodes.length - 1];
+  const periodLabel = firstLabel === lastLabel ? firstLabel : `${firstLabel}–${lastLabel}`;
+
+  if (!first || !last) return {periodLabel, timeLabel:""};
+  const start = first.time.split("–")[0];
+  const end = last.time.split("–")[1];
+  return {periodLabel, timeLabel:`${start}–${end}`};
+}
+
+function renderSaturdayCalendar() {
+  const data = saturdayCalendars[selectedSaturdayClass];
+  if (!data) {
+    saturdayCalendarContent.innerHTML = '<div class="saturday-empty">Nenhum calendário cadastrado.</div>';
+    saturdaySummary.textContent = "";
+    return;
+  }
+
+  saturdayFilterGroup.innerHTML = saturdaySemesterOptions
+    .map(option => `
+      <button type="button"
+              class="saturday-filter-btn ${option.key === selectedSaturdaySemester ? "active" : ""}"
+              data-semester="${option.key}">
+        ${option.label}
+      </button>
+    `)
+    .join("");
+
+  saturdayFilterGroup.querySelectorAll("[data-semester]").forEach(button => {
+    button.onclick = () => {
+      selectedSaturdaySemester = button.dataset.semester;
+      renderSaturdayCalendar();
+    };
+  });
+
+  const events = data.events
+    .filter(event => saturdayEventMatchesSemester(event, selectedSaturdaySemester))
+    .sort((a,b) => a.date.localeCompare(b.date));
+
+  const totalPeriods = events.reduce(
+    (sum,event) => sum + event.lessons.reduce(
+      (lessonSum,lesson) => lessonSum + lesson.periods.length,
+      0
+    ),
+    0
+  );
+
+  saturdaySummary.textContent = `${events.length} sábados · ${totalPeriods} períodos`;
+
+  if (!events.length) {
+    saturdayCalendarContent.innerHTML = '<div class="saturday-empty">Nenhum sábado letivo cadastrado neste período.</div>';
+    return;
+  }
+
+  const grouped = new Map();
+  events.forEach(event => {
+    const date = new Date(`${event.date}T12:00:00`);
+    const key = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}`;
+    if (!grouped.has(key)) grouped.set(key, []);
+    grouped.get(key).push(event);
+  });
+
+  saturdayCalendarContent.innerHTML = [...grouped.entries()]
+    .map(([monthKey,monthEvents]) => {
+      const [year,month] = monthKey.split("-").map(Number);
+      const cards = monthEvents.map(event => {
+        const date = new Date(`${event.date}T12:00:00`);
+        const lessons = event.lessons.length
+          ? event.lessons.map(lesson => {
+              const timing = formatSaturdayLessonTime(lesson.periods);
+              return `
+                <div class="saturday-lesson">
+                  <div class="saturday-lesson-time">
+                    ${timing.periodLabel}
+                    <span>${timing.timeLabel}</span>
+                  </div>
+                  <div class="saturday-lesson-subject">${lesson.subject}</div>
+                </div>
+              `;
+            }).join("")
+          : '<div class="saturday-empty">Sem aulas preenchidas na planilha enviada.</div>';
+
+        return `
+          <article class="saturday-card">
+            <div class="saturday-card-head">
+              <div class="saturday-date-wrap">
+                <div class="saturday-day-number">${String(date.getDate()).padStart(2,"0")}</div>
+                <div class="saturday-date-text">
+                  <strong>${date.toLocaleDateString("pt-BR")}</strong>
+                  <small>Sábado</small>
+                </div>
+              </div>
+              <span class="saturday-card-badge">Letivo</span>
+            </div>
+            <div class="saturday-lessons">${lessons}</div>
+          </article>
+        `;
+      }).join("");
+
+      return `
+        <section class="saturday-month-section">
+          <h3 class="saturday-month-title">${saturdayMonthNames[month-1]} de ${year}</h3>
+          <div class="saturday-card-grid">${cards}</div>
+        </section>
+      `;
+    })
+    .join("");
+}
+
+
 function renderAll() {
   renderSidebar();
   renderResourceSlider();
@@ -3790,12 +4173,14 @@ function renderAll() {
     currentView === "class" && Boolean(nightClasses[selectedClass]);
   const isMonthlyView = isNightClassView;
   const isLaboratoryMonthlyView = currentView === "lab";
+  const isSaturdayView = currentView === "saturday";
 
   weeklyCalendarView.classList.toggle(
     "hidden",
-    isMonthlyView || isLaboratoryMonthlyView
+    isMonthlyView || isLaboratoryMonthlyView || isSaturdayView
   );
   monthlyCalendarView.classList.toggle("hidden", !isMonthlyView);
+  saturdayCalendarView.classList.toggle("hidden", !isSaturdayView);
   teacherDayNotice.classList.add("hidden");
   teacherNightBlock.classList.add("hidden");
   laboratoryNightBlock.classList.add("hidden");
@@ -3814,6 +4199,18 @@ function renderAll() {
     renderPpcLinks(data.course);
     document.getElementById("eadBlock").classList.add("hidden");
     renderMonthlyCalendar();
+    return;
+  }
+
+  if (currentView === "saturday") {
+    const data = saturdayCalendars[selectedSaturdayClass];
+    document.getElementById("panelTitle").textContent =
+      `Sábados Letivos — ${data.name}`;
+    document.getElementById("topShiftBadge").textContent =
+      "Calendário de Sábados Letivos";
+    document.getElementById("eadBlock").classList.add("hidden");
+    renderPpcLinks(data.course);
+    renderSaturdayCalendar();
     return;
   }
 
@@ -3912,7 +4309,7 @@ function renderAll() {
 }
 
 function setActiveViewButton(activeId) {
-  ["classViewBtn", "teacherViewBtn", "roomViewBtn", "labViewBtn"].forEach(id => {
+  ["classViewBtn", "teacherViewBtn", "roomViewBtn", "labViewBtn", "saturdayViewBtn"].forEach(id => {
     document.getElementById(id).classList.toggle("active", id === activeId);
   });
 }
@@ -3940,6 +4337,12 @@ roomViewBtn.onclick = () => {
 labViewBtn.onclick = () => {
   currentView = "lab";
   setActiveViewButton("labViewBtn");
+  renderAll();
+};
+
+saturdayViewBtn.onclick = () => {
+  currentView = "saturday";
+  setActiveViewButton("saturdayViewBtn");
   renderAll();
 };
 
