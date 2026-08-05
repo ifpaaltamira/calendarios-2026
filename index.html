@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Horários 2026.2 — Sábados Letivos em Tabela</title>
+<title>Painel de Horários 2026.2 — Sábados no Calendário dos Docentes</title>
 <style>
 :root {
   --ifpa-green:#19733b;
@@ -1225,6 +1225,151 @@ td.slot{height:79px;padding:4px}
   .saturday-table-subject{font-size:8px}
   .saturday-table-teacher{font-size:7px}
 }
+
+
+/* Sábados letivos no calendário individual dos docentes */
+.saturday-filter-label{
+  display:inline-flex;
+  align-items:center;
+  min-height:36px;
+  padding:0 13px;
+  border:1px solid #b9d2c0;
+  border-radius:.5rem;
+  background:#e7f2ea;
+  color:var(--ifpa-green-dark);
+  font-size:12px;
+  font-weight:800;
+}
+.teacher-saturday-block{
+  margin-top:14px;
+}
+.teacher-saturday-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:12px;
+}
+.teacher-saturday-head h3{
+  margin:0;
+  color:var(--ifpa-green-dark);
+  font-size:18px;
+}
+.teacher-saturday-head p{
+  margin:5px 0 0;
+  color:#657168;
+  font-size:12px;
+}
+.teacher-saturday-year{
+  flex:0 0 auto;
+}
+.teacher-saturday-summary{
+  margin:0 0 12px;
+  padding:9px 11px;
+  border-radius:.55rem;
+  background:#f3f7f4;
+  color:#52645a;
+  font-size:12px;
+  font-weight:700;
+}
+.teacher-saturday-table-wrap{
+  overflow:auto;
+  border:1px solid #dfe6e2;
+  border-radius:.7rem;
+}
+.teacher-saturday-table{
+  width:100%;
+  min-width:720px;
+  border-collapse:separate;
+  border-spacing:0;
+  background:#fff;
+  font-size:12px;
+}
+.teacher-saturday-table th,
+.teacher-saturday-table td{
+  padding:10px 11px;
+  border-right:1px solid #e5ebe7;
+  border-bottom:1px solid #e5ebe7;
+  text-align:left;
+  vertical-align:top;
+}
+.teacher-saturday-table th:last-child,
+.teacher-saturday-table td:last-child{
+  border-right:0;
+}
+.teacher-saturday-table tbody tr:last-child td{
+  border-bottom:0;
+}
+.teacher-saturday-table thead th{
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:#edf5ef;
+  color:var(--ifpa-green-dark);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.teacher-saturday-date{
+  white-space:nowrap;
+  font-weight:800;
+  color:#33453b;
+}
+.teacher-saturday-period strong{
+  display:block;
+  color:#33453b;
+  font-size:12px;
+}
+.teacher-saturday-period small{
+  display:block;
+  margin-top:3px;
+  color:#77837c;
+  font-size:10px;
+}
+.teacher-saturday-subject{
+  font-weight:800;
+  color:#2d3c34;
+}
+.teacher-saturday-class{
+  color:#52645a;
+  font-weight:700;
+}
+.teacher-saturday-conflict td{
+  background:#fff4dc;
+}
+.teacher-saturday-conflict-badge{
+  display:inline-flex;
+  margin-top:6px;
+  padding:2px 7px;
+  border-radius:999px;
+  background:#f2c96d;
+  color:#664900;
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.teacher-saturday-empty{
+  padding:16px;
+  border:1px dashed #ccd8d0;
+  border-radius:.65rem;
+  background:#f8faf8;
+  color:#66736b;
+  text-align:center;
+  font-size:12px;
+}
+@media (max-width:760px){
+  .teacher-saturday-head{flex-direction:column}
+  .teacher-saturday-table{min-width:640px}
+}
+@media print{
+  .teacher-saturday-table-wrap{overflow:visible;border-radius:0}
+  .teacher-saturday-table{min-width:0;font-size:8px}
+  .teacher-saturday-table th,
+  .teacher-saturday-table td{padding:5px}
+  .teacher-saturday-table thead th{position:static}
+}
+
 </style>
 </head>
 <body>
@@ -1358,6 +1503,18 @@ td.slot{height:79px;padding:4px}
       <div id="teacherDayNotice" class="teacher-day-notice hidden">
         Nenhuma aula cadastrada nos turnos da manhã ou tarde.
       </div>
+
+      <section id="teacherSaturdayBlock" class="teacher-night-block teacher-saturday-block hidden">
+        <div class="teacher-saturday-head">
+          <div>
+            <h3>Sábados Letivos</h3>
+            <p>Atividades do docente ao longo de todo o ano de 2026.</p>
+          </div>
+          <span class="saturday-filter-label teacher-saturday-year">Ano completo</span>
+        </div>
+        <div id="teacherSaturdaySummary" class="teacher-saturday-summary"></div>
+        <div id="teacherSaturdayContent"></div>
+      </section>
 
       <section id="teacherNightBlock" class="teacher-night-block hidden">
         <div class="teacher-night-head">
@@ -1826,6 +1983,9 @@ const eadSubjectList = document.getElementById("eadSubjectList");
 const teacherEadBlock = document.getElementById("teacherEadBlock");
 const teacherEadList = document.getElementById("teacherEadList");
 const teacherDayNotice = document.getElementById("teacherDayNotice");
+const teacherSaturdayBlock = document.getElementById("teacherSaturdayBlock");
+const teacherSaturdaySummary = document.getElementById("teacherSaturdaySummary");
+const teacherSaturdayContent = document.getElementById("teacherSaturdayContent");
 const teacherNightBlock = document.getElementById("teacherNightBlock");
 const teacherNightSubtitle = document.getElementById("teacherNightSubtitle");
 const teacherNightLegend = document.getElementById("teacherNightLegend");
@@ -1973,7 +2133,7 @@ let selectedNightMonth = nightClasses[selectedNightClass].default_month;
 let selectedTeacherNightMonth = "2026-08";
 let selectedLaboratoryNightMonth = "2026-08";
 let selectedSaturdayClass = "adm-1a-2026";
-let selectedSaturdaySemester = "2026.2";
+let selectedSaturdaySemester = "all";
 
 function openSidebar() {
   sidebar.classList.add("open");
@@ -4176,8 +4336,6 @@ function resolveSaturdayTeacher(classKey, subject) {
 const saturdayPeriodCodes = ["M1", "M2", "M3", "M4", "M5", "M6"];
 
 const saturdaySemesterOptions = [
-  {key:"2026.1", label:"2026.1"},
-  {key:"2026.2", label:"2026.2"},
   {key:"all", label:"Ano completo"}
 ];
 
@@ -4213,25 +4371,10 @@ function renderSaturdayCalendar() {
     return;
   }
 
-  saturdayFilterGroup.innerHTML = saturdaySemesterOptions
-    .map(option => `
-      <button type="button"
-              class="saturday-filter-btn ${option.key === selectedSaturdaySemester ? "active" : ""}"
-              data-semester="${option.key}">
-        ${option.label}
-      </button>
-    `)
-    .join("");
-
-  saturdayFilterGroup.querySelectorAll("[data-semester]").forEach(button => {
-    button.onclick = () => {
-      selectedSaturdaySemester = button.dataset.semester;
-      renderSaturdayCalendar();
-    };
-  });
+  selectedSaturdaySemester = "all";
+  saturdayFilterGroup.innerHTML = '<span class="saturday-filter-label">Ano completo</span>';
 
   const events = data.events
-    .filter(event => saturdayEventMatchesSemester(event, selectedSaturdaySemester))
     .sort((a,b) => a.date.localeCompare(b.date));
 
   const totalPeriods = events.reduce(
@@ -4358,6 +4501,111 @@ function renderSaturdayCalendar() {
 }
 
 
+
+function getSaturdayLessonsForTeacher(teacherName) {
+  const normalizedTeacher = normalizeTeacherName(teacherName);
+  const entries = [];
+
+  Object.entries(saturdayCalendars).forEach(([classKey, classData]) => {
+    classData.events.forEach(event => {
+      event.lessons.forEach(lesson => {
+        const teacherInfo = resolveSaturdayTeacher(classKey, lesson.subject);
+        if (!teacherInfo.matched) return;
+
+        const allocatedTeachers = splitNightTeacherNames(teacherInfo.teacher)
+          .map(name => normalizeTeacherName(name));
+
+        if (!allocatedTeachers.includes(normalizedTeacher)) return;
+
+        entries.push({
+          date: event.date,
+          periods: [...lesson.periods],
+          subject: lesson.subject,
+          classKey,
+          className: classData.name,
+          course: classData.course,
+          teacher: teacherInfo.teacher,
+          conflict: false
+        });
+      });
+    });
+  });
+
+  entries.forEach((entry, index) => {
+    entry.conflict = entries.some((other, otherIndex) => {
+      if (index === otherIndex || entry.date !== other.date) return false;
+      return entry.periods.some(period => other.periods.includes(period));
+    });
+  });
+
+  return entries.sort((a, b) =>
+    a.date.localeCompare(b.date) ||
+    saturdayPeriodCodes.indexOf(a.periods[0]) - saturdayPeriodCodes.indexOf(b.periods[0]) ||
+    a.className.localeCompare(b.className, "pt-BR")
+  );
+}
+
+function renderTeacherSaturdayCalendar(teacherName) {
+  const entries = getSaturdayLessonsForTeacher(teacherName);
+
+  if (!entries.length) {
+    teacherSaturdaySummary.textContent = "";
+    teacherSaturdayContent.innerHTML = "";
+    teacherSaturdayBlock.classList.add("hidden");
+    return entries;
+  }
+
+  const distinctDates = new Set(entries.map(entry => entry.date)).size;
+  const totalPeriods = entries.reduce((sum, entry) => sum + entry.periods.length, 0);
+  const conflictCount = entries.filter(entry => entry.conflict).length;
+
+  teacherSaturdaySummary.textContent =
+    `${distinctDates} data(s) · ${totalPeriods} período(s)` +
+    (conflictCount ? ` · ${conflictCount} alocação(ões) com conflito` : " · sem conflitos de horário");
+
+  const rows = entries.map(entry => {
+    const date = new Date(`${entry.date}T12:00:00`);
+    const timing = formatSaturdayLessonTime(entry.periods);
+    const conflictBadge = entry.conflict
+      ? '<span class="teacher-saturday-conflict-badge">Conflito de horário</span>'
+      : "";
+
+    return `
+      <tr class="${entry.conflict ? "teacher-saturday-conflict" : ""}">
+        <td class="teacher-saturday-date">${date.toLocaleDateString("pt-BR")}</td>
+        <td class="teacher-saturday-period">
+          <strong>${escapeSaturdayHtml(timing.periodLabel)}</strong>
+          <small>${escapeSaturdayHtml(timing.timeLabel)}</small>
+        </td>
+        <td>
+          <div class="teacher-saturday-subject">${escapeSaturdayHtml(entry.subject)}</div>
+          ${conflictBadge}
+        </td>
+        <td class="teacher-saturday-class">${escapeSaturdayHtml(entry.className)}</td>
+      </tr>
+    `;
+  }).join("");
+
+  teacherSaturdayContent.innerHTML = `
+    <div class="teacher-saturday-table-wrap">
+      <table class="teacher-saturday-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Disciplina</th>
+            <th>Turma</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+
+  teacherSaturdayBlock.classList.remove("hidden");
+  return entries;
+}
+
 function renderAll() {
   renderSidebar();
   renderResourceSlider();
@@ -4375,6 +4623,7 @@ function renderAll() {
   monthlyCalendarView.classList.toggle("hidden", !isMonthlyView);
   saturdayCalendarView.classList.toggle("hidden", !isSaturdayView);
   teacherDayNotice.classList.add("hidden");
+  teacherSaturdayBlock.classList.add("hidden");
   teacherNightBlock.classList.add("hidden");
   laboratoryNightBlock.classList.add("hidden");
   teacherEadBlock.classList.add("hidden");
@@ -4434,27 +4683,23 @@ function renderAll() {
     const lessons = allLessons.filter(x => x.teacher === selectedTeacher);
     const nightEvents = getNightEventsForTeacher(selectedTeacher);
     const eadAssignments = renderTeacherEadAssignments(selectedTeacher);
+    const saturdayAssignments = renderTeacherSaturdayCalendar(selectedTeacher);
     const activeShifts = [];
 
     if (lessons.some(x => x.shift === "Manhã")) activeShifts.push("Manhã");
     if (lessons.some(x => x.shift === "Tarde")) activeShifts.push("Tarde");
     if (nightEvents.length) activeShifts.push("Noite");
+    const hasSaturdayAssignments = saturdayAssignments.length > 0;
 
     document.getElementById("panelTitle").textContent = selectedTeacher;
 
-    if (activeShifts.length && eadAssignments.length) {
-      document.getElementById("topShiftBadge").textContent =
-        `Turnos: ${activeShifts.join(", ")} · EAD`;
-    } else if (activeShifts.length) {
-      document.getElementById("topShiftBadge").textContent =
-        `Turnos: ${activeShifts.join(", ")}`;
-    } else if (eadAssignments.length) {
-      document.getElementById("topShiftBadge").textContent =
-        "Disciplinas EAD";
-    } else {
-      document.getElementById("topShiftBadge").textContent =
-        "Sem aulas cadastradas";
-    }
+    const badgeParts = [];
+    if (activeShifts.length) badgeParts.push(`Turnos: ${activeShifts.join(", ")}`);
+    if (eadAssignments.length) badgeParts.push("EAD");
+    if (hasSaturdayAssignments) badgeParts.push("Sábados letivos");
+
+    document.getElementById("topShiftBadge").textContent =
+      badgeParts.length ? badgeParts.join(" · ") : "Sem aulas cadastradas";
 
     if (lessons.length) {
       weeklyCalendarView.classList.remove("hidden");
