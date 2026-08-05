@@ -1000,31 +1000,25 @@ td.slot{height:79px;padding:4px}
 
 /* Calendários de sábados letivos — visualização em tabela */
 .saturday-calendar-view{
-  --saturday-accent: var(--ifpa-green);
-  --saturday-accent-soft: #edf5ef;
-  --saturday-accent-strong: var(--ifpa-green-dark);
   padding:16px;
-  border-radius:1rem;
-  background:linear-gradient(180deg,#f6faf7 0%, #eef4f0 100%);
+  background:#f8faf8
 }
 .saturday-toolbar{
   display:flex;
   flex-wrap:wrap;
-  align-items:flex-start;
+  align-items:center;
   justify-content:space-between;
-  gap:14px;
-  margin-bottom:16px;
-  padding:16px 18px;
-  border:1px solid color-mix(in srgb, var(--saturday-accent) 20%, #dce7df);
-  border-radius:1rem;
-  background:linear-gradient(135deg,#ffffff 0%, var(--saturday-accent-soft) 100%);
-  box-shadow:0 10px 24px rgba(15,79,41,.08);
+  gap:12px;
+  margin-bottom:14px;
+  padding:12px 14px;
+  border:1px solid #dfe7e1;
+  border-radius:.75rem;
+  background:#fff
 }
 .saturday-filter-group{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
-  align-items:center;
+  gap:7px
 }
 .saturday-filter-btn{
   min-height:34px;
@@ -1033,313 +1027,205 @@ td.slot{height:79px;padding:4px}
   border-radius:999px;
   background:#edf2ef;
   color:#4d5d53;
-  font-size:12px;
+  font-size:12px
 }
 .saturday-filter-btn:hover{
   background:#e1ece4;
-  color:var(--ifpa-green-dark);
+  color:var(--ifpa-green-dark)
 }
 .saturday-filter-btn.active{
   background:var(--ifpa-green);
-  color:#fff;
-}
-.saturday-filter-label,
-.saturday-course-chip,
-.saturday-class-chip{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  min-height:36px;
-  padding:0 13px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:800;
-}
-.saturday-filter-label{
-  border:1px solid #b9d2c0;
-  background:#fff;
-  color:var(--saturday-accent-strong);
-}
-.saturday-course-chip{
-  border:1px solid color-mix(in srgb, var(--saturday-accent) 45%, #d3ded8);
-  background:color-mix(in srgb, var(--saturday-accent) 12%, #ffffff);
-  color:var(--saturday-accent-strong);
-}
-.saturday-class-chip{
-  border:1px solid #d8e2dc;
-  background:rgba(255,255,255,.78);
-  color:#3f5147;
+  color:#fff
 }
 .saturday-summary{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-  gap:10px;
+  color:#5e6b63;
+  font-size:12px;
+  font-weight:700
 }
-.saturday-stat-card{
-  min-width:118px;
+.saturday-intro{
+  margin:0 0 14px;
   padding:10px 12px;
-  border:1px solid #d9e4dd;
-  border-radius:.9rem;
-  background:#fff;
-  box-shadow:0 4px 12px rgba(15,79,41,.06);
-}
-.saturday-stat-card strong{
-  display:block;
-  margin-bottom:4px;
-  color:var(--saturday-accent-strong);
-  font-size:18px;
-  line-height:1;
-}
-.saturday-stat-card span{
-  display:block;
-  color:#647269;
-  font-size:11px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.03em;
+  border-left:4px solid var(--ifpa-green);
+  border-radius:.45rem;
+  background:#edf5ef;
+  color:#526159;
+  font-size:11.5px;
+  line-height:1.5
 }
 .saturday-month-section{
-  margin-top:18px;
-  padding:14px;
-  border:1px solid #dce5df;
-  border-radius:1rem;
-  background:rgba(255,255,255,.72);
-  box-shadow:0 6px 18px rgba(15,79,41,.045);
+  margin-top:18px
 }
 .saturday-month-section:first-of-type{
-  margin-top:0;
-}
-.saturday-month-head{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:12px;
+  margin-top:0
 }
 .saturday-month-title{
   display:flex;
   align-items:center;
-  gap:10px;
-  margin:0;
-  color:var(--saturday-accent-strong);
-  font-size:16px;
+  gap:9px;
+  margin:0 0 9px;
+  color:var(--ifpa-green-dark);
+  font-size:15px
 }
 .saturday-month-title::before{
   content:"";
-  width:7px;
-  height:22px;
+  width:5px;
+  height:20px;
   border-radius:999px;
-  background:var(--saturday-accent);
-  box-shadow:0 0 0 4px color-mix(in srgb, var(--saturday-accent) 16%, #ffffff);
-}
-.saturday-month-count{
-  display:inline-flex;
-  align-items:center;
-  min-height:30px;
-  padding:0 11px;
-  border-radius:999px;
-  background:color-mix(in srgb, var(--saturday-accent) 14%, #ffffff);
-  color:var(--saturday-accent-strong);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.03em;
-  text-transform:uppercase;
+  background:var(--ifpa-green)
 }
 .saturday-table-wrap{
   overflow:auto;
   border:1px solid #dce5df;
-  border-radius:.95rem;
+  border-radius:.75rem;
   background:#fff;
-  box-shadow:0 4px 14px rgba(15,79,41,.06);
+  box-shadow:0 2px 8px rgba(15,79,41,.055)
 }
 .saturday-table{
   width:100%;
   min-width:1020px;
   border-collapse:separate;
   border-spacing:0;
-  table-layout:fixed;
+  table-layout:fixed
 }
 .saturday-table th,
 .saturday-table td{
-  border-right:1px solid #e3ebe6;
-  border-bottom:1px solid #e3ebe6;
+  border-right:1px solid #dfe6e2;
+  border-bottom:1px solid #dfe6e2
 }
 .saturday-table tr:last-child td{
-  border-bottom:0;
+  border-bottom:0
 }
 .saturday-table th:last-child,
 .saturday-table td:last-child{
-  border-right:0;
+  border-right:0
 }
 .saturday-table thead th{
   position:sticky;
   top:0;
   z-index:3;
-  padding:11px 6px;
-  background:linear-gradient(180deg, color-mix(in srgb, var(--saturday-accent) 16%, #ffffff) 0%, color-mix(in srgb, var(--saturday-accent) 8%, #ffffff) 100%);
-  color:var(--saturday-accent-strong);
+  padding:9px 6px;
+  background:#e6f0e8;
+  color:var(--ifpa-green-dark);
   text-align:center;
   font-size:10px;
   font-weight:900;
-  line-height:1.25;
-}
-.saturday-table thead th:nth-child(even){
-  background:linear-gradient(180deg, color-mix(in srgb, var(--saturday-accent) 21%, #ffffff) 0%, color-mix(in srgb, var(--saturday-accent) 12%, #ffffff) 100%);
+  line-height:1.25
 }
 .saturday-table thead th small{
   display:block;
   margin-top:3px;
   color:#637269;
   font-size:8px;
-  font-weight:700;
+  font-weight:700
 }
 .saturday-table .saturday-date-heading{
   left:0;
   z-index:5;
-  width:126px;
-  min-width:126px;
+  width:118px;
+  min-width:118px
 }
 .saturday-date-cell{
   position:sticky;
   left:0;
   z-index:2;
-  width:126px;
-  min-width:126px;
-  padding:12px 10px;
-  background:linear-gradient(180deg,#f8fbf9 0%, #eef4f0 100%);
+  width:118px;
+  min-width:118px;
+  padding:10px 8px;
+  background:#f3f7f4;
   color:#304239;
   text-align:center;
-  vertical-align:middle;
+  vertical-align:middle
 }
 .saturday-date-cell strong{
   display:block;
-  font-size:11px;
+  font-size:11px
 }
 .saturday-date-cell small{
   display:block;
-  margin-top:4px;
+  margin-top:3px;
   color:#718078;
   font-size:8.5px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.04em;
+  font-weight:700
 }
 .saturday-period-cell{
-  min-height:96px;
-  height:96px;
-  padding:10px;
-  background:#fbfcfb;
+  min-height:82px;
+  height:82px;
+  padding:8px 9px;
+  background:#fff;
   vertical-align:middle;
-  text-align:center;
+  text-align:center
 }
 .saturday-period-cell.empty{
-  background:#f8faf8;
-  color:#aab4ae;
-  font-size:10px;
-  font-weight:800;
+  background:#fafbfa;
+  color:#b0b8b3;
+  font-size:10px
 }
 .saturday-period-cell.pending{
-  background:#fff8e6;
-}
-.saturday-lesson-card{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  min-height:74px;
-  height:100%;
-  padding:10px 10px 9px;
-  border:1px solid var(--sat-card-border, #d0ddd5);
-  border-left:5px solid var(--sat-card-border, #d0ddd5);
-  border-radius:.95rem;
-  background:var(--sat-card-bg, linear-gradient(180deg,#ffffff 0%, #edf3ef 100%));
-  box-shadow:0 4px 10px rgba(18,49,31,.06);
-}
-.saturday-lesson-card.pending{
-  border-color:#d5a326;
-  border-left-color:#d5a326;
-  background:linear-gradient(180deg,#fffaf0 0%, #ffefbf 100%);
+  background:#fff7df
 }
 .saturday-table-subject{
-  color:#25362e;
-  font-size:11px;
-  font-weight:900;
-  line-height:1.28;
+  color:#293a31;
+  font-size:10.5px;
+  font-weight:850;
+  line-height:1.3
 }
 .saturday-table-teacher{
   margin-top:5px;
   color:#52645a;
   font-size:9px;
-  font-weight:800;
-  line-height:1.25;
+  font-weight:750;
+  line-height:1.25
 }
 .saturday-table-teacher.pending{
-  color:#7d5c11;
+  color:#8a6511
 }
 .saturday-table-period-label{
-  display:inline-flex;
-  align-self:center;
-  margin-top:7px;
-  padding:3px 8px;
+  display:inline-block;
+  margin-top:5px;
+  padding:2px 6px;
   border-radius:999px;
-  background:var(--sat-chip-bg, #edf3ef);
-  color:#4f6156;
+  background:#edf3ef;
+  color:#66756c;
   font-size:7.5px;
   font-weight:900;
-  letter-spacing:.025em;
-}
-.saturday-pending-chip{
-  display:inline-flex;
-  align-self:center;
-  margin-top:6px;
-  padding:2px 7px;
-  border-radius:999px;
-  background:#f7d97e;
-  color:#6f4d00;
-  font-size:7px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.05em;
+  letter-spacing:.025em
 }
 .saturday-empty-row td{
-  height:76px;
+  height:70px;
   padding:18px;
   background:#fafbfa;
   color:#7d8881;
   text-align:center;
-  font-size:11px;
+  font-size:11px
 }
 .saturday-empty{
   padding:30px 18px;
   border:1px dashed #cfd9d2;
-  border-radius:.9rem;
+  border-radius:.75rem;
   background:#fff;
   color:#77837b;
   text-align:center;
-  font-size:13px;
+  font-size:13px
 }
-@media(max-width:760px){
-  .saturday-calendar-view{padding:10px;}
-  .saturday-toolbar{padding:14px;}
-  .saturday-filter-group,.saturday-summary{width:100%;}
-  .saturday-summary{justify-content:flex-start;}
-  .saturday-stat-card{min-width:100px; flex:1 1 120px;}
-  .saturday-month-section{padding:10px;}
+@media(max-width:620px){
+  .saturday-toolbar{align-items:flex-start}
+  .saturday-filter-group{width:100%}
+  .saturday-filter-btn{flex:1 1 auto}
+  .saturday-summary{width:100%}
+  .saturday-calendar-view{padding:10px}
 }
 @media print{
-  .saturday-calendar-view{padding:0;background:#fff;}
-  .saturday-toolbar{display:none!important;}
-  .saturday-month-section{padding:0;border:0;box-shadow:none;background:#fff;}
-  .saturday-table-wrap{overflow:visible;box-shadow:none;border-radius:0;}
-  .saturday-table{min-width:0;font-size:8px;}
-  .saturday-table thead th{position:static;}
-  .saturday-date-cell{position:static;}
-  .saturday-period-cell{height:58px;padding:5px;}
-  .saturday-lesson-card{min-height:46px;padding:5px;border-radius:.45rem;box-shadow:none;}
-  .saturday-table-subject{font-size:8px;}
-  .saturday-table-teacher{font-size:7px;}
+  .saturday-calendar-view{padding:0;background:#fff}
+  .saturday-toolbar{display:none!important}
+  .saturday-table-wrap{overflow:visible;box-shadow:none;border-radius:0}
+  .saturday-table{min-width:0;font-size:8px}
+  .saturday-table thead th{position:static}
+  .saturday-date-cell{position:static}
+  .saturday-period-cell{height:58px;padding:5px}
+  .saturday-table-subject{font-size:8px}
+  .saturday-table-teacher{font-size:7px}
 }
+
 
 /* Sábados letivos no calendário individual dos docentes */
 .saturday-filter-label{
@@ -4474,82 +4360,16 @@ function formatSaturdayLessonTime(periodCodes) {
   return {periodLabel, timeLabel:`${start}–${end}`};
 }
 
-function normalizeSaturdayHex(hex) {
-  const value = String(hex || "").trim();
-  if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value)) return "#dce7ef";
-  if (value.length === 4) {
-    return `#${value[1]}${value[1]}${value[2]}${value[2]}${value[3]}${value[3]}`;
-  }
-  return value.toLowerCase();
-}
-
-function saturdayHexToRgb(hex) {
-  const normalized = normalizeSaturdayHex(hex);
-  return {
-    r: parseInt(normalized.slice(1,3), 16),
-    g: parseInt(normalized.slice(3,5), 16),
-    b: parseInt(normalized.slice(5,7), 16)
-  };
-}
-
-function saturdayRgba(hex, alpha=.15) {
-  const {r,g,b} = saturdayHexToRgb(hex);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-
-function saturdayShiftHex(hex, amount=0) {
-  const {r,g,b} = saturdayHexToRgb(hex);
-  const adjust = value => Math.max(0, Math.min(255, Math.round(value + (255 * amount / 100))));
-  return `#${[adjust(r), adjust(g), adjust(b)].map(value => value.toString(16).padStart(2, "0")).join("")}`;
-}
-
-function getSaturdayCourseTheme(course) {
-  const themes = {
-    "Informática": {accent:"#2b73c8", soft:"#eef5ff", strong:"#194a85"},
-    "Edificações": {accent:"#2f8b57", soft:"#eef8f1", strong:"#1f5e3b"},
-    "Agropecuária": {accent:"#b6871b", soft:"#fff8e7", strong:"#77570d"},
-    "Administração": {accent:"#b33c56", soft:"#fff0f3", strong:"#7c2537"}
-  };
-  return themes[course] || {accent:"#3f8f68", soft:"#edf5ef", strong:"#225638"};
-}
-
-function getSaturdayLessonTheme(subject, matched=true) {
-  if (!matched) {
-    return {
-      bg: "linear-gradient(180deg, #fffaf0 0%, #ffefbf 100%)",
-      border: "#d5a326",
-      chip: "#f7e0a2"
-    };
-  }
-
-  const base = normalizeSaturdayHex(subjectColors[subject] || "#dce7ef");
-  const border = saturdayShiftHex(base, -22);
-  return {
-    bg: `linear-gradient(180deg, #ffffff 0%, ${saturdayRgba(base, .96)} 100%)`,
-    border,
-    chip: saturdayRgba(border, .14)
-  };
-}
-
 function renderSaturdayCalendar() {
   const data = saturdayCalendars[selectedSaturdayClass];
   if (!data) {
     saturdayCalendarContent.innerHTML = '<div class="saturday-empty">Nenhum calendário cadastrado.</div>';
-    saturdaySummary.innerHTML = "";
+    saturdaySummary.textContent = "";
     return;
   }
 
-  const courseTheme = getSaturdayCourseTheme(data.course);
-  saturdayCalendarView.style.setProperty("--saturday-accent", courseTheme.accent);
-  saturdayCalendarView.style.setProperty("--saturday-accent-soft", courseTheme.soft);
-  saturdayCalendarView.style.setProperty("--saturday-accent-strong", courseTheme.strong);
-
   selectedSaturdaySemester = "all";
-  saturdayFilterGroup.innerHTML = `
-    <span class="saturday-filter-label">Ano completo</span>
-    <span class="saturday-course-chip">${escapeSaturdayHtml(data.course)}</span>
-    <span class="saturday-class-chip">${escapeSaturdayHtml(data.name)}</span>
-  `;
+  saturdayFilterGroup.innerHTML = '<span class="saturday-filter-label">Ano completo</span>';
 
   const events = data.events
     .sort((a,b) => a.date.localeCompare(b.date));
@@ -4566,20 +4386,8 @@ function renderSaturdayCalendar() {
     .filter(lesson => !resolveSaturdayTeacher(selectedSaturdayClass, lesson.subject).matched);
 
   const unresolvedSubjects = [...new Set(unresolvedLessons.map(lesson => lesson.subject))];
-  saturdaySummary.innerHTML = `
-    <div class="saturday-stat-card">
-      <strong>${events.length}</strong>
-      <span>Sábados</span>
-    </div>
-    <div class="saturday-stat-card">
-      <strong>${totalPeriods}</strong>
-      <span>Períodos</span>
-    </div>
-    <div class="saturday-stat-card">
-      <strong>${unresolvedSubjects.length ? unresolvedSubjects.length : "OK"}</strong>
-      <span>${unresolvedSubjects.length ? "Pendências docente" : "Docentes identificados"}</span>
-    </div>
-  `;
+  saturdaySummary.textContent = `${events.length} sábados · ${totalPeriods} períodos` +
+    (unresolvedSubjects.length ? ` · ${unresolvedSubjects.length} pendência(s) docente(s)` : " · docentes identificados");
 
   if (!events.length) {
     saturdayCalendarContent.innerHTML = '<div class="saturday-empty">Nenhum sábado letivo cadastrado neste período.</div>';
@@ -4642,21 +4450,16 @@ function renderSaturdayCalendar() {
           const timing = formatSaturdayLessonTime(
             saturdayPeriodCodes.slice(periodIndex, periodIndex + span)
           );
-          const theme = getSaturdayLessonTheme(lesson.subject, teacherInfo.matched);
 
           cells.push(`
             <td colspan="${span}"
                 class="saturday-period-cell${teacherInfo.matched ? "" : " pending"}"
                 title="${escapeSaturdayHtml(teacherInfo.source)}">
-              <div class="saturday-lesson-card${teacherInfo.matched ? "" : " pending"}"
-                   style="--sat-card-bg:${theme.bg}; --sat-card-border:${theme.border}; --sat-chip-bg:${theme.chip};">
-                <div class="saturday-table-subject">${escapeSaturdayHtml(lesson.subject)}</div>
-                <div class="saturday-table-teacher${teacherInfo.matched ? "" : " pending"}">
-                  ${escapeSaturdayHtml(teacherInfo.teacher)}
-                </div>
-                <span class="saturday-table-period-label">${escapeSaturdayHtml(timing.periodLabel)} · ${escapeSaturdayHtml(timing.timeLabel)}</span>
-                ${teacherInfo.matched ? "" : '<span class="saturday-pending-chip">Docente pendente</span>'}
+              <div class="saturday-table-subject">${escapeSaturdayHtml(lesson.subject)}</div>
+              <div class="saturday-table-teacher${teacherInfo.matched ? "" : " pending"}">
+                ${escapeSaturdayHtml(teacherInfo.teacher)}
               </div>
+              <span class="saturday-table-period-label">${escapeSaturdayHtml(timing.periodLabel)} · ${escapeSaturdayHtml(timing.timeLabel)}</span>
             </td>
           `);
 
@@ -4676,10 +4479,7 @@ function renderSaturdayCalendar() {
 
       return `
         <section class="saturday-month-section">
-          <div class="saturday-month-head">
-            <h3 class="saturday-month-title">${saturdayMonthNames[month-1]} de ${year}</h3>
-            <span class="saturday-month-count">${monthEvents.length} sábado(s)</span>
-          </div>
+          <h3 class="saturday-month-title">${saturdayMonthNames[month-1]} de ${year}</h3>
           <div class="saturday-table-wrap">
             <table class="saturday-table">
               <thead>
