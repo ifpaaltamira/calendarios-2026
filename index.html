@@ -1334,20 +1334,12 @@ td.slot{height:79px;padding:4px}
   color:#52645a;
   font-weight:700;
 }
-.teacher-saturday-conflict td{
-  background:#fff4dc;
-}
-.teacher-saturday-conflict-badge{
-  display:inline-flex;
-  margin-top:6px;
-  padding:2px 7px;
-  border-radius:999px;
-  background:#f2c96d;
-  color:#664900;
+.teacher-saturday-level{
+  display:block;
+  margin-top:3px;
+  color:#7b8880;
   font-size:9px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.03em;
+  font-weight:700;
 }
 .teacher-saturday-empty{
   padding:16px;
@@ -1490,7 +1482,7 @@ td.slot{height:79px;padding:4px}
 
         <div id="saturdayCalendarView" class="saturday-calendar-view hidden">
           <div class="saturday-toolbar">
-            <div id="saturdayFilterGroup" class="saturday-filter-group" aria-label="Período dos sábados letivos"></div>
+            <div id="saturdayFilterGroup" class="saturday-filter-group hidden" aria-hidden="true"></div>
             <div id="saturdaySummary" class="saturday-summary"></div>
           </div>
           <div id="saturdayCalendarContent"></div>
@@ -1505,9 +1497,8 @@ td.slot{height:79px;padding:4px}
         <div class="teacher-saturday-head">
           <div>
             <h3>Sábados Letivos</h3>
-            <p>Atividades do docente ao longo de todo o ano de 2026.</p>
+            <p>Atividades do docente nos sábados letivos cadastrados.</p>
           </div>
-          <span class="saturday-filter-label teacher-saturday-year">Ano completo</span>
         </div>
         <div id="teacherSaturdaySummary" class="teacher-saturday-summary"></div>
         <div id="teacherSaturdayContent"></div>
@@ -3150,7 +3141,11 @@ function renderSidebar() {
         const button = document.createElement("button");
         button.className = `sidebar-item ${group.className}` +
           (key === selectedSaturdayClass ? " active" : "");
-        button.innerHTML = `${data.short}<small>${data.events.length} sábados cadastrados</small>`;
+        const classData = classes[key];
+        const turmaLabel = classData
+          ? `${classData.short} — ${classData.name.includes("2026") ? "Turma 2026" : classData.name.includes("2025") ? "Turma 2025" : "Turma 2024"}`
+          : data.name;
+        button.innerHTML = `${turmaLabel}<small>${data.events.length} sábados cadastrados</small>`;
         button.onclick = () => {
           selectedSaturdayClass = key;
           renderAll();
@@ -4332,9 +4327,7 @@ function resolveSaturdayTeacher(classKey, subject) {
 
 const saturdayPeriodCodes = ["M1", "M2", "M3", "M4", "M5", "M6"];
 
-const saturdaySemesterOptions = [
-  {key:"all", label:"Ano completo"}
-];
+const saturdaySemesterOptions = [];
 
 const saturdayMonthNames = [
   "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -4348,8 +4341,8 @@ function saturdayEventMatchesSemester(event, semester) {
 }
 
 function formatSaturdayLessonTime(periodCodes) {
-  const first = periods.find(period => period.code === periodCodes[0]);
-  const last = periods.find(period => period.code === periodCodes[periodCodes.length - 1]);
+  const first = laboratoryPeriods.find(period => period.code === periodCodes[0]);
+  const last = laboratoryPeriods.find(period => period.code === periodCodes[periodCodes.length - 1]);
   const firstLabel = periodCodes[0];
   const lastLabel = periodCodes[periodCodes.length - 1];
   const periodLabel = firstLabel === lastLabel ? firstLabel : `${firstLabel}–${lastLabel}`;
@@ -4369,7 +4362,7 @@ function renderSaturdayCalendar() {
   }
 
   selectedSaturdaySemester = "all";
-  saturdayFilterGroup.innerHTML = '<span class="saturday-filter-label">Ano completo</span>';
+  saturdayFilterGroup.innerHTML = "";
 
   const events = data.events
     .sort((a,b) => a.date.localeCompare(b.date));
@@ -4499,6 +4492,12 @@ function renderSaturdayCalendar() {
 
 
 
+const teacherSaturdayPeriodOrder = [
+  "M1", "M2", "M3", "M4", "M5", "M6",
+  "T1", "T2", "T3", "T4", "T5", "T6",
+  "N1", "N2", "N3", "N4"
+];
+
 function getSaturdayLessonsForTeacher(teacherName) {
   const normalizedTeacher = normalizeTeacherName(teacherName);
   const entries = [];
@@ -4522,24 +4521,47 @@ function getSaturdayLessonsForTeacher(teacherName) {
           className: classData.name,
           course: classData.course,
           teacher: teacherInfo.teacher,
-          conflict: false
+          level: "Ensino Médio Integrado"
         });
       });
     });
   });
 
-  entries.forEach((entry, index) => {
-    entry.conflict = entries.some((other, otherIndex) => {
-      if (index === otherIndex || entry.date !== other.date) return false;
-      return entry.periods.some(period => other.periods.includes(period));
+  Object.entries(nightClasses).forEach(([classKey, classData]) => {
+    classData.events.forEach(event => {
+      if (event.special) return;
+
+      const eventDate = new Date(`${event.date}T12:00:00`);
+      if (eventDate.getDay() !== 6) return;
+
+      const allocatedTeachers = splitNightTeacherNames(event.teacher)
+        .map(name => normalizeTeacherName(name));
+
+      if (!allocatedTeachers.includes(normalizedTeacher)) return;
+
+      entries.push({
+        date: event.date,
+        periods: [...event.periods],
+        subject: event.subject,
+        classKey,
+        className: classData.name,
+        course: classData.course,
+        teacher: event.teacher,
+        level: "Graduação"
+      });
     });
   });
 
-  return entries.sort((a, b) =>
-    a.date.localeCompare(b.date) ||
-    saturdayPeriodCodes.indexOf(a.periods[0]) - saturdayPeriodCodes.indexOf(b.periods[0]) ||
-    a.className.localeCompare(b.className, "pt-BR")
-  );
+  return entries.sort((a, b) => {
+    const dateCompare = a.date.localeCompare(b.date);
+    if (dateCompare) return dateCompare;
+
+    const aIndex = teacherSaturdayPeriodOrder.indexOf(a.periods[0]);
+    const bIndex = teacherSaturdayPeriodOrder.indexOf(b.periods[0]);
+    if (aIndex !== bIndex) return aIndex - bIndex;
+
+    return a.className.localeCompare(b.className, "pt-BR");
+  });
 }
 
 function renderTeacherSaturdayCalendar(teacherName) {
@@ -4554,21 +4576,16 @@ function renderTeacherSaturdayCalendar(teacherName) {
 
   const distinctDates = new Set(entries.map(entry => entry.date)).size;
   const totalPeriods = entries.reduce((sum, entry) => sum + entry.periods.length, 0);
-  const conflictCount = entries.filter(entry => entry.conflict).length;
 
   teacherSaturdaySummary.textContent =
-    `${distinctDates} data(s) · ${totalPeriods} período(s)` +
-    (conflictCount ? ` · ${conflictCount} alocação(ões) com conflito` : " · sem conflitos de horário");
+    `${distinctDates} data(s) · ${totalPeriods} período(s)`;
 
   const rows = entries.map(entry => {
     const date = new Date(`${entry.date}T12:00:00`);
     const timing = formatSaturdayLessonTime(entry.periods);
-    const conflictBadge = entry.conflict
-      ? '<span class="teacher-saturday-conflict-badge">Conflito de horário</span>'
-      : "";
 
     return `
-      <tr class="${entry.conflict ? "teacher-saturday-conflict" : ""}">
+      <tr>
         <td class="teacher-saturday-date">${date.toLocaleDateString("pt-BR")}</td>
         <td class="teacher-saturday-period">
           <strong>${escapeSaturdayHtml(timing.periodLabel)}</strong>
@@ -4576,9 +4593,11 @@ function renderTeacherSaturdayCalendar(teacherName) {
         </td>
         <td>
           <div class="teacher-saturday-subject">${escapeSaturdayHtml(entry.subject)}</div>
-          ${conflictBadge}
         </td>
-        <td class="teacher-saturday-class">${escapeSaturdayHtml(entry.className)}</td>
+        <td class="teacher-saturday-class">
+          ${escapeSaturdayHtml(entry.className)}
+          <small class="teacher-saturday-level">${escapeSaturdayHtml(entry.level)}</small>
+        </td>
       </tr>
     `;
   }).join("");
