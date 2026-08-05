@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Horários 2026.2 — Sábados Letivos Consolidados</title>
+<title>Painel de Horários 2026.2 — Sábados Letivos em Tabela</title>
 <style>
 :root {
   --ifpa-green:#19733b;
@@ -998,7 +998,7 @@ td.slot{height:79px;padding:4px}
 }
 
 
-/* Calendários de sábados letivos */
+/* Calendários de sábados letivos — visualização em tabela */
 .saturday-calendar-view{
   padding:16px;
   background:#f8faf8
@@ -1009,7 +1009,7 @@ td.slot{height:79px;padding:4px}
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  margin-bottom:16px;
+  margin-bottom:14px;
   padding:12px 14px;
   border:1px solid #dfe7e1;
   border-radius:.75rem;
@@ -1043,9 +1043,13 @@ td.slot{height:79px;padding:4px}
   font-weight:700
 }
 .saturday-intro{
-  margin:0 0 16px;
-  color:#657269;
-  font-size:12px;
+  margin:0 0 14px;
+  padding:10px 12px;
+  border-left:4px solid var(--ifpa-green);
+  border-radius:.45rem;
+  background:#edf5ef;
+  color:#526159;
+  font-size:11.5px;
   line-height:1.5
 }
 .saturday-month-section{
@@ -1058,7 +1062,7 @@ td.slot{height:79px;padding:4px}
   display:flex;
   align-items:center;
   gap:9px;
-  margin:0 0 10px;
+  margin:0 0 9px;
   color:var(--ifpa-green-dark);
   font-size:15px
 }
@@ -1069,99 +1073,130 @@ td.slot{height:79px;padding:4px}
   border-radius:999px;
   background:var(--ifpa-green)
 }
-.saturday-card-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
-  gap:12px
-}
-.saturday-card{
-  overflow:hidden;
-  border:1px solid #dfe7e1;
-  border-radius:.8rem;
+.saturday-table-wrap{
+  overflow:auto;
+  border:1px solid #dce5df;
+  border-radius:.75rem;
   background:#fff;
   box-shadow:0 2px 8px rgba(15,79,41,.055)
 }
-.saturday-card-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:11px 13px;
-  border-bottom:1px solid #e7ece8;
-  background:#edf5ef
+.saturday-table{
+  width:100%;
+  min-width:1020px;
+  border-collapse:separate;
+  border-spacing:0;
+  table-layout:fixed
 }
-.saturday-date-wrap{
-  display:flex;
-  align-items:center;
-  gap:10px
+.saturday-table th,
+.saturday-table td{
+  border-right:1px solid #dfe6e2;
+  border-bottom:1px solid #dfe6e2
 }
-.saturday-day-number{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:38px;
-  height:38px;
-  border-radius:.6rem;
-  background:var(--ifpa-green);
-  color:#fff;
-  font-size:17px;
-  font-weight:900
+.saturday-table tr:last-child td{
+  border-bottom:0
 }
-.saturday-date-text strong{
-  display:block;
-  color:#26362c;
-  font-size:12px
+.saturday-table th:last-child,
+.saturday-table td:last-child{
+  border-right:0
 }
-.saturday-date-text small{
-  display:block;
-  margin-top:2px;
-  color:#6c786f;
-  font-size:10px
-}
-.saturday-card-badge{
-  flex:0 0 auto;
-  padding:3px 7px;
-  border-radius:999px;
-  background:#dbeade;
-  color:#326142;
-  font-size:8.5px;
+.saturday-table thead th{
+  position:sticky;
+  top:0;
+  z-index:3;
+  padding:9px 6px;
+  background:#e6f0e8;
+  color:var(--ifpa-green-dark);
+  text-align:center;
+  font-size:10px;
   font-weight:900;
-  letter-spacing:.035em;
-  text-transform:uppercase
+  line-height:1.25
 }
-.saturday-lessons{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-  padding:11px
-}
-.saturday-lesson{
-  display:grid;
-  grid-template-columns:82px minmax(0,1fr);
-  gap:9px;
-  align-items:start;
-  padding:9px 10px;
-  border-radius:.6rem;
-  background:#f7f9f8
-}
-.saturday-lesson-time{
-  color:#52705d;
-  font-size:9.5px;
-  font-weight:850;
-  line-height:1.35
-}
-.saturday-lesson-time span{
+.saturday-table thead th small{
   display:block;
-  margin-top:2px;
-  color:#859087;
+  margin-top:3px;
+  color:#637269;
+  font-size:8px;
+  font-weight:700
+}
+.saturday-table .saturday-date-heading{
+  left:0;
+  z-index:5;
+  width:118px;
+  min-width:118px
+}
+.saturday-date-cell{
+  position:sticky;
+  left:0;
+  z-index:2;
+  width:118px;
+  min-width:118px;
+  padding:10px 8px;
+  background:#f3f7f4;
+  color:#304239;
+  text-align:center;
+  vertical-align:middle
+}
+.saturday-date-cell strong{
+  display:block;
+  font-size:11px
+}
+.saturday-date-cell small{
+  display:block;
+  margin-top:3px;
+  color:#718078;
   font-size:8.5px;
   font-weight:700
 }
-.saturday-lesson-subject{
-  color:#2f3c34;
-  font-size:11px;
-  font-weight:800;
-  line-height:1.32
+.saturday-period-cell{
+  min-height:82px;
+  height:82px;
+  padding:8px 9px;
+  background:#fff;
+  vertical-align:middle;
+  text-align:center
+}
+.saturday-period-cell.empty{
+  background:#fafbfa;
+  color:#b0b8b3;
+  font-size:10px
+}
+.saturday-period-cell.pending{
+  background:#fff7df
+}
+.saturday-table-subject{
+  color:#293a31;
+  font-size:10.5px;
+  font-weight:850;
+  line-height:1.3
+}
+.saturday-table-teacher{
+  margin-top:5px;
+  color:#52645a;
+  font-size:9px;
+  font-weight:750;
+  line-height:1.25
+}
+.saturday-table-teacher.pending{
+  color:#8a6511
+}
+.saturday-table-period-label{
+  display:inline-block;
+  margin-top:5px;
+  padding:2px 6px;
+  border-radius:999px;
+  background:#edf3ef;
+  color:#66756c;
+  font-size:7.5px;
+  font-weight:900;
+  letter-spacing:.025em
+}
+.saturday-empty-row td{
+  height:70px;
+  padding:18px;
+  background:#fafbfa;
+  color:#7d8881;
+  text-align:center;
+  font-size:11px
 }
 .saturday-empty{
   padding:30px 18px;
@@ -1177,14 +1212,19 @@ td.slot{height:79px;padding:4px}
   .saturday-filter-group{width:100%}
   .saturday-filter-btn{flex:1 1 auto}
   .saturday-summary{width:100%}
-  .saturday-card-grid{grid-template-columns:1fr}
+  .saturday-calendar-view{padding:10px}
 }
 @media print{
   .saturday-calendar-view{padding:0;background:#fff}
   .saturday-toolbar{display:none!important}
-  .saturday-card{break-inside:avoid;box-shadow:none}
+  .saturday-table-wrap{overflow:visible;box-shadow:none;border-radius:0}
+  .saturday-table{min-width:0;font-size:8px}
+  .saturday-table thead th{position:static}
+  .saturday-date-cell{position:static}
+  .saturday-period-cell{height:58px;padding:5px}
+  .saturday-table-subject{font-size:8px}
+  .saturday-table-teacher{font-size:7px}
 }
-
 </style>
 </head>
 <body>
@@ -1309,7 +1349,7 @@ td.slot{height:79px;padding:4px}
             <div id="saturdaySummary" class="saturday-summary"></div>
           </div>
           <p class="saturday-intro">
-            Selecione uma turma no menu lateral para consultar as aulas previstas em cada sábado letivo.
+            Os docentes foram vinculados às atribuições vigentes do painel. Células em amarelo indicam componentes sem correspondência segura de docente.
           </p>
           <div id="saturdayCalendarContent"></div>
         </div>
@@ -2929,15 +2969,16 @@ function renderSidebar() {
     sidebarSubtitle.textContent = "Selecione uma turma";
 
     const courseOrder = [
-      {course:"EMI Administração", title:"Administração", className:"course-adm"},
       {course:"EMI Informática", title:"Informática", className:"course-info"},
       {course:"EMI Edificações", title:"Edificações", className:"course-edif"},
-      {course:"EMI Agropecuária", title:"Agropecuária", className:"course-agro"}
+      {course:"EMI Agropecuária", title:"Agropecuária", className:"course-agro"},
+      {course:"EMI Administração", title:"Administração", className:"course-adm"}
     ];
 
     courseOrder.forEach(group => {
-      const entries = Object.entries(saturdayCalendars)
-        .filter(([,data]) => data.course === group.course);
+      const entries = Object.keys(classes)
+        .filter(key => saturdayCalendars[key]?.course === group.course)
+        .map(key => [key, saturdayCalendars[key]]);
       if (!entries.length) return;
 
       const section = document.createElement("div");
@@ -4035,6 +4076,90 @@ function renderEadSubjects(classKey) {
 
 
 
+
+const saturdayTeacherOverrides = {
+  "adm-1a-2026": {
+    "Fundamentos de Administração": "Josevana Lucena",
+    "Gestão de Processos": "Hugo Callado",
+    "Matemática Aplicada": "Josevana Lucena",
+    "Metodologia Científica": "Franderson Duarte"
+  },
+  "adm-2a-2025": {
+    "Administração da Produção": "Hugo Callado",
+    "Língua Inglesa": "Valéria Almeida"
+  },
+  "edif-3a-2024": {
+    "Biologia III": "Anangela Ravena Leal"
+  },
+  "agro-2a-2025": {
+    "Química I": "Waldemar Malcher"
+  },
+  "agro-2b-2025": {
+    "Química I": "Waldemar Malcher"
+  },
+  "info-2a-2025": {
+    "Biologia III": "Anangela Ravena Leal"
+  },
+  "info-2b-2025": {
+    "Matemática I": "Márcio André Lima"
+  }
+};
+
+const saturdaySubjectAliases = {
+  "adm-1a-2026": {
+    "Matemática Aplicada": "Matemática Aplicada à Administração"
+  },
+  "adm-2a-2025": {
+    "Administração da Produção": "Administração da Produção e Operações",
+    "Língua Inglesa": "Inglês"
+  }
+};
+
+function escapeSaturdayHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function saturdayTeachersInClass(classKey, subject) {
+  const classData = classes[classKey];
+  if (!classData?.schedule) return [];
+
+  return [...new Set(
+    classData.schedule
+      .filter(([, , scheduledSubject]) => scheduledSubject === subject)
+      .map(([, , , teacher]) => teacher)
+      .filter(Boolean)
+  )];
+}
+
+function resolveSaturdayTeacher(classKey, subject) {
+  const directTeachers = saturdayTeachersInClass(classKey, subject);
+  if (directTeachers.length === 1) {
+    return {teacher: directTeachers[0], matched: true, source: "grade da turma"};
+  }
+
+  const alias = saturdaySubjectAliases[classKey]?.[subject];
+  if (alias) {
+    const aliasTeachers = saturdayTeachersInClass(classKey, alias);
+    if (aliasTeachers.length === 1) {
+      return {teacher: aliasTeachers[0], matched: true, source: "componente equivalente"};
+    }
+  }
+
+  const override = saturdayTeacherOverrides[classKey]?.[subject];
+  if (override) {
+    return {teacher: override, matched: true, source: "atribuição atualizada"};
+  }
+
+  return {teacher: "Docente não identificado", matched: false, source: "sem correspondência"};
+}
+
+const saturdayPeriodCodes = ["M1", "M2", "M3", "M4", "M5", "M6"];
+
 const saturdaySemesterOptions = [
   {key:"2026.1", label:"2026.1"},
   {key:"2026.2", label:"2026.2"},
@@ -4102,7 +4227,12 @@ function renderSaturdayCalendar() {
     0
   );
 
-  saturdaySummary.textContent = `${events.length} sábados · ${totalPeriods} períodos`;
+  const unresolvedLessons = events.flatMap(event => event.lessons)
+    .filter(lesson => !resolveSaturdayTeacher(selectedSaturdayClass, lesson.subject).matched);
+
+  const unresolvedSubjects = [...new Set(unresolvedLessons.map(lesson => lesson.subject))];
+  saturdaySummary.textContent = `${events.length} sábados · ${totalPeriods} períodos` +
+    (unresolvedSubjects.length ? ` · ${unresolvedSubjects.length} pendência(s) docente(s)` : " · docentes identificados");
 
   if (!events.length) {
     saturdayCalendarContent.innerHTML = '<div class="saturday-empty">Nenhum sábado letivo cadastrado neste período.</div>';
@@ -4117,47 +4247,95 @@ function renderSaturdayCalendar() {
     grouped.get(key).push(event);
   });
 
+  const headerCells = saturdayPeriodCodes.map(code => {
+    const period = periods.find(item => item.code === code);
+    return `<th>${code}<small>${escapeSaturdayHtml(period?.time || "")}</small></th>`;
+  }).join("");
+
   saturdayCalendarContent.innerHTML = [...grouped.entries()]
     .map(([monthKey,monthEvents]) => {
       const [year,month] = monthKey.split("-").map(Number);
-      const cards = monthEvents.map(event => {
+      const rows = monthEvents.map(event => {
         const date = new Date(`${event.date}T12:00:00`);
-        const lessons = event.lessons.length
-          ? event.lessons.map(lesson => {
-              const timing = formatSaturdayLessonTime(lesson.periods);
-              return `
-                <div class="saturday-lesson">
-                  <div class="saturday-lesson-time">
-                    ${timing.periodLabel}
-                    <span>${timing.timeLabel}</span>
-                  </div>
-                  <div class="saturday-lesson-subject">${lesson.subject}</div>
-                </div>
-              `;
-            }).join("")
-          : '<div class="saturday-empty">Sem aulas preenchidas na planilha enviada.</div>';
+
+        if (!event.lessons.length) {
+          return `
+            <tr class="saturday-empty-row">
+              <td class="saturday-date-cell">
+                <strong>${date.toLocaleDateString("pt-BR")}</strong>
+                <small>Sábado letivo</small>
+              </td>
+              <td colspan="6">Sem aulas preenchidas na planilha enviada.</td>
+            </tr>
+          `;
+        }
+
+        const cells = [];
+        let periodIndex = 0;
+
+        while (periodIndex < saturdayPeriodCodes.length) {
+          const periodCode = saturdayPeriodCodes[periodIndex];
+          const lesson = event.lessons.find(item => item.periods.includes(periodCode));
+
+          if (!lesson) {
+            cells.push('<td class="saturday-period-cell empty">—</td>');
+            periodIndex += 1;
+            continue;
+          }
+
+          let span = 1;
+          while (
+            periodIndex + span < saturdayPeriodCodes.length &&
+            lesson.periods.includes(saturdayPeriodCodes[periodIndex + span])
+          ) {
+            span += 1;
+          }
+
+          const teacherInfo = resolveSaturdayTeacher(selectedSaturdayClass, lesson.subject);
+          const timing = formatSaturdayLessonTime(
+            saturdayPeriodCodes.slice(periodIndex, periodIndex + span)
+          );
+
+          cells.push(`
+            <td colspan="${span}"
+                class="saturday-period-cell${teacherInfo.matched ? "" : " pending"}"
+                title="${escapeSaturdayHtml(teacherInfo.source)}">
+              <div class="saturday-table-subject">${escapeSaturdayHtml(lesson.subject)}</div>
+              <div class="saturday-table-teacher${teacherInfo.matched ? "" : " pending"}">
+                ${escapeSaturdayHtml(teacherInfo.teacher)}
+              </div>
+              <span class="saturday-table-period-label">${escapeSaturdayHtml(timing.periodLabel)} · ${escapeSaturdayHtml(timing.timeLabel)}</span>
+            </td>
+          `);
+
+          periodIndex += span;
+        }
 
         return `
-          <article class="saturday-card">
-            <div class="saturday-card-head">
-              <div class="saturday-date-wrap">
-                <div class="saturday-day-number">${String(date.getDate()).padStart(2,"0")}</div>
-                <div class="saturday-date-text">
-                  <strong>${date.toLocaleDateString("pt-BR")}</strong>
-                  <small>Sábado</small>
-                </div>
-              </div>
-              <span class="saturday-card-badge">Letivo</span>
-            </div>
-            <div class="saturday-lessons">${lessons}</div>
-          </article>
+          <tr>
+            <td class="saturday-date-cell">
+              <strong>${date.toLocaleDateString("pt-BR")}</strong>
+              <small>Sábado letivo</small>
+            </td>
+            ${cells.join("")}
+          </tr>
         `;
       }).join("");
 
       return `
         <section class="saturday-month-section">
           <h3 class="saturday-month-title">${saturdayMonthNames[month-1]} de ${year}</h3>
-          <div class="saturday-card-grid">${cards}</div>
+          <div class="saturday-table-wrap">
+            <table class="saturday-table">
+              <thead>
+                <tr>
+                  <th class="saturday-date-heading">Data</th>
+                  ${headerCells}
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
         </section>
       `;
     })
