@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Horários 2026.2 — Sábados no Calendário dos Docentes</title>
+<title>Painel de Horários 2026.2</title>
 <style>
 :root {
   --ifpa-green:#19733b;
@@ -1128,36 +1128,39 @@ td.slot{height:79px;padding:4px}
   vertical-align:middle
 }
 .saturday-lessons-compact{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px
+  display:grid;
+  grid-template-columns:repeat(var(--saturday-grid-cols, 6), minmax(0,1fr));
+  gap:5px;
+  align-items:stretch
 }
 .saturday-lesson-chip{
   display:flex;
   align-items:center;
   gap:6px;
-  flex:1 1 220px;
-  min-width:190px;
-  max-width:360px;
+  grid-column:var(--sat-start, auto) / span var(--sat-span, 1);
+  min-width:0;
   min-height:38px;
   padding:5px 7px;
-  border:1px solid rgba(38,57,47,.10);
+  border:1px solid var(--sat-border, rgba(38,57,47,.12));
+  border-left:4px solid var(--sat-accent, #79988a);
   border-radius:.5rem;
-  background:#eef3f0;
+  background:var(--sat-bg, #eef3f0);
   color:#293a31;
   box-shadow:none
 }
 .saturday-lesson-chip.pending{
   background:#fff7df!important;
-  border-color:#ead39b
+  border-color:#e0bf67!important;
+  border-left-color:#c68a00!important
 }
 .saturday-lesson-period{
   flex:0 0 auto;
   min-width:47px;
   padding:3px 5px;
+  border:1px solid var(--sat-period-border, rgba(255,255,255,.55));
   border-radius:.35rem;
-  background:rgba(255,255,255,.72);
-  color:#415248;
+  background:var(--sat-period-bg, rgba(255,255,255,.72));
+  color:var(--sat-period-text, #415248);
   text-align:center;
   font-size:8px;
   font-weight:900;
@@ -1203,7 +1206,7 @@ td.slot{height:79px;padding:4px}
   .saturday-toolbar{justify-content:flex-start}
   .saturday-summary{width:100%}
   .saturday-table{min-width:620px}
-  .saturday-lesson-chip{flex-basis:180px;min-width:170px}
+  .saturday-lesson-chip{min-width:0}
 }
 @media print{
   .saturday-calendar-view{padding:0;background:#fff}
@@ -1216,7 +1219,7 @@ td.slot{height:79px;padding:4px}
   .saturday-date-cell strong{font-size:8px}
   .saturday-lessons-cell{padding:3px}
   .saturday-lessons-compact{gap:3px}
-  .saturday-lesson-chip{min-width:0;min-height:28px;padding:3px 4px;border-radius:.3rem}
+  .saturday-lesson-chip{min-width:0;min-height:28px;padding:3px 4px;border-radius:.3rem;border-left-width:3px}
   .saturday-lesson-period{min-width:34px;font-size:6px;padding:2px 3px}
   .saturday-table-subject{font-size:7px}
   .saturday-table-teacher{font-size:6px}
@@ -4370,6 +4373,67 @@ function formatSaturdayLessonTime(periodCodes) {
   return {periodLabel, timeLabel:`${start}–${end}`};
 }
 
+
+const saturdayCompactPalette = [
+  {bg:"#e8f1ff", border:"#b8d2f3", accent:"#4f86c6", periodBg:"#d7e7fb", periodText:"#24558b"},
+  {bg:"#e5f6ee", border:"#b9dfcd", accent:"#3f9368", periodBg:"#d3ecdf", periodText:"#286846"},
+  {bg:"#fff2d9", border:"#efd49a", accent:"#c58a20", periodBg:"#f8e4b8", periodText:"#80580d"},
+  {bg:"#f8e8f0", border:"#e8bfd2", accent:"#b65f87", periodBg:"#efd6e2", periodText:"#7b3457"},
+  {bg:"#eee9fb", border:"#d2c7ee", accent:"#7b68b6", periodBg:"#ded6f2", periodText:"#51428c"},
+  {bg:"#e2f5f5", border:"#b7dddd", accent:"#388f91", periodBg:"#ceebeb", periodText:"#236467"},
+  {bg:"#ffeadf", border:"#f0c5ae", accent:"#c97445", periodBg:"#f7d8c7", periodText:"#874628"},
+  {bg:"#e9edff", border:"#c5cff4", accent:"#6679c8", periodBg:"#d9e0f8", periodText:"#3d4d96"},
+  {bg:"#e5f5ef", border:"#b9decf", accent:"#4d9277", periodBg:"#d3eade", periodText:"#2d6651"},
+  {bg:"#f7e8fb", border:"#dfc1e8", accent:"#a765b6", periodBg:"#ecd6f2", periodText:"#713d7d"},
+  {bg:"#eef5d9", border:"#d0dfa1", accent:"#82a33b", periodBg:"#e1ebbd", periodText:"#536f1d"},
+  {bg:"#fde8e8", border:"#edc0c0", accent:"#bd6161", periodBg:"#f3d2d2", periodText:"#7f3939"},
+  {bg:"#e8f4fc", border:"#bad9ec", accent:"#4d91ba", periodBg:"#d3e8f5", periodText:"#2c6687"},
+  {bg:"#f4eddc", border:"#decda8", accent:"#9b7a37", periodBg:"#e9dcc0", periodText:"#654d20"},
+  {bg:"#e8f0e1", border:"#c2d4b4", accent:"#6d9660", periodBg:"#d7e4cc", periodText:"#45663b"},
+  {bg:"#f3e9e2", border:"#dcc5b7", accent:"#9d725d", periodBg:"#e8d7cd", periodText:"#684638"},
+  {bg:"#e7edf3", border:"#c3d0db", accent:"#66829a", periodBg:"#d7e1e9", periodText:"#415b70"},
+  {bg:"#f6efd8", border:"#e3d39c", accent:"#a98a29", periodBg:"#ece0b8", periodText:"#705b12"}
+];
+
+const saturdayCompactSubjectColors = (() => {
+  const subjects = [...new Set(
+    Object.values(saturdayCalendars)
+      .flatMap(classData => classData.events)
+      .flatMap(event => event.lessons)
+      .map(lesson => lesson.subject)
+      .filter(Boolean)
+  )].sort((a,b) => a.localeCompare(b, "pt-BR"));
+
+  return new Map(
+    subjects.map((subject,index) => [
+      subject,
+      saturdayCompactPalette[index % saturdayCompactPalette.length]
+    ])
+  );
+})();
+
+function getSaturdayCompactColor(subject, matched=true) {
+  if (!matched) {
+    return {
+      bg:"#fff7df",
+      border:"#e0bf67",
+      accent:"#c68a00",
+      periodBg:"#f7e6ad",
+      periodText:"#73520a"
+    };
+  }
+  return saturdayCompactSubjectColors.get(subject) || saturdayCompactPalette[0];
+}
+
+function getSaturdayGridInfo(periodsList) {
+  const firstPeriod = periodsList?.[0] || "M1";
+  const prefix = firstPeriod.charAt(0);
+  const totalColumns = prefix === "N" ? 4 : 6;
+  const start = Math.max(1, Math.min(totalColumns, Number(firstPeriod.slice(1)) || 1));
+  const span = Math.max(1, Math.min(totalColumns - start + 1, periodsList?.length || 1));
+  return {totalColumns, start, span};
+}
+
 function renderSaturdayCalendar() {
   const data = saturdayCalendars[selectedSaturdayClass];
   if (!data) {
@@ -4442,16 +4506,23 @@ function renderSaturdayCalendar() {
               : resolveSaturdayTeacher(selectedSaturdayClass, lesson.subject);
 
           const timing = formatSaturdayLessonTime(lesson.periods);
-          const bg = teacherInfo.matched
-            ? (subjectColors[lesson.subject] || "#e4ece7")
-            : "#fff7df";
+          const gridInfo = getSaturdayGridInfo(lesson.periods);
+          const color = getSaturdayCompactColor(lesson.subject, teacherInfo.matched);
           const tooltipParts = [lesson.subject];
           if (teacherInfo.teacher) tooltipParts.push(teacherInfo.teacher);
           tooltipParts.push(`${timing.periodLabel} · ${timing.timeLabel}`);
 
           return `
             <div class="saturday-lesson-chip${teacherInfo.matched ? "" : " pending"}"
-                 style="background:${escapeSaturdayHtml(bg)}"
+                 style="
+                   --sat-start:${gridInfo.start};
+                   --sat-span:${gridInfo.span};
+                   --sat-bg:${color.bg};
+                   --sat-border:${color.border};
+                   --sat-accent:${color.accent};
+                   --sat-period-bg:${color.periodBg};
+                   --sat-period-text:${color.periodText};
+                 "
                  title="${escapeSaturdayHtml(tooltipParts.join(" | "))}">
               <span class="saturday-lesson-period">${escapeSaturdayHtml(timing.periodLabel)}</span>
               <div class="saturday-lesson-text">
@@ -4469,7 +4540,10 @@ function renderSaturdayCalendar() {
               <small>Sáb.</small>
             </td>
             <td class="saturday-lessons-cell">
-              <div class="saturday-lessons-compact">${lessonChips}</div>
+              <div class="saturday-lessons-compact"
+                   style="--saturday-grid-cols:${getSaturdayGridInfo(event.lessons[0]?.periods || ["M1"]).totalColumns}">
+                ${lessonChips}
+              </div>
             </td>
           </tr>
         `;
