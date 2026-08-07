@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Horários 2026.2</title>
+<title>Painel de Horários 2026.2 — Sábados no Calendário dos Docentes</title>
 <style>
 :root {
   --ifpa-green:#19733b;
@@ -1018,62 +1018,30 @@ td.slot{height:79px;padding:4px}
 }
 
 
-/* Calendários de sábados letivos — visualização em tabela */
+/* Calendários de sábados letivos — visualização compacta */
 .saturday-calendar-view{
-  padding:16px;
+  padding:12px;
   background:#f8faf8
 }
 .saturday-toolbar{
   display:flex;
-  flex-wrap:wrap;
   align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:14px;
-  padding:12px 14px;
+  justify-content:flex-end;
+  gap:10px;
+  margin-bottom:10px;
+  padding:8px 11px;
   border:1px solid #dfe7e1;
-  border-radius:.75rem;
+  border-radius:.65rem;
   background:#fff
 }
-.saturday-filter-group{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px
-}
-.saturday-filter-btn{
-  min-height:34px;
-  padding:0 12px;
-  border:0;
-  border-radius:999px;
-  background:#edf2ef;
-  color:#4d5d53;
-  font-size:12px
-}
-.saturday-filter-btn:hover{
-  background:#e1ece4;
-  color:var(--ifpa-green-dark)
-}
-.saturday-filter-btn.active{
-  background:var(--ifpa-green);
-  color:#fff
-}
+.saturday-filter-group{display:none}
 .saturday-summary{
-  color:#5e6b63;
-  font-size:12px;
-  font-weight:700
-}
-.saturday-intro{
-  margin:0 0 14px;
-  padding:10px 12px;
-  border-left:4px solid var(--ifpa-green);
-  border-radius:.45rem;
-  background:#edf5ef;
   color:#526159;
-  font-size:11.5px;
-  line-height:1.5
+  font-size:11px;
+  font-weight:800
 }
 .saturday-month-section{
-  margin-top:18px
+  margin-top:12px
 }
 .saturday-month-section:first-of-type{
   margin-top:0
@@ -1081,171 +1049,178 @@ td.slot{height:79px;padding:4px}
 .saturday-month-title{
   display:flex;
   align-items:center;
-  gap:9px;
-  margin:0 0 9px;
+  gap:7px;
+  margin:0 0 5px;
+  padding:5px 8px;
+  border-radius:.4rem;
+  background:#edf5ef;
   color:var(--ifpa-green-dark);
-  font-size:15px
+  font-size:12px;
+  font-weight:900
 }
 .saturday-month-title::before{
   content:"";
-  width:5px;
-  height:20px;
+  width:4px;
+  height:14px;
   border-radius:999px;
   background:var(--ifpa-green)
 }
 .saturday-table-wrap{
   overflow:auto;
   border:1px solid #dce5df;
-  border-radius:.75rem;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(15,79,41,.055)
+  border-radius:.6rem;
+  background:#fff
 }
 .saturday-table{
   width:100%;
-  min-width:1020px;
+  min-width:720px;
   border-collapse:separate;
   border-spacing:0;
-  table-layout:fixed
+  table-layout:auto
 }
 .saturday-table th,
 .saturday-table td{
-  border-right:1px solid #dfe6e2;
-  border-bottom:1px solid #dfe6e2
+  border-bottom:1px solid #e4eae6
 }
-.saturday-table tr:last-child td{
+.saturday-table tbody tr:last-child td{
   border-bottom:0
 }
-.saturday-table th:last-child,
-.saturday-table td:last-child{
-  border-right:0
-}
 .saturday-table thead th{
-  position:sticky;
-  top:0;
-  z-index:3;
-  padding:9px 6px;
+  padding:6px 8px;
   background:#e6f0e8;
   color:var(--ifpa-green-dark);
-  text-align:center;
-  font-size:10px;
+  text-align:left;
+  font-size:9px;
   font-weight:900;
-  line-height:1.25
-}
-.saturday-table thead th small{
-  display:block;
-  margin-top:3px;
-  color:#637269;
-  font-size:8px;
-  font-weight:700
+  text-transform:uppercase;
+  letter-spacing:.035em
 }
 .saturday-table .saturday-date-heading{
-  left:0;
-  z-index:5;
-  width:118px;
-  min-width:118px
+  width:90px;
+  min-width:90px;
+  text-align:center
 }
 .saturday-date-cell{
-  position:sticky;
-  left:0;
-  z-index:2;
-  width:118px;
-  min-width:118px;
-  padding:10px 8px;
-  background:#f3f7f4;
+  width:90px;
+  min-width:90px;
+  padding:7px 6px;
+  background:#f5f8f6;
   color:#304239;
   text-align:center;
   vertical-align:middle
 }
 .saturday-date-cell strong{
   display:block;
-  font-size:11px
+  font-size:10.5px;
+  line-height:1.15
 }
 .saturday-date-cell small{
   display:block;
-  margin-top:3px;
-  color:#718078;
-  font-size:8.5px;
-  font-weight:700
+  margin-top:2px;
+  color:#7a8780;
+  font-size:7.5px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.035em
 }
-.saturday-period-cell{
-  min-height:82px;
-  height:82px;
-  padding:8px 9px;
-  background:#fff;
-  vertical-align:middle;
-  text-align:center
+.saturday-lessons-cell{
+  padding:5px 6px;
+  vertical-align:middle
 }
-.saturday-period-cell.empty{
-  background:#fafbfa;
-  color:#b0b8b3;
-  font-size:10px
+.saturday-lessons-compact{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px
 }
-.saturday-period-cell.pending{
-  background:#fff7df
+.saturday-lesson-chip{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex:1 1 220px;
+  min-width:190px;
+  max-width:360px;
+  min-height:38px;
+  padding:5px 7px;
+  border:1px solid rgba(38,57,47,.10);
+  border-radius:.5rem;
+  background:#eef3f0;
+  color:#293a31;
+  box-shadow:none
+}
+.saturday-lesson-chip.pending{
+  background:#fff7df!important;
+  border-color:#ead39b
+}
+.saturday-lesson-period{
+  flex:0 0 auto;
+  min-width:47px;
+  padding:3px 5px;
+  border-radius:.35rem;
+  background:rgba(255,255,255,.72);
+  color:#415248;
+  text-align:center;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap
+}
+.saturday-lesson-text{
+  min-width:0;
+  line-height:1.15
 }
 .saturday-table-subject{
-  color:#293a31;
-  font-size:10.5px;
-  font-weight:850;
-  line-height:1.3
+  color:#28382f;
+  font-size:9.5px;
+  font-weight:900;
+  line-height:1.18
 }
 .saturday-table-teacher{
-  margin-top:5px;
-  color:#52645a;
-  font-size:9px;
-  font-weight:750;
-  line-height:1.25
+  margin-top:2px;
+  color:#5d6b63;
+  font-size:8px;
+  font-weight:700;
+  line-height:1.12
 }
-.saturday-table-teacher.pending{
-  color:#8a6511
-}
-.saturday-table-period-label{
-  display:inline-block;
-  margin-top:5px;
-  padding:2px 6px;
-  border-radius:999px;
-  background:#edf3ef;
-  color:#66756c;
-  font-size:7.5px;
-  font-weight:900;
-  letter-spacing:.025em
-}
+.saturday-table-teacher:empty{display:none}
+.saturday-table-teacher.pending{color:#8a6511}
 .saturday-empty-row td{
-  height:70px;
-  padding:18px;
+  padding:9px;
   background:#fafbfa;
   color:#7d8881;
   text-align:center;
-  font-size:11px
+  font-size:10px
 }
 .saturday-empty{
-  padding:30px 18px;
+  padding:22px 14px;
   border:1px dashed #cfd9d2;
-  border-radius:.75rem;
+  border-radius:.65rem;
   background:#fff;
   color:#77837b;
   text-align:center;
-  font-size:13px
+  font-size:12px
 }
-@media(max-width:620px){
-  .saturday-toolbar{align-items:flex-start}
-  .saturday-filter-group{width:100%}
-  .saturday-filter-btn{flex:1 1 auto}
+@media(max-width:700px){
+  .saturday-calendar-view{padding:8px}
+  .saturday-toolbar{justify-content:flex-start}
   .saturday-summary{width:100%}
-  .saturday-calendar-view{padding:10px}
+  .saturday-table{min-width:620px}
+  .saturday-lesson-chip{flex-basis:180px;min-width:170px}
 }
 @media print{
   .saturday-calendar-view{padding:0;background:#fff}
   .saturday-toolbar{display:none!important}
-  .saturday-table-wrap{overflow:visible;box-shadow:none;border-radius:0}
-  .saturday-table{min-width:0;font-size:8px}
-  .saturday-table thead th{position:static}
-  .saturday-date-cell{position:static}
-  .saturday-period-cell{height:58px;padding:5px}
-  .saturday-table-subject{font-size:8px}
-  .saturday-table-teacher{font-size:7px}
+  .saturday-month-title{padding:3px 5px;font-size:9px}
+  .saturday-table-wrap{overflow:visible;border-radius:0}
+  .saturday-table{min-width:0}
+  .saturday-table thead th{font-size:7px;padding:4px}
+  .saturday-date-cell{width:60px;min-width:60px;padding:4px}
+  .saturday-date-cell strong{font-size:8px}
+  .saturday-lessons-cell{padding:3px}
+  .saturday-lessons-compact{gap:3px}
+  .saturday-lesson-chip{min-width:0;min-height:28px;padding:3px 4px;border-radius:.3rem}
+  .saturday-lesson-period{min-width:34px;font-size:6px;padding:2px 3px}
+  .saturday-table-subject{font-size:7px}
+  .saturday-table-teacher{font-size:6px}
 }
-
 
 /* Sábados letivos no calendário individual dos docentes */
 .saturday-filter-label{
@@ -4425,10 +4400,10 @@ function renderSaturdayCalendar() {
 
   const unresolvedSubjects = [...new Set(unresolvedLessons.map(lesson => lesson.subject))];
   saturdaySummary.textContent = `${events.length} sábados · ${totalPeriods} períodos` +
-    (unresolvedSubjects.length ? ` · ${unresolvedSubjects.length} pendência(s) docente(s)` : " · docentes identificados");
+    (unresolvedSubjects.length ? ` · ${unresolvedSubjects.length} pendência(s) docente(s)` : "");
 
   if (!events.length) {
-    saturdayCalendarContent.innerHTML = '<div class="saturday-empty">Nenhum sábado letivo cadastrado neste período.</div>';
+    saturdayCalendarContent.innerHTML = '<div class="saturday-empty">Nenhum sábado letivo cadastrado.</div>';
     return;
   }
 
@@ -4440,25 +4415,10 @@ function renderSaturdayCalendar() {
     grouped.get(key).push(event);
   });
 
-  const lessonPeriodCodes = events.flatMap(event =>
-    event.lessons.flatMap(lesson => lesson.periods)
-  );
-  const usesNightPeriods = lessonPeriodCodes.some(code => code.startsWith("N"));
-  const usesAfternoonPeriods = lessonPeriodCodes.some(code => code.startsWith("T"));
-  const activeSaturdayPeriodCodes = usesNightPeriods
-    ? ["N1", "N2", "N3", "N4"]
-    : usesAfternoonPeriods
-      ? ["T1", "T2", "T3", "T4", "T5", "T6"]
-      : ["M1", "M2", "M3", "M4", "M5", "M6"];
-
-  const headerCells = activeSaturdayPeriodCodes.map(code => {
-    const period = laboratoryPeriods.find(item => item.code === code);
-    return `<th>${code}<small>${escapeSaturdayHtml(period?.time || "")}</small></th>`;
-  }).join("");
-
   saturdayCalendarContent.innerHTML = [...grouped.entries()]
     .map(([monthKey,monthEvents]) => {
       const [year,month] = monthKey.split("-").map(Number);
+
       const rows = monthEvents.map(event => {
         const date = new Date(`${event.date}T12:00:00`);
 
@@ -4466,66 +4426,51 @@ function renderSaturdayCalendar() {
           return `
             <tr class="saturday-empty-row">
               <td class="saturday-date-cell">
-                <strong>${date.toLocaleDateString("pt-BR")}</strong>
-                <small>Sábado letivo</small>
+                <strong>${date.toLocaleDateString("pt-BR", {day:"2-digit", month:"2-digit"})}</strong>
+                <small>Sáb.</small>
               </td>
-              <td colspan="${activeSaturdayPeriodCodes.length}">Sem aulas preenchidas na planilha enviada.</td>
+              <td>Sem aulas preenchidas.</td>
             </tr>
           `;
         }
 
-        const cells = [];
-        let periodIndex = 0;
-
-        while (periodIndex < activeSaturdayPeriodCodes.length) {
-          const periodCode = activeSaturdayPeriodCodes[periodIndex];
-          const lesson = event.lessons.find(item => item.periods.includes(periodCode));
-
-          if (!lesson) {
-            cells.push('<td class="saturday-period-cell empty">—</td>');
-            periodIndex += 1;
-            continue;
-          }
-
-          let span = 1;
-          while (
-            periodIndex + span < activeSaturdayPeriodCodes.length &&
-            lesson.periods.includes(activeSaturdayPeriodCodes[periodIndex + span])
-          ) {
-            span += 1;
-          }
-
+        const lessonChips = event.lessons.map(lesson => {
           const teacherInfo = lesson.hideTeacher
             ? {teacher: "", matched: true, source: ""}
             : lesson.teacher
               ? {teacher: lesson.teacher, matched: true, source: "planilha atualizada"}
               : resolveSaturdayTeacher(selectedSaturdayClass, lesson.subject);
-          const timing = formatSaturdayLessonTime(
-            activeSaturdayPeriodCodes.slice(periodIndex, periodIndex + span)
-          );
 
-          cells.push(`
-            <td colspan="${span}"
-                class="saturday-period-cell${teacherInfo.matched ? "" : " pending"}"
-                title="${escapeSaturdayHtml(teacherInfo.source)}">
-              <div class="saturday-table-subject">${escapeSaturdayHtml(lesson.subject)}</div>
-              <div class="saturday-table-teacher${teacherInfo.matched ? "" : " pending"}">
-                ${escapeSaturdayHtml(teacherInfo.teacher)}
+          const timing = formatSaturdayLessonTime(lesson.periods);
+          const bg = teacherInfo.matched
+            ? (subjectColors[lesson.subject] || "#e4ece7")
+            : "#fff7df";
+          const tooltipParts = [lesson.subject];
+          if (teacherInfo.teacher) tooltipParts.push(teacherInfo.teacher);
+          tooltipParts.push(`${timing.periodLabel} · ${timing.timeLabel}`);
+
+          return `
+            <div class="saturday-lesson-chip${teacherInfo.matched ? "" : " pending"}"
+                 style="background:${escapeSaturdayHtml(bg)}"
+                 title="${escapeSaturdayHtml(tooltipParts.join(" | "))}">
+              <span class="saturday-lesson-period">${escapeSaturdayHtml(timing.periodLabel)}</span>
+              <div class="saturday-lesson-text">
+                <div class="saturday-table-subject">${escapeSaturdayHtml(lesson.subject)}</div>
+                <div class="saturday-table-teacher${teacherInfo.matched ? "" : " pending"}">${escapeSaturdayHtml(teacherInfo.teacher)}</div>
               </div>
-              <span class="saturday-table-period-label">${escapeSaturdayHtml(timing.periodLabel)} · ${escapeSaturdayHtml(timing.timeLabel)}</span>
-            </td>
-          `);
-
-          periodIndex += span;
-        }
+            </div>
+          `;
+        }).join("");
 
         return `
           <tr>
             <td class="saturday-date-cell">
-              <strong>${date.toLocaleDateString("pt-BR")}</strong>
-              <small>Sábado letivo</small>
+              <strong>${date.toLocaleDateString("pt-BR", {day:"2-digit", month:"2-digit"})}</strong>
+              <small>Sáb.</small>
             </td>
-            ${cells.join("")}
+            <td class="saturday-lessons-cell">
+              <div class="saturday-lessons-compact">${lessonChips}</div>
+            </td>
           </tr>
         `;
       }).join("");
@@ -4538,7 +4483,7 @@ function renderSaturdayCalendar() {
               <thead>
                 <tr>
                   <th class="saturday-date-heading">Data</th>
-                  ${headerCells}
+                  <th>Aulas do sábado</th>
                 </tr>
               </thead>
               <tbody>${rows}</tbody>
