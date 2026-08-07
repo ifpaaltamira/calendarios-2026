@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Horários 2026.2 - Campus Altamira</title>
+<title>Painel de Horários 2026.2 — Sábados no Calendário dos Docentes</title>
 <style>
 :root {
   --ifpa-green:#19733b;
@@ -467,6 +467,26 @@ button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:
   font-weight:900;
   letter-spacing:.025em;
   text-transform:uppercase
+}
+.laboratory-maintenance-event{
+  border:2px solid #b42318!important;
+  border-left:6px solid #b42318!important;
+  background:#f8d7da!important;
+  box-shadow:0 3px 10px rgba(180,35,24,.18)!important;
+}
+.laboratory-maintenance-event .month-event-title{
+  color:#8f1f17!important;
+  font-weight:900!important;
+}
+.laboratory-maintenance-event .month-event-time,
+.laboratory-maintenance-event .month-event-meta{
+  color:#6f1d17!important;
+  font-weight:800;
+}
+.laboratory-maintenance-event .laboratory-reservation-source{
+  background:#b42318!important;
+  color:#fff!important;
+  border:1px solid #8f1f17;
 }
 @media(max-width:700px){
   .laboratory-combined-calendar-grid .month-day{
@@ -1841,7 +1861,7 @@ const saturdayCalendars = {"agro-1a-2026":{"name":"EMI Agropecuária — 1º Ano
 
 const periods = [{"code": "M1", "time": "07:30–08:20", "shift": "Manhã"}, {"code": "M2", "time": "08:20–09:10", "shift": "Manhã"}, {"code": "M3", "time": "09:10–10:00", "shift": "Manhã"}, {"code": "M4", "time": "10:20–11:10", "shift": "Manhã"}, {"code": "M5", "time": "11:10–12:00", "shift": "Manhã"}, {"code": "M6", "time": "12:00–12:50", "shift": "Manhã"}, {"code": "T1", "time": "13:00–13:50", "shift": "Tarde"}, {"code": "T2", "time": "13:50–14:40", "shift": "Tarde"}, {"code": "T3", "time": "14:40–15:30", "shift": "Tarde"}, {"code": "T4", "time": "15:50–16:40", "shift": "Tarde"}, {"code": "T5", "time": "16:40–17:30", "shift": "Tarde"}, {"code": "T6", "time": "17:30–18:20", "shift": "Tarde"}];
 const labSubjects = new Set(["Algoritmos e Técnicas de Programação", "Arquitetura e Manutenção de Computadores", "Banco de Dados", "Desenvolvimento Web", "Informática Aplicada", "Matemática e Lógica de Programação", "Programação Orientada a Objetos", "Programação Web I", "Programação para Dispositivos Móveis", "Projeto Arquitetônico", "Redes de Computadores", "Segurança e Administração da Informação"]);
-const labAllocations = {"adm-1a-2026|Terça|M1|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M2|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M5|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M6|Informática Aplicada": "Laboratório III", "edif-1a-2026|Segunda|T3|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T4|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T5|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T6|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Terça|M5|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Terça|M6|Projeto Arquitetônico": "Laboratório I", "info-1a-2026|Quarta|M3|Redes de Computadores": "Laboratório III", "info-1a-2026|Quarta|M4|Redes de Computadores": "Laboratório III", "info-1a-2026|Quarta|M5|Redes de Computadores": "Laboratório III", "info-1a-2026|Quinta|M3|Matemática e Lógica de Programação": "Laboratório III", "info-1a-2026|Quinta|M4|Matemática e Lógica de Programação": "Laboratório III", "info-1a-2026|Segunda|M3|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Segunda|M4|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Segunda|M5|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Sexta|M2|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1a-2026|Sexta|M3|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1a-2026|Sexta|M4|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T2|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T3|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T4|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quinta|M1|Matemática e Lógica de Programação": "Laboratório III", "info-1b-2026|Quinta|M2|Matemática e Lógica de Programação": "Laboratório III", "info-1b-2026|Segunda|T1|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Segunda|T2|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Segunda|T3|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Sexta|T3|Redes de Computadores": "Laboratório III", "info-1b-2026|Sexta|T4|Redes de Computadores": "Laboratório III", "info-1b-2026|Sexta|T5|Redes de Computadores": "Laboratório III", "info-2a-2025|Segunda|M1|Banco de Dados": "Laboratório III", "info-2a-2025|Segunda|M2|Banco de Dados": "Laboratório III", "info-2a-2025|Sexta|M5|Programação Orientada a Objetos": "Laboratório III", "info-2a-2025|Sexta|M6|Programação Orientada a Objetos": "Laboratório III", "info-2a-2025|Terça|M3|Programação Web I": "Laboratório III", "info-2a-2025|Terça|M4|Programação Web I": "Laboratório III", "info-2b-2025|Sexta|T3|Programação Orientada a Objetos": "Laboratório I", "info-2b-2025|Sexta|T4|Programação Orientada a Objetos": "Laboratório I", "info-2b-2025|Terça|T1|Banco de Dados": "Laboratório III", "info-2b-2025|Terça|T2|Banco de Dados": "Laboratório III", "info-2b-2025|Terça|T5|Programação Web I": "Laboratório III", "info-2b-2025|Terça|T6|Programação Web I": "Laboratório III", "info-3-2024|Segunda|M5|Programação para Dispositivos Móveis": "Laboratório I", "info-3-2024|Segunda|M6|Programação para Dispositivos Móveis": "Laboratório I", "info-3-2024|Sexta|M3|Desenvolvimento Web": "Laboratório I", "info-3-2024|Sexta|M4|Desenvolvimento Web": "Laboratório I", "info-3-2024|Sexta|M5|Segurança e Administração da Informação": "Laboratório I", "info-3-2024|Sexta|M6|Segurança e Administração da Informação": "Laboratório I"};
+const labAllocations = {"adm-1a-2026|Terça|M1|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M2|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M5|Informática Aplicada": "Laboratório III", "adm-1a-2026|Terça|M6|Informática Aplicada": "Laboratório III", "edif-1a-2026|Segunda|T3|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T4|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T5|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Segunda|T6|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Terça|M5|Projeto Arquitetônico": "Laboratório I", "edif-1a-2026|Terça|M6|Projeto Arquitetônico": "Laboratório I", "info-1a-2026|Quarta|M3|Redes de Computadores": "Laboratório III", "info-1a-2026|Quarta|M4|Redes de Computadores": "Laboratório III", "info-1a-2026|Quarta|M5|Redes de Computadores": "Laboratório III", "info-1a-2026|Quinta|M3|Matemática e Lógica de Programação": "Laboratório I", "info-1a-2026|Quinta|M4|Matemática e Lógica de Programação": "Laboratório I", "info-1a-2026|Segunda|M3|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Segunda|M4|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Segunda|M5|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1a-2026|Sexta|M2|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1a-2026|Sexta|M3|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1a-2026|Sexta|M4|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T2|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T3|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quarta|T4|Arquitetura e Manutenção de Computadores": "Laboratório III", "info-1b-2026|Quinta|M1|Matemática e Lógica de Programação": "Laboratório I", "info-1b-2026|Quinta|M2|Matemática e Lógica de Programação": "Laboratório I", "info-1b-2026|Segunda|T1|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Segunda|T2|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Segunda|T3|Algoritmos e Técnicas de Programação": "Laboratório III", "info-1b-2026|Sexta|T3|Redes de Computadores": "Laboratório III", "info-1b-2026|Sexta|T4|Redes de Computadores": "Laboratório III", "info-1b-2026|Sexta|T5|Redes de Computadores": "Laboratório III", "info-2a-2025|Segunda|M1|Banco de Dados": "Laboratório III", "info-2a-2025|Segunda|M2|Banco de Dados": "Laboratório III", "info-2a-2025|Sexta|M5|Programação Orientada a Objetos": "Laboratório III", "info-2a-2025|Sexta|M6|Programação Orientada a Objetos": "Laboratório III", "info-2a-2025|Terça|M3|Programação Web I": "Laboratório III", "info-2a-2025|Terça|M4|Programação Web I": "Laboratório III", "info-2b-2025|Sexta|T3|Programação Orientada a Objetos": "Laboratório I", "info-2b-2025|Sexta|T4|Programação Orientada a Objetos": "Laboratório I", "info-2b-2025|Terça|T1|Banco de Dados": "Laboratório III", "info-2b-2025|Terça|T2|Banco de Dados": "Laboratório III", "info-2b-2025|Terça|T5|Programação Web I": "Laboratório III", "info-2b-2025|Terça|T6|Programação Web I": "Laboratório III", "info-3-2024|Segunda|M5|Programação para Dispositivos Móveis": "Laboratório I", "info-3-2024|Segunda|M6|Programação para Dispositivos Móveis": "Laboratório I", "info-3-2024|Sexta|M3|Desenvolvimento Web": "Laboratório I", "info-3-2024|Sexta|M4|Desenvolvimento Web": "Laboratório I", "info-3-2024|Sexta|M5|Segurança e Administração da Informação": "Laboratório I", "info-3-2024|Sexta|M6|Segurança e Administração da Informação": "Laboratório I"};
 const laboratoryPeriods = [
   ...periods,
   {"code":"N1","time":"19:00–19:40","shift":"Noite"},
@@ -2007,7 +2027,38 @@ const allLaboratories = [
   "Laboratório II"
 ];
 
-const recurringLaboratoryReservations = [];
+const recurringLaboratoryReservations = [
+  {
+    day: "Quarta",
+    laboratories: ["Laboratório I"],
+    subject: "⚠ Manutenção e Limpeza",
+    className: "Laboratório indisponível para aulas",
+    teacher: "Reserva fixa",
+    startTime: "07:30",
+    endTime: "18:20",
+    sourceType: "Manutenção"
+  },
+  {
+    day: "Quinta",
+    laboratories: ["Laboratório III"],
+    subject: "⚠ Manutenção e Limpeza",
+    className: "Laboratório indisponível para aulas",
+    teacher: "Reserva fixa",
+    startTime: "07:30",
+    endTime: "18:20",
+    sourceType: "Manutenção"
+  },
+  {
+    day: "Terça",
+    laboratories: ["Laboratório II"],
+    subject: "⚠ Manutenção e Limpeza",
+    className: "Laboratório indisponível para aulas",
+    teacher: "Reserva fixa",
+    startTime: "07:30",
+    endTime: "18:20",
+    sourceType: "Manutenção"
+  }
+];
 function splitNightTeacherNames(value) {
   return String(value || "")
     .split(/\s*\/\s*/)
@@ -3699,7 +3750,7 @@ const laboratoryToneColors = {
 
 function laboratoryReservationColor(reservation) {
   if (reservation.sourceType === "Manutenção") {
-    return "#f4efd9";
+    return "#f8d7da";
   }
 
   if (reservation.sourceType === "Ensino Médio") {
@@ -3775,7 +3826,10 @@ function renderLaboratoryMonthlyCalendar() {
     } else {
       reservations.forEach(reservation => {
         const card = document.createElement("div");
-        card.className = "month-event";
+        card.className = "month-event" +
+          (reservation.sourceType === "Manutenção"
+            ? " laboratory-maintenance-event"
+            : "");
         card.style.background =
           laboratoryReservationColor(reservation);
 
