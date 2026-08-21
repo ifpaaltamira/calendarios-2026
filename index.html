@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Horários 2026.2</title>
+<title>Painel de Horários 2026.2 — Sábados no Calendário dos Docentes</title>
 <style>
 :root {
   --ifpa-green:#19733b;
@@ -2196,6 +2196,19 @@ const recurringLaboratoryReservations = [
     sourceType: "Manutenção"
   }
 ];
+
+const specificLaboratoryReservations = [
+  {
+    date: "2026-08-24",
+    laboratories: ["Laboratório I"],
+    subject: "Projeto Integrador",
+    className: "Reserva pontual",
+    teacher: "Francisco Willame",
+    startTime: "07:30",
+    endTime: "09:10",
+    sourceType: "Reserva pontual"
+  }
+];
 function splitNightTeacherNames(value) {
   return String(value || "")
     .split(/\s*\/\s*/)
@@ -3821,6 +3834,18 @@ function getLaboratoryReservationsForDate(laboratory, date) {
         });
     }
   }
+
+  specificLaboratoryReservations
+    .filter(reservation =>
+      reservation.date === isoDate &&
+      reservation.laboratories.includes(laboratory)
+    )
+    .forEach(reservation => {
+      reservations.push({
+        ...reservation,
+        room: laboratory
+      });
+    });
 
   getNightEventsForLaboratory(laboratory)
     .filter(event => event.date === isoDate)
