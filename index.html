@@ -115,11 +115,6 @@ button.active{background:var(--ifpa-green);border-color:var(--ifpa-green);color:
   font-size:16px;
   line-height:1
 }
-.shift-indicator{
-  margin-left:auto;display:inline-flex;align-items:center;min-height:38px;padding:0 14px;
-  border-radius:.375rem;background:#e7f3ea;color:var(--ifpa-green-dark);
-  font-size:13px;font-weight:700;white-space:nowrap
-}
 .workspace{display:grid;grid-template-columns:275px minmax(0,1fr);gap:14px;align-items:start}
 .workspace.resource-mode{
   grid-template-columns:minmax(0,1fr)
@@ -732,9 +727,6 @@ td.slot{height:79px;padding:4px}
     width:100%;
     overflow-x:auto
   }
-  .shift-indicator{
-    order:3
-  }
   .workspace{display:block}
   .sidebar-toggle{display:inline-flex;align-items:center;justify-content:center}
   .class-sidebar{
@@ -745,7 +737,6 @@ td.slot{height:79px;padding:4px}
   .sidebar-close{display:inline-flex;align-items:center;justify-content:center}
   .sidebar-overlay{position:fixed;z-index:1190;inset:0;background:rgba(0,0,0,.28)}
   .sidebar-overlay.open{display:block}
-  .shift-indicator{margin-left:0}
 }
 
 
@@ -1843,6 +1834,183 @@ td.slot{height:79px;padding:4px}
   display:none;
 }
 
+
+/* Exames do 3º Bimestre integrados ao calendário individual das turmas */
+.class-exam-block{
+  margin-top:14px;
+}
+.class-exam-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:12px;
+}
+.class-exam-head h3{
+  margin:0;
+  color:var(--ifpa-green-dark);
+  font-size:18px;
+}
+.class-exam-head p{
+  margin:4px 0 0;
+  color:#68756d;
+  font-size:11px;
+}
+.class-exam-room-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:0 10px;
+  border-radius:.5rem;
+  background:#e7f3ea;
+  color:var(--ifpa-green-dark);
+  font-size:10px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.class-exam-weeks{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.class-exam-week h4{
+  margin:0 0 6px;
+  color:#425249;
+  font-size:11px;
+  font-weight:850;
+}
+.class-exam-grid{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:7px;
+}
+.class-exam-day{
+  min-height:104px;
+  padding:7px;
+  border:1px solid #e0e6e2;
+  border-radius:.6rem;
+  background:#fbfcfb;
+}
+.class-exam-day.has-exam{
+  background:#f7faf8;
+}
+.class-exam-day.holiday{
+  background:#faf3f3;
+}
+.class-exam-day-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-bottom:6px;
+}
+.class-exam-day-number{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:#edf3ef;
+  color:var(--ifpa-green-dark);
+  font-size:10px;
+  font-weight:900;
+}
+.class-exam-day-name{
+  color:#7b8780;
+  font-size:8px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+.class-exam-event{
+  margin-top:5px;
+  padding:7px 8px;
+  border:0;
+  border-radius:.55rem;
+  background:#e4f0e8;
+  color:#3d6650;
+  box-shadow:0 1px 3px rgba(0,0,0,.065);
+}
+.class-exam-event + .class-exam-event{
+  margin-top:5px;
+}
+.class-exam-subject{
+  font-size:9.5px;
+  font-weight:900;
+  line-height:1.2;
+}
+.class-exam-teacher{
+  margin-top:3px;
+  color:#56675d;
+  font-size:8px;
+  font-weight:700;
+  line-height:1.2;
+}
+.class-exam-room{
+  margin-top:2px;
+  color:#7a8780;
+  font-size:7.8px;
+  font-weight:700;
+}
+.class-exam-empty{
+  margin-top:18px;
+  color:#b0b8b3;
+  text-align:center;
+  font-size:9px;
+}
+.class-exam-holiday-label{
+  margin-top:6px;
+  padding:7px;
+  border-radius:.5rem;
+  background:#f2e4e6;
+  color:#784c52;
+  font-size:9px;
+  font-weight:850;
+  line-height:1.2;
+}
+.class-exam-notes{
+  margin-top:12px;
+  padding-top:11px;
+  border-top:1px solid #e3e8e5;
+}
+.class-exam-notes h4{
+  margin:0 0 7px;
+  color:var(--ifpa-green-dark);
+  font-size:13px;
+}
+.class-exam-notes ul{
+  margin:0;
+  padding-left:20px;
+  color:#3b4941;
+  font-size:10px;
+  line-height:1.45;
+}
+.class-exam-notes li + li{
+  margin-top:5px;
+}
+.class-exam-notes strong{
+  color:#2f4738;
+}
+@media(max-width:1050px){
+  .class-exam-grid{
+    grid-template-columns:repeat(3,minmax(190px,1fr));
+    overflow-x:auto;
+  }
+}
+@media print{
+  .class-exam-block{
+    box-shadow:none;
+  }
+  .class-exam-grid{
+    grid-template-columns:repeat(6,1fr);
+    gap:4px;
+  }
+  .class-exam-day{
+    min-height:85px;
+    padding:5px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1881,8 +2049,6 @@ td.slot{height:79px;padding:4px}
         <span aria-hidden="true">⎙</span> Imprimir
       </button>
     </div>
-
-    <span class="shift-indicator" id="topShiftBadge">Turno Principal: Manhã</span>
   </section>
 
   <div id="conflictAlert" class="conflict-alert hidden"></div>
@@ -2046,6 +2212,31 @@ td.slot{height:79px;padding:4px}
         <div class="monthly-grid-wrap">
           <div id="laboratoryNightCalendarGrid"
                class="monthly-grid laboratory-combined-calendar-grid"></div>
+        </div>
+      </section>
+
+      <section id="classExamBlock" class="teacher-night-block class-exam-block hidden">
+        <div class="class-exam-head">
+          <div>
+            <h3>Exames — 3º Bimestre</h3>
+            <p>Período de 01 a 14 de outubro de 2026</p>
+          </div>
+        </div>
+
+        <div class="class-exam-weeks">
+          <section class="class-exam-week">
+            <h4>1ª semana — 01 a 07 de outubro</h4>
+            <div id="classExamWeek1" class="class-exam-grid"></div>
+          </section>
+          <section class="class-exam-week">
+            <h4>2ª semana — 08 a 14 de outubro</h4>
+            <div id="classExamWeek2" class="class-exam-grid"></div>
+          </section>
+        </div>
+
+        <div id="classExamNotes" class="class-exam-notes hidden">
+          <h4>Observações</h4>
+          <ul id="classExamNotesList"></ul>
         </div>
       </section>
 
@@ -2479,6 +2670,11 @@ const classSaturdayContent = document.getElementById("classSaturdayContent");
 const classSaturdayMonthPicker = document.getElementById("classSaturdayMonthPicker");
 const classSaturdayPrevBtn = document.getElementById("classSaturdayPrevBtn");
 const classSaturdayNextBtn = document.getElementById("classSaturdayNextBtn");
+const classExamBlock = document.getElementById("classExamBlock");
+const classExamWeek1 = document.getElementById("classExamWeek1");
+const classExamWeek2 = document.getElementById("classExamWeek2");
+const classExamNotes = document.getElementById("classExamNotes");
+const classExamNotesList = document.getElementById("classExamNotesList");
 const monthlyCalendarGrid = document.getElementById("monthlyCalendarGrid");
 const panelPpcLinks = document.getElementById("panelPpcLinks");
 const monthPicker = document.getElementById("monthPicker");
@@ -2678,6 +2874,8 @@ function currentSystemMonth() {
     String(today.getMonth() + 1).padStart(2, "0")
   ].join("-");
 }
+
+const examCalendars = {"adm-1a-2026":{"events":[{"date":"2026-10-01","subject":"Recuperação — Biologia I","teacher":"Laísa Castro"},{"date":"2026-10-01","subject":"Geografia I","teacher":"Luiz Viegas"},{"date":"2026-10-02","subject":"Química I","teacher":"Waldemar Malcher"},{"date":"2026-10-07","subject":"Língua Portuguesa I","teacher":"Lívia Oliveira"},{"date":"2026-10-08","subject":"História I","teacher":"Pablo de Oliveira Andrade"},{"date":"2026-10-13","subject":"Administração","teacher":"Hugo Callado"}],"notes":[],"room":"Sala 01","name":"EMI Administração — 1º Ano A — Turma 2026","short":"1º Ano A","course":"EMI Administração"},"adm-2a-2025":{"events":[{"date":"2026-10-02","subject":"Recuperação — Biologia II","teacher":"Laísa Castro"},{"date":"2026-10-06","subject":"Inglês","teacher":"Valéria Almeida"},{"date":"2026-10-07","subject":"Geografia II","teacher":"Luiz Viegas"},{"date":"2026-10-07","subject":"Física II","teacher":"Luiz Carlos Leite"},{"date":"2026-10-13","subject":"Administração da Produção e Operações","teacher":"Hugo Callado"}],"notes":[{"subject":"História II","teacher":"Juliana Quintela","text":"A avaliação será realizada por meio de trabalho em grupo, com apresentação dos estudantes, valorizando a participação, a organização e o domínio do conteúdo."},{"subject":"Língua Portuguesa II","teacher":"Igara Dantas","text":"Avaliação continuada, composta por duas listas de exercícios e uma redação em formato de simulado, desenvolvidas ao longo do mês de setembro."}],"room":"Sala 05","name":"EMI Administração — 2º Ano A — Turma 2025","short":"2º Ano A","course":"EMI Administração"},"edif-1a-2026":{"events":[{"date":"2026-10-01","subject":"Geografia I","teacher":"Luiz Viegas"},{"date":"2026-10-01","subject":"Recuperação — Biologia I","teacher":"Laísa Castro"},{"date":"2026-10-06","subject":"História I","teacher":"Pablo de Oliveira Andrade"},{"date":"2026-10-07","subject":"Língua Portuguesa I","teacher":"Lívia Oliveira"}],"notes":[{"subject":"Projeto Arquitetônico","teacher":"Francisco Willame","text":"Avaliação processual por meio do desenvolvimento de três trabalhos e do acompanhamento das atividades realizadas em aula, com vistos considerados como pontuação complementar."}],"room":"Sala 04","name":"EMI Edificações — 1º Ano A — Turma 2026","short":"1º Ano A","course":"EMI Edificações"},"edif-3a-2024":{"events":[{"date":"2026-10-02","subject":"Artes III","teacher":"Leandro Machado"},{"date":"2026-10-05","subject":"Química III","teacher":"Waldemar Malcher"},{"date":"2026-10-05","subject":"Inglês III","teacher":"Valéria Almeida"},{"date":"2026-10-08","subject":"Geografia III","teacher":"Genilson Santana"}],"notes":[{"subject":"Língua Portuguesa III","teacher":"Igara Dantas","text":"Avaliação continuada, composta por duas listas de exercícios e uma redação em formato de simulado, desenvolvidas ao longo do mês de setembro."},{"subject":"Projeto Integrador","teacher":"Francisco Willame","text":"Avaliação realizada de forma processual, considerando a elaboração dos temas e o acompanhamento do desenvolvimento dos projetos integradores."},{"subject":"Instalações Elétricas e Prediais","teacher":"Francisco Willame","text":"Conforme o registro da planilha para Projeto Elétrico, a avaliação ocorre por meio de duas atividades, além do acompanhamento das atividades em aula, com vistos considerados como pontuação complementar."},{"subject":"Biologia III","teacher":"Anangela Ravena Leal","text":"A avaliação do bimestre já foi realizada anteriormente."}],"room":"Sala 08","name":"EMI Edificações — 3º Ano A — Turma 2024","short":"3º Ano A","course":"EMI Edificações"},"agro-1a-2026":{"events":[{"date":"2026-10-01","subject":"Geografia I","teacher":"Luiz Viegas"},{"date":"2026-10-01","subject":"Recuperação — Biologia I","teacher":"Laísa Castro"},{"date":"2026-10-02","subject":"Química I","teacher":"Waldemar Malcher"},{"date":"2026-10-02","subject":"Física I","teacher":"Luiz Carlos Leite"},{"date":"2026-10-07","subject":"Língua Portuguesa I","teacher":"Lívia Oliveira"},{"date":"2026-10-08","subject":"História I","teacher":"Pablo de Oliveira Andrade"},{"date":"2026-10-09","subject":"Matemática I","teacher":"Nelson Ribeiro Filho"}],"notes":[],"room":"Sala 02","name":"EMI Agropecuária — 1º Ano A — Turma 2026","short":"1º Ano A","course":"EMI Agropecuária"},"agro-1b-2026":{"events":[{"date":"2026-10-01","subject":"Geografia I","teacher":"Luiz Viegas"},{"date":"2026-10-01","subject":"Recuperação — Biologia I","teacher":"Laísa Castro"},{"date":"2026-10-02","subject":"Química I","teacher":"Waldemar Malcher"},{"date":"2026-10-02","subject":"Física I","teacher":"Luiz Carlos Leite"},{"date":"2026-10-05","subject":"Matemática I","teacher":"Nelson Ribeiro Filho"},{"date":"2026-10-08","subject":"História I","teacher":"Pablo de Oliveira Andrade"}],"notes":[],"room":"Sala 01","name":"EMI Agropecuária — 1º Ano B — Turma 2026","short":"1º Ano B","course":"EMI Agropecuária"},"agro-2a-2025":{"events":[{"date":"2026-10-02","subject":"Língua Portuguesa II","teacher":"Igara Dantas"},{"date":"2026-10-06","subject":"Física II","teacher":"Luiz Carlos Leite"},{"date":"2026-10-07","subject":"Geografia II","teacher":"Genilson Santana"},{"date":"2026-10-08","subject":"Inglês","teacher":"Valéria Almeida"},{"date":"2026-10-09","subject":"Matemática II","teacher":"Nelson Ribeiro Filho"}],"notes":[{"subject":"História II","teacher":"Juliana Quintela","text":"A avaliação será realizada por meio de trabalho em grupo, com apresentação dos estudantes, valorizando a participação, a organização e o domínio do conteúdo."},{"subject":"Biologia II","teacher":"Anangela Ravena Leal","text":"A avaliação do bimestre já foi realizada anteriormente."}],"room":"Sala 06","name":"EMI Agropecuária — 2º Ano A — Turma 2025","short":"2º Ano A","course":"EMI Agropecuária"},"agro-2b-2025":{"events":[{"date":"2026-10-08","subject":"Geografia II","teacher":"Genilson Santana"},{"date":"2026-10-13","subject":"Matemática II","teacher":"Nelson Ribeiro Filho"},{"date":"2026-10-14","subject":"Inglês","teacher":"Valéria Almeida"}],"notes":[{"subject":"História II","teacher":"Juliana Quintela","text":"A avaliação será realizada por meio de trabalho em grupo, com apresentação dos estudantes, valorizando a participação, a organização e o domínio do conteúdo."},{"subject":"Física II","teacher":"Luiz Carlos Leite","text":"A avaliação será composta por atividades e seminário, adotando acompanhamento processual em substituição à aplicação de prova bimestral."},{"subject":"Biologia II","teacher":"Anangela Ravena Leal","text":"A avaliação do bimestre já foi realizada anteriormente."}],"room":"Sala 03","name":"EMI Agropecuária — 2º Ano B — Turma 2025","short":"2º Ano B","course":"EMI Agropecuária"},"agro-3-2024":{"events":[{"date":"2026-10-02","subject":"Artes III","teacher":"Leandro Machado"},{"date":"2026-10-05","subject":"Química III","teacher":"Waldemar Malcher"},{"date":"2026-10-08","subject":"Geografia III","teacher":"Genilson Santana"},{"date":"2026-10-14","subject":"Matemática III","teacher":"Nelson Ribeiro Filho"},{"date":"2026-10-14","subject":"Inglês III","teacher":"Valéria Almeida"}],"notes":[{"subject":"Biologia III","teacher":"Anangela Ravena Leal","text":"A avaliação do bimestre já foi realizada anteriormente."}],"room":"Sala 05","name":"EMI Agropecuária — 3º Ano A — Turma 2024","short":"3º Ano A","course":"EMI Agropecuária"},"info-1a-2026":{"events":[{"date":"2026-10-01","subject":"Recuperação — Biologia I","teacher":"Laísa Castro"},{"date":"2026-10-02","subject":"Arquitetura e Manutenção de Computadores","teacher":"João Victor Pinheiro"},{"date":"2026-10-07","subject":"Redes de Computadores","teacher":"João Victor Pinheiro"},{"date":"2026-10-07","subject":"Geografia I","teacher":"Luiz Viegas"},{"date":"2026-10-08","subject":"História I","teacher":"Pablo de Oliveira Andrade"},{"date":"2026-10-09","subject":"Língua Portuguesa I","teacher":"Lívia Oliveira"}],"notes":[],"room":"Sala 03","name":"EMI Informática — 1º Ano A — Turma 2026","short":"1º Ano A","course":"EMI Informática"},"info-1b-2026":{"events":[{"date":"2026-10-01","subject":"Geografia I","teacher":"Luiz Viegas"},{"date":"2026-10-01","subject":"Recuperação — Biologia I","teacher":"Laísa Castro"},{"date":"2026-10-07","subject":"História I","teacher":"Pablo de Oliveira Andrade"},{"date":"2026-10-09","subject":"Língua Portuguesa I","teacher":"Lívia Oliveira"},{"date":"2026-10-14","subject":"Arquitetura e Manutenção de Computadores","teacher":"João Victor Pinheiro"}],"notes":[{"subject":"Redes de Computadores","teacher":"João Victor Pinheiro","text":"A avaliação do 3º bimestre foi programada para 25/09, portanto não haverá prova deste componente durante o período de exames."}],"room":"Sala 02","name":"EMI Informática — 1º Ano B — Turma 2026","short":"1º Ano B","course":"EMI Informática"},"info-2a-2025":{"events":[{"date":"2026-10-01","subject":"Artes I","teacher":"Leandro Machado"},{"date":"2026-10-02","subject":"Programação Orientada a Objetos","teacher":"Luan Farias"},{"date":"2026-10-02","subject":"Física II","teacher":"Luiz Carlos Leite"},{"date":"2026-10-06","subject":"Programação Web I","teacher":"João Ewerton Duarte"},{"date":"2026-10-08","subject":"Geografia II","teacher":"Genilson Santana"},{"date":"2026-10-08","subject":"Inglês II","teacher":"Valéria Almeida"}],"notes":[{"subject":"História II","teacher":"Juliana Quintela","text":"A avaliação será realizada por meio de trabalho em grupo, com apresentação dos estudantes, valorizando a participação, a organização e o domínio do conteúdo."},{"subject":"Matemática II","teacher":"Márcio André Lima","text":"A prova será realizada em 20/10, fora do período regular de exames, em razão do período de férias do docente."},{"subject":"Biologia II","teacher":"Anangela Ravena Leal","text":"A avaliação do bimestre já foi realizada anteriormente."}],"room":"Sala 07","name":"EMI Informática — 2º Ano A — Turma 2025","short":"2º Ano A","course":"EMI Informática"},"info-2b-2025":{"events":[{"date":"2026-10-01","subject":"Artes I","teacher":"Leandro Machado"},{"date":"2026-10-02","subject":"Programação Orientada a Objetos","teacher":"Luan Farias"},{"date":"2026-10-02","subject":"Física II","teacher":"Luiz Carlos Leite"},{"date":"2026-10-08","subject":"Geografia II","teacher":"Genilson Santana"},{"date":"2026-10-13","subject":"Programação Web I","teacher":"João Ewerton Duarte"},{"date":"2026-10-13","subject":"Inglês II","teacher":"Valéria Almeida"}],"notes":[{"subject":"História II","teacher":"Juliana Quintela","text":"A avaliação será realizada por meio de trabalho em grupo, com apresentação dos estudantes, valorizando a participação, a organização e o domínio do conteúdo."},{"subject":"Matemática II","teacher":"Márcio André Lima","text":"A prova será realizada em 20/10, fora do período regular de exames, em razão do período de férias do docente."},{"subject":"Biologia II","teacher":"Anangela Ravena Leal","text":"A avaliação do bimestre já foi realizada anteriormente."}],"room":"Sala 04","name":"EMI Informática — 2º Ano B — Turma 2025","short":"2º Ano B","course":"EMI Informática"},"info-3-2024":{"events":[{"date":"2026-10-02","subject":"Desenvolvimento Web","teacher":"Luan Farias"},{"date":"2026-10-05","subject":"Programação para Dispositivos Móveis","teacher":"Luan Farias"},{"date":"2026-10-06","subject":"Química II / Química III","teacher":"Waldemar Malcher"},{"date":"2026-10-07","subject":"Geografia III","teacher":"Genilson Santana"},{"date":"2026-10-08","subject":"Inglês III","teacher":"Valéria Almeida"},{"date":"2026-10-09","subject":"Segurança e Administração da Informação","teacher":"João Victor Pinheiro"}],"notes":[{"subject":"Biologia III","teacher":"Anangela Ravena Leal","text":"A avaliação do bimestre já foi realizada anteriormente."}],"room":"Sala 09","name":"EMI Informática — 3º Ano A — Turma 2024","short":"3º Ano A","course":"EMI Informática"}};
 
 let currentView = "class";
 let selectedClass = Object.keys(classes)[0];
@@ -3053,7 +3251,6 @@ function prepareCalendarClone() {
   removeHiddenCaptureElements(clone);
 
   const panelTitle = document.getElementById("panelTitle")?.textContent?.trim();
-  const shiftText = document.getElementById("topShiftBadge")?.textContent?.trim();
 
   const captureHeader = document.createElement("div");
   captureHeader.style.cssText = [
@@ -4536,9 +4733,6 @@ function renderMonthlyCalendar() {
     empty.className = "month-day outside-month";
     monthlyCalendarGrid.appendChild(empty);
   }
-
-  document.getElementById("topShiftBadge").textContent =
-    `${data.main_shift || "Noturno"} · ${monthLabel(year, monthIndex)}`;
 }
 
 function moveNightMonth(offset) {
@@ -5039,6 +5233,84 @@ function getSaturdayGridInfo(periodsList) {
 }
 
 
+
+function classExamDateLabel(isoDate) {
+  const date = new Date(`${isoDate}T12:00:00`);
+  return {
+    number: String(date.getDate()).padStart(2,"0"),
+    weekday: new Intl.DateTimeFormat("pt-BR", {
+      weekday:"short"
+    }).format(date).replace(".","")
+  };
+}
+
+function renderClassExamWeek(container, data, dates) {
+  container.innerHTML = dates.map(isoDate => {
+    const info = classExamDateLabel(isoDate);
+    const events = (data.events || []).filter(event => event.date === isoDate);
+    const isHoliday = isoDate === "2026-10-12";
+
+    const eventsHtml = events.map(event => `
+      <div class="class-exam-event">
+        <div class="class-exam-subject">${escapeSaturdayHtml(event.subject)}</div>
+        <div class="class-exam-teacher">${escapeSaturdayHtml(event.teacher)}</div>
+        <div class="class-exam-room">${escapeSaturdayHtml(data.room)}</div>
+      </div>
+    `).join("");
+
+    return `
+      <article class="class-exam-day${events.length ? " has-exam" : ""}${isHoliday ? " holiday" : ""}">
+        <div class="class-exam-day-head">
+          <span class="class-exam-day-number">${info.number}</span>
+          <span class="class-exam-day-name">${escapeSaturdayHtml(info.weekday)}</span>
+        </div>
+        ${isHoliday
+          ? '<div class="class-exam-holiday-label">Feriado — Nossa Senhora Aparecida</div>'
+          : eventsHtml || '<div class="class-exam-empty">Sem exame</div>'}
+      </article>
+    `;
+  }).join("");
+}
+
+function renderClassExamCalendar() {
+  const data = examCalendars[selectedClass];
+
+  if (!data) {
+    classExamBlock.classList.add("hidden");
+    classExamWeek1.innerHTML = "";
+    classExamWeek2.innerHTML = "";
+    classExamNotes.classList.add("hidden");
+    classExamNotesList.innerHTML = "";
+    return;
+  }
+
+  const week1 = [
+    "2026-10-01","2026-10-02","2026-10-03",
+    "2026-10-05","2026-10-06","2026-10-07"
+  ];
+  const week2 = [
+    "2026-10-08","2026-10-09","2026-10-10",
+    "2026-10-12","2026-10-13","2026-10-14"
+  ];
+
+  renderClassExamWeek(classExamWeek1, data, week1);
+  renderClassExamWeek(classExamWeek2, data, week2);
+
+  const notes = data.notes || [];
+  if (!notes.length) {
+    classExamNotes.classList.add("hidden");
+    classExamNotesList.innerHTML = "";
+  } else {
+    classExamNotes.classList.remove("hidden");
+    classExamNotesList.innerHTML = notes.map(note => `
+      <li>
+        <strong>${escapeSaturdayHtml(note.subject)}</strong>
+        — ${escapeSaturdayHtml(note.teacher)}: ${escapeSaturdayHtml(note.text)}
+      </li>
+    `).join("");
+  }
+}
+
 function renderClassSaturdayCalendar() {
   const data = saturdayCalendars[selectedClass];
 
@@ -5411,6 +5683,7 @@ function renderAll() {
   laboratoryNightBlock.classList.add("hidden");
   teacherEadBlock.classList.add("hidden");
   classSaturdayBlock.classList.add("hidden");
+  classExamBlock.classList.add("hidden");
   renderPpcLinks(null);
 
   if (isMonthlyView) {
@@ -5438,8 +5711,6 @@ function renderAll() {
     const data = intraSchoolData[selectedIntraSchoolCourse];
     document.getElementById("panelTitle").textContent =
       "Atendimento Docente - Sala 12";
-    document.getElementById("topShiftBadge").textContent =
-      "Manhã e Tarde";
     document.getElementById("eadBlock").classList.add("hidden");
     renderPpcLinks(null);
     renderIntraSchool();
@@ -5457,13 +5728,14 @@ function renderAll() {
 
     document.getElementById("panelTitle").textContent = data.name;
     renderPpcLinks(data.course);
-    document.getElementById("topShiftBadge").textContent =
-      hasCounterturn
-        ? `Turno Principal: ${data.main_shift} · Com contraturno`
-        : `Turno Principal: ${data.main_shift}`;
 
     renderEadSubjects(selectedClass);
     renderTable(data.schedule, data.main_shift, visiblePeriods);
+
+    if (examCalendars[selectedClass]) {
+      classExamBlock.classList.remove("hidden");
+      renderClassExamCalendar();
+    }
 
     if (saturdayCalendars[selectedClass]) {
       classSaturdayBlock.classList.remove("hidden");
@@ -5488,15 +5760,6 @@ function renderAll() {
     const hasSaturdayAssignments = saturdayAssignments.length > 0;
 
     document.getElementById("panelTitle").textContent = selectedTeacher;
-
-    const badgeParts = [];
-    if (activeShifts.length) badgeParts.push(`Turnos: ${activeShifts.join(", ")}`);
-    if (eadAssignments.length) badgeParts.push("EAD");
-    if (intraAssignments.length) badgeParts.push("IntraEscolar · Sala 12");
-    if (hasSaturdayAssignments) badgeParts.push("Sábados letivos");
-
-    document.getElementById("topShiftBadge").textContent =
-      badgeParts.length ? badgeParts.join(" · ") : "Sem aulas cadastradas";
 
     if (lessons.length) {
       weeklyCalendarView.classList.remove("hidden");
@@ -5527,8 +5790,6 @@ function renderAll() {
 
     document.getElementById("panelTitle").textContent =
       `Agenda de Salas — ${selectedRoom}`;
-    document.getElementById("topShiftBadge").textContent =
-      selectedRoom;
 
     renderTable(lessons, null, laboratoryPeriods);
     return;
@@ -5536,8 +5797,6 @@ function renderAll() {
 
   document.getElementById("panelTitle").textContent =
     `Agenda de Laboratórios — ${selectedLaboratory}`;
-  document.getElementById("topShiftBadge").textContent =
-    selectedLaboratory;
 
   laboratoryNightBlock.classList.remove("hidden");
   renderLaboratoryMonthlyCalendar();
