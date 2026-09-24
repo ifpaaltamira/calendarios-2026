@@ -1645,6 +1645,95 @@ td.slot{height:79px;padding:4px}
 .intra-entry.teacher-only.intra-color-4{background:#b5dac0 !important;}
 .intra-entry.teacher-only.intra-color-5{background:#a8d3b5 !important;}
 .intra-entry.teacher-only.intra-color-6{background:#9bccaa !important;}
+
+/* Sábados letivos integrados ao Calendário de Turmas */
+#saturdayViewBtn{
+  display:none !important;
+}
+.class-monthly-calendar-view{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid #dfe7e1;
+}
+.class-monthly-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:12px;
+}
+.class-monthly-title-wrap h3{
+  margin:0;
+  color:var(--ifpa-green-dark);
+  font-size:18px;
+}
+.class-monthly-title-wrap p{
+  margin:4px 0 0;
+  color:#66736b;
+  font-size:12px;
+}
+.class-monthly-calendar-grid .month-day{
+  min-height:170px;
+}
+.class-monthly-calendar-grid .month-event{
+  border:1px solid rgba(35,57,44,.12);
+  color:#26362d;
+}
+.class-monthly-calendar-grid .month-event-title{
+  font-size:10px;
+  line-height:1.2;
+}
+.class-monthly-calendar-grid .month-event-time{
+  font-size:8.5px;
+}
+.class-monthly-calendar-grid .month-event-meta{
+  font-size:8.5px;
+  line-height:1.2;
+}
+.class-monthly-calendar-grid .class-saturday-event{
+  border-left:4px solid #19733b;
+  box-shadow:0 1px 2px rgba(15,79,41,.06);
+}
+.class-monthly-calendar-grid .class-special-event{
+  background:#c90000 !important;
+  border-color:#a70000;
+  color:#fff;
+}
+.class-monthly-calendar-grid .class-saturday-day{
+  background:#f2f8f3;
+  box-shadow:inset 0 0 0 2px rgba(25,115,59,.12);
+}
+.class-saturday-label{
+  display:inline-flex;
+  align-items:center;
+  margin-left:auto;
+  padding:2px 5px;
+  border-radius:999px;
+  background:#19733b;
+  color:#fff;
+  font-size:7px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.025em;
+}
+@media(max-width:900px){
+  .class-monthly-head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .class-monthly-calendar-grid .month-day{
+    min-height:145px;
+  }
+}
+@media print{
+  .class-monthly-calendar-view{
+    page-break-before:always;
+  }
+  .class-monthly-head .monthly-toolbar{
+    display:none !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1745,6 +1834,28 @@ td.slot{height:79px;padding:4px}
             </thead>
             <tbody id="scheduleBody"></tbody>
           </table>
+        </div>
+
+        <div id="classMonthlyCalendarView" class="class-monthly-calendar-view hidden">
+          <div class="class-monthly-head">
+            <div class="class-monthly-title-wrap">
+              <h3>Calendário Mensal da Turma</h3>
+              <p id="classMonthlySubtitle">Aulas regulares e sábados letivos</p>
+            </div>
+            <div class="monthly-toolbar">
+              <button id="classMonthPrevBtn" type="button" aria-label="Mês anterior da turma">‹</button>
+              <label class="month-picker-label">
+                <span>Mês de referência</span>
+                <input id="classMonthPicker" type="month" value="2026-09">
+              </label>
+              <button id="classMonthNextBtn" type="button" aria-label="Próximo mês da turma">›</button>
+            </div>
+          </div>
+
+          <div class="monthly-grid-wrap">
+            <div id="classMonthlyCalendarGrid"
+                 class="monthly-grid class-monthly-calendar-grid"></div>
+          </div>
         </div>
 
         <div id="monthlyCalendarView" class="monthly-calendar-view hidden">
@@ -2260,6 +2371,12 @@ const resourceSliderTrack = document.getElementById("resourceSliderTrack");
 const resourcePrevBtn = document.getElementById("resourcePrevBtn");
 const resourceNextBtn = document.getElementById("resourceNextBtn");
 const weeklyCalendarView = document.getElementById("weeklyCalendarView");
+const classMonthlyCalendarView = document.getElementById("classMonthlyCalendarView");
+const classMonthlyCalendarGrid = document.getElementById("classMonthlyCalendarGrid");
+const classMonthlySubtitle = document.getElementById("classMonthlySubtitle");
+const classMonthPicker = document.getElementById("classMonthPicker");
+const classMonthPrevBtn = document.getElementById("classMonthPrevBtn");
+const classMonthNextBtn = document.getElementById("classMonthNextBtn");
 const monthlyCalendarView = document.getElementById("monthlyCalendarView");
 const saturdayCalendarView = document.getElementById("saturdayCalendarView");
 const intraSchoolView = document.getElementById("intraSchoolView");
@@ -2476,6 +2593,7 @@ let selectedNightClass = Object.keys(nightClasses)[0];
 let selectedNightMonth = currentSystemMonth();
 let selectedTeacherNightMonth = currentSystemMonth();
 let selectedLaboratoryNightMonth = currentSystemMonth();
+let selectedClassMonth = currentSystemMonth();
 let selectedSaturdayClass = "adm-1a-2026";
 let selectedSaturdaySemester = "all";
 let selectedIntraSchoolCourse = "geral";
@@ -3591,6 +3709,274 @@ function monthLabel(year, monthIndex) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
+
+function classCalendarIsoDate(date) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function classCalendarSpecialEvent(isoDate) {
+  const priority = ["Feriado", "Ponto Facultativo"];
+  const specials = Object.values(nightClasses)
+    .flatMap(data => data.events || [])
+    .filter(event =>
+      event.date === isoDate &&
+      event.special &&
+      priority.includes(event.subject)
+    );
+
+  if (!specials.length) return null;
+  return specials.sort(
+    (a,b) => priority.indexOf(a.subject) - priority.indexOf(b.subject)
+  )[0];
+}
+
+function groupClassMonthlyLessons(lessons) {
+  const ordered = [...lessons].sort(
+    (a,b) => periodIndex(a.period) - periodIndex(b.period)
+  );
+
+  const groups = [];
+  let current = null;
+
+  ordered.forEach(lesson => {
+    const idx = periodIndex(lesson.period);
+    const same =
+      current &&
+      current.subject === lesson.subject &&
+      current.teacher === lesson.teacher &&
+      current.room === lesson.room &&
+      idx === current.lastIndex + 1;
+
+    if (same) {
+      current.periods.push(lesson.period);
+      current.lastIndex = idx;
+      return;
+    }
+
+    current = {
+      subject: lesson.subject,
+      teacher: lesson.teacher,
+      room: lesson.room,
+      periods: [lesson.period],
+      lastIndex: idx,
+      isSaturday: false,
+      special: false
+    };
+    groups.push(current);
+  });
+
+  return groups;
+}
+
+function getClassMonthlyEventsForDate(classKey, date) {
+  const isoDate = classCalendarIsoDate(date);
+  const weekday = date.getDay();
+
+  const saturdayData = saturdayCalendars[classKey];
+  const saturdayEvent = saturdayData?.events?.find(
+    event => event.date === isoDate
+  );
+
+  if (saturdayEvent) {
+    return saturdayEvent.lessons.map(lesson => {
+      const teacherInfo = lesson.hideTeacher
+        ? {teacher:""}
+        : lesson.teacher
+          ? {teacher:lesson.teacher}
+          : resolveSaturdayTeacher(classKey, lesson.subject);
+
+      const classData = classes[classKey];
+      const firstPeriod = lesson.periods?.[0];
+      const firstPeriodData = laboratoryPeriods.find(
+        period => period.code === firstPeriod
+      );
+      const room = lesson.room ||
+        (firstPeriodData?.shift === classData?.main_shift
+          ? classData?.regular_room
+          : (classData?.counterturn_room || classData?.regular_room || ""));
+
+      return {
+        subject: lesson.subject,
+        teacher: teacherInfo.teacher || "",
+        room,
+        periods: lesson.periods || [],
+        isSaturday: true,
+        special: false
+      };
+    });
+  }
+
+  const special = classCalendarSpecialEvent(isoDate);
+  if (special) {
+    return [{
+      subject: special.subject,
+      teacher: "",
+      room: "",
+      periods: [],
+      isSaturday: false,
+      special: true
+    }];
+  }
+
+  if (
+    weekday === 0 ||
+    weekday === 6 ||
+    isoDate < "2026-08-05" ||
+    isoDate > "2026-12-31"
+  ) {
+    return [];
+  }
+
+  const dayName = Object.entries(jsDayByName)
+    .find(([,number]) => number === weekday)?.[0];
+
+  if (!dayName) return [];
+
+  return groupClassMonthlyLessons(
+    allLessons.filter(
+      lesson =>
+        lesson.classKey === classKey &&
+        lesson.day === dayName
+    )
+  );
+}
+
+function renderClassMonthlyCalendar() {
+  const data = classes[selectedClass];
+  if (!data) {
+    classMonthlyCalendarView.classList.add("hidden");
+    return;
+  }
+
+  const [year, month] = selectedClassMonth.split("-").map(Number);
+  const monthIndex = month - 1;
+  const displayDays = visibleMonthDays(year, monthIndex);
+  const mondayOffset = sixDayMonthOffset(year, monthIndex, displayDays);
+  const today = new Date();
+
+  classMonthPicker.value = selectedClassMonth;
+  classMonthlySubtitle.textContent =
+    `${data.name} · ${monthLabel(year, monthIndex)} · aulas regulares e sábados letivos`;
+
+  classMonthlyCalendarGrid.innerHTML = "";
+
+  monthWeekdays.forEach(dayName => {
+    const header = document.createElement("div");
+    header.className = "month-weekday";
+    header.textContent = dayName;
+    classMonthlyCalendarGrid.appendChild(header);
+  });
+
+  for (let index = 0; index < mondayOffset; index++) {
+    const empty = document.createElement("div");
+    empty.className = "month-day outside-month";
+    classMonthlyCalendarGrid.appendChild(empty);
+  }
+
+  for (const day of displayDays) {
+    const date = new Date(year, monthIndex, day);
+    const dayEvents = getClassMonthlyEventsForDate(selectedClass, date);
+    const hasSaturdayLessons = dayEvents.some(event => event.isSaturday);
+
+    const cell = document.createElement("div");
+    const isWeekend = date.getDay() === 6;
+    const isToday =
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate();
+
+    cell.className = "month-day" +
+      (isWeekend ? " weekend" : "") +
+      (isToday ? " today" : "") +
+      (hasSaturdayLessons ? " class-saturday-day" : "");
+
+    const shortWeekday = new Intl.DateTimeFormat("pt-BR", {
+      weekday: "short"
+    }).format(date).replace(".", "");
+
+    cell.innerHTML = `
+      <div class="month-day-head">
+        <span class="month-day-number">${day}</span>
+        <span class="month-day-label">${shortWeekday}</span>
+        ${hasSaturdayLessons
+          ? '<span class="class-saturday-label">Sábado letivo</span>'
+          : ""}
+      </div>
+    `;
+
+    if (!dayEvents.length) {
+      const emptyText = document.createElement("div");
+      emptyText.className = "month-empty";
+      emptyText.textContent = isWeekend ? "Sem atividade" : "Livre";
+      cell.appendChild(emptyText);
+    } else {
+      dayEvents.forEach(event => {
+        const card = document.createElement("div");
+        card.className =
+          "month-event" +
+          (event.isSaturday ? " class-saturday-event" : "") +
+          (event.special ? " class-special-event" : "");
+
+        if (!event.special) {
+          card.style.background =
+            subjectColors[event.subject] || "#e5eff6";
+        }
+
+        const timeLine = event.periods?.length
+          ? `<div class="month-event-time">${eventPeriodLabel(event)}</div>`
+          : "";
+
+        const metaItems = [event.teacher, event.room].filter(Boolean);
+
+        card.innerHTML = `
+          <div class="month-event-title">${escapeSaturdayHtml(event.subject)}</div>
+          ${timeLine}
+          ${metaItems.length
+            ? `<div class="month-event-meta">${metaItems.map(escapeSaturdayHtml).join("<br>")}</div>`
+            : ""}
+        `;
+
+        cell.appendChild(card);
+      });
+    }
+
+    classMonthlyCalendarGrid.appendChild(cell);
+  }
+
+  const totalCells = mondayOffset + displayDays.length;
+  const trailing = (6 - (totalCells % 6)) % 6;
+
+  for (let index = 0; index < trailing; index++) {
+    const empty = document.createElement("div");
+    empty.className = "month-day outside-month";
+    classMonthlyCalendarGrid.appendChild(empty);
+  }
+}
+
+function moveClassMonth(offset) {
+  const [year, month] = selectedClassMonth.split("-").map(Number);
+  const date = new Date(year, month - 1 + offset, 1);
+  selectedClassMonth = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0")
+  ].join("-");
+  classMonthPicker.value = selectedClassMonth;
+  renderClassMonthlyCalendar();
+}
+
+classMonthPicker.addEventListener("change", () => {
+  if (!classMonthPicker.value) return;
+  selectedClassMonth = classMonthPicker.value;
+  renderClassMonthlyCalendar();
+});
+
+classMonthPrevBtn.onclick = () => moveClassMonth(-1);
+classMonthNextBtn.onclick = () => moveClassMonth(1);
+
 function renderNightLegend(data) {
   const isMulheresMil =
     data.course === "Mulheres Mil — Operador de Computador" ||
@@ -3808,7 +4194,7 @@ function renderTeacherNightCalendar() {
     } else {
       dayEvents.forEach(event => {
         const card = document.createElement("div");
-        card.className = `month-event ${event.tone || "blue"}`;
+        card.className = `month-event ${event.tone || "blue"}${event.integratedSaturday ? " class-saturday-event" : ""}`;
         const metaItems = [event.className, event.room].filter(Boolean);
 
         card.innerHTML = `
@@ -4300,8 +4686,29 @@ function renderMonthlyCalendar() {
       String(day).padStart(2, "0")
     ].join("-");
 
-    const dayEvents = data.events
-      .filter(event => event.date === isoDate)
+    const regularDayEvents = data.events
+      .filter(event => event.date === isoDate);
+
+    const integratedSaturdayLessons =
+      (saturdayCalendars[selectedNightClass]?.events || [])
+        .filter(event => event.date === isoDate)
+        .flatMap(event => event.lessons || [])
+        .map(lesson => ({
+          date: isoDate,
+          subject: lesson.subject,
+          teacher: lesson.hideTeacher ? "" :
+            (lesson.teacher || resolveSaturdayTeacher(selectedNightClass, lesson.subject).teacher),
+          periods: lesson.periods || [],
+          room: lesson.room || data.regular_room || "",
+          tone: "green",
+          integratedSaturday: true
+        }))
+        .filter(saturdayLesson => !regularDayEvents.some(event =>
+          event.subject === saturdayLesson.subject &&
+          JSON.stringify(event.periods || []) === JSON.stringify(saturdayLesson.periods || [])
+        ));
+
+    const dayEvents = [...regularDayEvents, ...integratedSaturdayLessons]
       .sort((a,b) => {
         const order = [...periods.map(item => item.code), ...Object.keys(nightPeriodDetails)];
         const aIndex = order.indexOf(a.periods[0]);
@@ -5238,6 +5645,7 @@ function renderAll() {
   saturdayCalendarView.classList.toggle("hidden", !isSaturdayView);
   intraSchoolView.classList.toggle("hidden", !isIntraSchoolView);
   teacherDayNotice.classList.add("hidden");
+  classMonthlyCalendarView.classList.add("hidden");
   document.getElementById("teacherIntraSchoolBlock").classList.add("hidden");
   teacherSaturdayBlock.classList.add("hidden");
   teacherNightBlock.classList.add("hidden");
@@ -5302,6 +5710,8 @@ function renderAll() {
 
     renderEadSubjects(selectedClass);
     renderTable(data.schedule, data.main_shift, visiblePeriods);
+    classMonthlyCalendarView.classList.remove("hidden");
+    renderClassMonthlyCalendar();
     return;
   }
 
@@ -5384,6 +5794,8 @@ function setActiveViewButton(activeId) {
 
 document.getElementById("classViewBtn").onclick = () => {
   currentView = "class";
+  selectedClassMonth = currentSystemMonth();
+  classMonthPicker.value = selectedClassMonth;
   setActiveViewButton("classViewBtn");
   renderAll();
 };
