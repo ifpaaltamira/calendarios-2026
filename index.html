@@ -2011,6 +2011,36 @@ td.slot{height:79px;padding:4px}
   }
 }
 
+
+/* Página separada — Exames do 3º Bimestre */
+.exam-page-view{
+  padding:14px;
+}
+.exam-page-head{
+  margin-bottom:14px;
+}
+.exam-page-head h3{
+  margin:0;
+  color:var(--ifpa-green-dark);
+  font-size:19px;
+}
+.exam-page-head p{
+  margin:4px 0 0;
+  color:#68756d;
+  font-size:11px;
+}
+.exam-page-weeks{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.exam-page-week h4{
+  margin:0 0 7px;
+  color:#425249;
+  font-size:12px;
+  font-weight:850;
+}
+
 </style>
 </head>
 <body>
@@ -2032,6 +2062,7 @@ td.slot{height:79px;padding:4px}
 
     <nav class="view-buttons" aria-label="Visualizações do painel">
       <button id="classViewBtn" class="active" type="button">Calendários de Turmas</button>
+      <button id="examViewBtn" type="button">Exames (3º Bimestre)</button>
       <button id="teacherViewBtn" type="button">Calendário Individual - Docente</button>
       <button id="roomViewBtn" type="button">Salas</button>
       <button id="labViewBtn" type="button">Laboratórios</button>
@@ -2093,6 +2124,32 @@ td.slot{height:79px;padding:4px}
           </div>
           <div id="teacherEadList" class="teacher-ead-list"></div>
         </section>
+
+        <div id="examPageView" class="exam-page-view hidden">
+          <div class="exam-page-head">
+            <div>
+              <h3>Exames — 3º Bimestre</h3>
+              <p>Calendário de 01 a 14 de outubro de 2026</p>
+            </div>
+          </div>
+
+          <div class="exam-page-weeks">
+            <section class="exam-page-week">
+              <h4>1ª semana — 01 a 07 de outubro</h4>
+              <div id="examPageWeek1" class="class-exam-grid"></div>
+            </section>
+
+            <section class="exam-page-week">
+              <h4>2ª semana — 08 a 14 de outubro</h4>
+              <div id="examPageWeek2" class="class-exam-grid"></div>
+            </section>
+          </div>
+
+          <section id="examPageNotes" class="class-exam-notes hidden">
+            <h4>Observações</h4>
+            <ul id="examPageNotesList"></ul>
+          </section>
+        </div>
 
         <div id="weeklyCalendarView" class="table-wrap">
           <table>
@@ -2214,32 +2271,6 @@ td.slot{height:79px;padding:4px}
                class="monthly-grid laboratory-combined-calendar-grid"></div>
         </div>
       </section>
-
-      <section id="classExamBlock" class="teacher-night-block class-exam-block hidden">
-        <div class="class-exam-head">
-          <div>
-            <h3>Exames — 3º Bimestre</h3>
-            <p>Período de 01 a 14 de outubro de 2026</p>
-          </div>
-        </div>
-
-        <div class="class-exam-weeks">
-          <section class="class-exam-week">
-            <h4>1ª semana — 01 a 07 de outubro</h4>
-            <div id="classExamWeek1" class="class-exam-grid"></div>
-          </section>
-          <section class="class-exam-week">
-            <h4>2ª semana — 08 a 14 de outubro</h4>
-            <div id="classExamWeek2" class="class-exam-grid"></div>
-          </section>
-        </div>
-
-        <div id="classExamNotes" class="class-exam-notes hidden">
-          <h4>Observações</h4>
-          <ul id="classExamNotesList"></ul>
-        </div>
-      </section>
-
       <section id="classSaturdayBlock" class="teacher-night-block class-saturday-block hidden">
         <div class="saturday-compact-head">
           <div>
@@ -2661,6 +2692,11 @@ const resourceSliderTrack = document.getElementById("resourceSliderTrack");
 const resourcePrevBtn = document.getElementById("resourcePrevBtn");
 const resourceNextBtn = document.getElementById("resourceNextBtn");
 const weeklyCalendarView = document.getElementById("weeklyCalendarView");
+const examPageView = document.getElementById("examPageView");
+const examPageWeek1 = document.getElementById("examPageWeek1");
+const examPageWeek2 = document.getElementById("examPageWeek2");
+const examPageNotes = document.getElementById("examPageNotes");
+const examPageNotesList = document.getElementById("examPageNotesList");
 const monthlyCalendarView = document.getElementById("monthlyCalendarView");
 const intraSchoolView = document.getElementById("intraSchoolView");
 const intraSchoolContent = document.getElementById("intraSchoolContent");
@@ -2670,11 +2706,6 @@ const classSaturdayContent = document.getElementById("classSaturdayContent");
 const classSaturdayMonthPicker = document.getElementById("classSaturdayMonthPicker");
 const classSaturdayPrevBtn = document.getElementById("classSaturdayPrevBtn");
 const classSaturdayNextBtn = document.getElementById("classSaturdayNextBtn");
-const classExamBlock = document.getElementById("classExamBlock");
-const classExamWeek1 = document.getElementById("classExamWeek1");
-const classExamWeek2 = document.getElementById("classExamWeek2");
-const classExamNotes = document.getElementById("classExamNotes");
-const classExamNotesList = document.getElementById("classExamNotesList");
 const monthlyCalendarGrid = document.getElementById("monthlyCalendarGrid");
 const panelPpcLinks = document.getElementById("panelPpcLinks");
 const monthPicker = document.getElementById("monthPicker");
@@ -2879,6 +2910,7 @@ const examCalendars = {"adm-1a-2026":{"events":[{"date":"2026-10-01","subject":"
 
 let currentView = "class";
 let selectedClass = Object.keys(classes)[0];
+let selectedExamClass = "info-1a-2026";
 let selectedTeacher = teacherNames[0];
 let selectedRoom = allRooms[0] || "Sala 01";
 let selectedLaboratory = allLaboratories[0];
@@ -3849,6 +3881,46 @@ function renderSidebar() {
           closeSidebar();
         };
         section.appendChild(b);
+      });
+
+      sidebarList.appendChild(section);
+    });
+  } else if (currentView === "exam") {
+    sidebarTitle.textContent = "Exames — 3º Bimestre";
+    sidebarSubtitle.textContent = "Selecione uma turma";
+
+    const examCourseGroups = [
+      {name:"Informática", match:"Informática", className:"course-info"},
+      {name:"Edificações", match:"Edificações", className:"course-edif"},
+      {name:"Agropecuária", match:"Agropecuária", className:"course-agro"},
+      {name:"Administração", match:"Administração", className:"course-adm"}
+    ];
+
+    examCourseGroups.forEach(group => {
+      const entries = Object.entries(examCalendars)
+        .filter(([,data]) => data.course.includes(group.match));
+
+      if (!entries.length) return;
+
+      const section = document.createElement("div");
+      section.className = `course-group ${group.className}`;
+
+      const title = document.createElement("div");
+      title.className = "course-group-title";
+      title.textContent = group.name;
+      section.appendChild(title);
+
+      entries.forEach(([key,data]) => {
+        const button = document.createElement("button");
+        button.className = `sidebar-item ${group.className}` +
+          (key === selectedExamClass ? " active" : "");
+        button.innerHTML = `${data.short}<small>${data.name}</small>`;
+        button.onclick = () => {
+          selectedExamClass = key;
+          renderAll();
+          closeSidebar();
+        };
+        section.appendChild(button);
       });
 
       sidebarList.appendChild(section);
@@ -5272,17 +5344,9 @@ function renderClassExamWeek(container, data, dates) {
   }).join("");
 }
 
-function renderClassExamCalendar() {
-  const data = examCalendars[selectedClass];
-
-  if (!data) {
-    classExamBlock.classList.add("hidden");
-    classExamWeek1.innerHTML = "";
-    classExamWeek2.innerHTML = "";
-    classExamNotes.classList.add("hidden");
-    classExamNotesList.innerHTML = "";
-    return;
-  }
+function renderExamPageCalendar() {
+  const data = examCalendars[selectedExamClass];
+  if (!data) return;
 
   const week1 = [
     "2026-10-01","2026-10-02","2026-10-03",
@@ -5293,16 +5357,16 @@ function renderClassExamCalendar() {
     "2026-10-12","2026-10-13","2026-10-14"
   ];
 
-  renderClassExamWeek(classExamWeek1, data, week1);
-  renderClassExamWeek(classExamWeek2, data, week2);
+  renderClassExamWeek(examPageWeek1, data, week1);
+  renderClassExamWeek(examPageWeek2, data, week2);
 
   const notes = data.notes || [];
   if (!notes.length) {
-    classExamNotes.classList.add("hidden");
-    classExamNotesList.innerHTML = "";
+    examPageNotes.classList.add("hidden");
+    examPageNotesList.innerHTML = "";
   } else {
-    classExamNotes.classList.remove("hidden");
-    classExamNotesList.innerHTML = notes.map(note => `
+    examPageNotes.classList.remove("hidden");
+    examPageNotesList.innerHTML = notes.map(note => `
       <li>
         <strong>${escapeSaturdayHtml(note.subject)}</strong>
         — ${escapeSaturdayHtml(note.teacher)}: ${escapeSaturdayHtml(note.text)}
@@ -5310,6 +5374,7 @@ function renderClassExamCalendar() {
     `).join("");
   }
 }
+
 
 function renderClassSaturdayCalendar() {
   const data = saturdayCalendars[selectedClass];
@@ -5672,9 +5737,10 @@ function renderAll() {
 
   weeklyCalendarView.classList.toggle(
     "hidden",
-    isMonthlyView || isLaboratoryMonthlyView || isIntraSchoolView
+    isMonthlyView || isLaboratoryMonthlyView || isIntraSchoolView || currentView === "exam"
   );
   monthlyCalendarView.classList.toggle("hidden", !isMonthlyView);
+  examPageView.classList.add("hidden");
   intraSchoolView.classList.toggle("hidden", !isIntraSchoolView);
   teacherDayNotice.classList.add("hidden");
   document.getElementById("teacherIntraSchoolBlock").classList.add("hidden");
@@ -5683,7 +5749,6 @@ function renderAll() {
   laboratoryNightBlock.classList.add("hidden");
   teacherEadBlock.classList.add("hidden");
   classSaturdayBlock.classList.add("hidden");
-  classExamBlock.classList.add("hidden");
   renderPpcLinks(null);
 
   if (isMonthlyView) {
@@ -5717,6 +5782,17 @@ function renderAll() {
     return;
   }
 
+  if (currentView === "exam") {
+    const data = examCalendars[selectedExamClass];
+    document.getElementById("panelTitle").textContent =
+      `Exames — 3º Bimestre — ${data.name}`;
+    document.getElementById("eadBlock").classList.add("hidden");
+    renderPpcLinks(null);
+    examPageView.classList.remove("hidden");
+    renderExamPageCalendar();
+    return;
+  }
+
   if (currentView === "class") {
     const data = classes[selectedClass];
     const hasCounterturn = data.schedule.some(
@@ -5731,11 +5807,6 @@ function renderAll() {
 
     renderEadSubjects(selectedClass);
     renderTable(data.schedule, data.main_shift, visiblePeriods);
-
-    if (examCalendars[selectedClass]) {
-      classExamBlock.classList.remove("hidden");
-      renderClassExamCalendar();
-    }
 
     if (saturdayCalendars[selectedClass]) {
       classSaturdayBlock.classList.remove("hidden");
@@ -5803,10 +5874,16 @@ function renderAll() {
 }
 
 function setActiveViewButton(activeId) {
-  ["classViewBtn", "teacherViewBtn", "roomViewBtn", "labViewBtn", "intraSchoolViewBtn"].forEach(id => {
+  ["classViewBtn", "examViewBtn", "teacherViewBtn", "roomViewBtn", "labViewBtn", "intraSchoolViewBtn"].forEach(id => {
     document.getElementById(id).classList.toggle("active", id === activeId);
   });
 }
+
+document.getElementById("examViewBtn").onclick = () => {
+  currentView = "exam";
+  setActiveViewButton("examViewBtn");
+  renderAll();
+};
 
 document.getElementById("classViewBtn").onclick = () => {
   currentView = "class";
