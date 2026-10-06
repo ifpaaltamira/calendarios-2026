@@ -3296,6 +3296,7 @@ function prepareCalendarClone() {
   removeHiddenCaptureElements(clone);
 
   const panelTitle = document.getElementById("panelTitle")?.textContent?.trim();
+  const shiftText = document.getElementById("topShiftBadge")?.textContent?.trim() || "";
 
   const captureHeader = document.createElement("div");
   captureHeader.style.cssText = [
